@@ -18,7 +18,7 @@ if (isset($_POST["deco"])) {
         <li id="title">
           <a href="index.php">
             <img id="logo1" src="https://i.ibb.co/hMhFxXF/logotype1.png" alt="logotype1">
-            <h1>camp naturiste chic</h1>
+            <h1>camping chic</h1>
           </a>
         </li>
         <?php 
