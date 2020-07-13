@@ -1,0 +1,451 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,700;1,700;1,900&display=swap');
+
+
+*{
+ margin: 0;
+ padding: 0;
+ list-style: none;
+ text-decoration: none;
+ font-family: 'Hind Siliguri', sans-serif;
+}
+
+body{
+ width: 100%;
+}
+
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+/*** HEADER ***/
+header{
+    background-image: url(https://images.unsplash.com/photo-1476673160081-cf065607f449?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1952&q=80);
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 30vh;
+}
+
+#top-header{
+  display: flex;
+  align-items: center;
+  width: 100%;
+  background-color: rgba(105, 183, 252,0.2);
+  color: white;
+  letter-spacing: 2px;
+  height: 7.5vh;
+  position: sticky;
+  justify-content: space-between;
+}
+
+#top-header a{
+    color: white;
+    display: flex;
+    font-size: 18px;
+    font-weight: 300;
+    line-height: 5vh;
+    padding: 5px 10px;
+}
+
+#top-header a:hover{
+    color: black;
+    transition: 1.5s;
+}
+header h1{
+  font-size: 15px;
+}
+header nav ul{
+    display: flex;
+    width: 100%;
+    text-transform: uppercase;
+    align-items: center;
+    justify-content: center;
+}
+
+header nav ul li a{
+    display: flex;
+    color: black;
+    justify-content: center;
+    padding-left: 10px;
+    padding-right: 10px;
+    letter-spacing: 2px;
+    margin-top: 5%; 
+}
+
+header nav ul li a:hover{
+    color: gray;
+    transition: 1s; 
+}
+
+
+#title a{
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#title img{
+    width: 60%;
+    height:60%;
+}
+
+#title h1{
+   font-weight: 300;
+   letter-spacing: 2px;
+}
+
+/*** FOOTER ***/
+footer{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 25%;
+    justify-content: space-around;
+    align-items: center;
+    color: #CED0D3;
+   }
+   
+footer a{
+    color: #CED0D3;
+   }
+   
+footer a:hover{
+    color: #69B7FC;
+    transition: 1s;
+    border-bottom: 1px solid #69B7FC ;
+   }
+
+#container-bottom{
+    display: flex;
+}
+
+footer nav ul{
+    display: flex;
+    list-style-type: none;
+    justify-content: space-around;
+    margin-top: 5%;
+    width: 100%;
+    padding-left: 5vh;
+    text-transform: uppercase;
+    font-size: 12px;
+}
+
+footer nav ul li{
+   padding-right:5vh;
+}
+
+   #footerleft{
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    height: 50vh;
+    font-size: 13px;
+   }
+
+   
+   #footercenter{
+    display: flex;
+    width: 100%;
+    height: 50vh;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-direction: column;
+   }
+   
+   #bottom-logo{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+   }
+   
+   #bottom-logo h1{
+    display: flex;
+    font-weight: 500;
+    font-size: 25px;
+    letter-spacing: 1px;
+    margin-top: 2.5%;
+   }
+   
+   #logo{
+    width: 30%;
+   }
+   
+   #social-media{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+   }
+   
+   #social-list{
+    display: flex;
+   }
+   
+   #social-list li a{
+    display: block;
+    position: relative;
+    font-size: 30px;
+    height: 60px;
+    width: 60px;
+    background: #171515;
+    line-height: 60px;
+    border-radius: 50%;
+    margin: 0 15px;
+    text-align: center;
+    cursor: pointer;
+   }
+   
+   #social-list li a:before{
+    position: absolute;
+    content: '';
+    top:0;
+    left: 0;
+    background:#171515;
+    height: 100%;
+    width: 100%;
+    border-radius: 50%;
+    z-index: -1;
+    transform : scale(0.9);
+    transition: .5s;
+   }
+   
+   #social-list li a:hover{
+    color: #69B7FC;;
+    box-shadow: 0 0 15px #69B7FC;;
+    text-shadow: 0 0 15p#69B7FC;;
+    transform : scale(1.2);
+    transition : .5s;
+   }
+   
+   #footerright{
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    font-size: 11px;
+    text-align: justify;
+   }
+   
+   #footerright h2{
+    font-size: 12px;
+    text-transform: uppercase;
+   }
+   
+   #footerright p{
+    width: 50%;
+    margin-bottom: 5%;
+   }
+
+   #footerright address{
+       display: flex;
+       text-align: center;
+       flex-direction: column;
+       width: 50%;
+       font-size: 12px;
+   }
+   
+   #newsletter{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+   }
+   
+   #newsletter h3{
+    padding-bottom: 10px;
+    padding-left: 20px;
+    margin-left: 2.5%;
+   }
+   
+   #btnnews{
+    width: 130%;
+    background: none;
+    border: 2px solid #CED0D3;
+    color: #CED0D3;
+    padding: 2.5px;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 5px 0;
+   }
+   
+   #btnnews:hover{
+    color: #69B7FC;;
+    border: 2px solid#69B7FC;;
+    transition: 1s;
+   }
+   
+   #news{
+    display: flex;
+    padding: 5px;
+    margin-top: 2.5%;
+    width: 120%;
+   }
+   
+   #newsmessage{
+    font-size: 11px;
+    color: #057CB3;
+   }
+ 
+/***RESPONSIVE HEADER + FOOTER***/
+@media (max-width: 780px) {
+
+
+}
+
+@media (max-width: 980px){
+    header{
+        height: 40vh;
+    }
+
+    #top-header a{
+        font-size: 13px;
+    }
+
+    #title{
+        width: 50%;
+    }
+
+    header nav ul{
+        flex-direction: column;
+        font-size: 13px;
+    }
+    
+    footer nav ul{
+       font-size: 10px;
+       padding-left: 2vh;
+    }
+    #container-bottom{
+        flex-direction: column-reverse;
+        margin-top: 2.5%;
+    }
+
+    #footercenter{
+        margin-top: -5%;
+    }
+
+    #footerright{
+      margin-top: 1.5%;
+      }
+
+    #footerright h2{
+      display: none;
+    }
+
+    #footerright p{
+        display: none;
+      }
+
+    #newsletter{
+        margin-left: -7.5%;
+    }
+
+
+    #newsletter h3{
+        margin-left: 0;
+    }
+
+    #title {
+        margin-bottom: 1.5%;
+    }
+
+    #title img{
+        width: 110%;
+        height:110%;
+    }
+
+}
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+/*** INDEX ***/
+
+/*** RESPONSIVE INDEX ***/
+
+@media screen and (max-width:800px){
+ 
+}
+@media screen and (max-width:500px){
+ 
+}
+
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+/*** INSCRIPTION ***/
+
+/*** RESPONSIVE INSCRIPTION ***/
+@media (max-width: 980px){
+}
+
+@media screen and (max-width:800px){
+ 
+}
+@media screen and (max-width:500px){
+ 
+}
+
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+/*** CONNEXION ***/
+
+
+/*** RESPONSIVE CONNEXION ***/
+@media (max-width: 980px){
+}
+
+@media screen and (max-width:800px){
+ 
+}
+@media screen and (max-width:500px){
+ 
+}
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+/*** ADMIN  ***/
+
+/*** RESPONSIVE ADMIN ***/
+@media (max-width: 980px){
+}
+
+@media screen and (max-width:800px){
+ 
+}
+@media screen and (max-width:500px){
+ 
+}
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+/*** RESERVATION FORM  ***/
+
+/*** RESPONSIVE RESERVATION-FORM ***/
+@media (max-width: 980px){
+}
+
+@media screen and (max-width:800px){
+ 
+}
+@media screen and (max-width:500px){
+ 
+}
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+/*** PLANNING  ***/
+
+/*** RESPONSIVE PLANNING ***/
+@media (max-width: 980px){
+}
+
+@media screen and (max-width:800px){
+ 
+}
+@media screen and (max-width:500px){
+ 
+}
+
+
+
+
+
+
+
+
