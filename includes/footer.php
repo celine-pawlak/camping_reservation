@@ -76,8 +76,8 @@
       </p>
       <address>
         1 avenue de la Madrague 13008 Marseille
-        <a href="tel:+330491919191">"tel:+330491919191"</a>
-        <a href="mailto:hello@thewowsclan.com">hello@sardinescamp.com</a>
+        <a class="contact" href="tel:+330491919191">"tel:+330491919191"</a>
+        <a class="contact" href="mailto:hello@thewowsclan.com">hello@sardinescamp.com</a>
       </address>
     </section>
   </section>
