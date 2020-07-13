@@ -2,7 +2,6 @@
   <nav>
       <ul>
         <li><a href="index.php">homepage</a></li>
-
         <?php 
           try
          {
@@ -24,7 +23,7 @@
            }
         ?> 
         <li><a href="planning.php">nos disponibilités</a></li>
-        <li><a href="reservation-form.php">réserver</a></li>
+        <li><a href="planning.php">nous contacter</a></li>
         <li>
           <form action="index.php" method="post">
             <input id="deco1" name="deco" value="DECONNEXION" type="submit"/>
