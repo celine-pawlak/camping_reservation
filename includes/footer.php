@@ -23,10 +23,11 @@
         <?php
            }
         ?> 
-
+        <li><a href="planning.php">nos disponibilités</a></li>
+        <li><a href="reservation-form.php">réserver</a></li>
         <li>
           <form action="index.php" method="post">
-            <input class="deco" name="deco" value="DECONNEXION" type="submit"/>
+            <input id="deco1" name="deco" value="DECONNEXION" type="submit"/>
           </form>
         </li>
 

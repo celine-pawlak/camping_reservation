@@ -287,6 +287,20 @@ footer nav ul li{
     font-size: 11px;
     color: #057CB3;
    }
+
+   #deco1{
+    display: flex;
+    background: none;
+    border: none;
+    color: #CED0D3;
+    cursor: pointer;
+   }
+
+   #deco1:hover{
+    color: #69B7FC;
+    border-bottom: 1px solid #69B7FC;
+    transition: 1s;
+   }
  
 /***RESPONSIVE HEADER + FOOTER***/
 @media (max-width: 780px) {
