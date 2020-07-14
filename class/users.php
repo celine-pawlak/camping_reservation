@@ -92,7 +92,7 @@ class Users
             $errors[] = "Le mot de passe doit contenir:<br>- Entre 8 et 20 caractères<br>- Au moins 1 caractère spécial<br>- Au moins 1 majuscule et 1 minuscule<br>- Au moins un chiffre.";
         }
         if ($password != $password_check) {
-            $errors[] = "Passwords are not identical.";
+            $errors[] = "Les mots de passe ne correspondent pas.";
         } else {
             $password_modified = password_hash($password, PASSWORD_BCRYPT, array('cost' => 10));
         }
@@ -102,6 +102,9 @@ class Users
         $num_tel_required = preg_match("/^[0-9]{10}$/", $num_tel);
         if (!$num_tel_required){
             $errors[] = "Le numéro de téléphone doit contenir exactement 10 chiffres.";
+        }
+        if (empty($firstname) OR empty($lastname) OR empty($email) OR empty($password) OR empty($password_check) OR empty($num_tel)){
+            $errors[] = "Tous les champs doivent être remplis.";
         }
 
         if (empty($errors)) {
@@ -135,6 +138,7 @@ class Users
         $this->num_tel = "";
         session_unset();
         session_destroy();
+        header('Location:index.php');
     }
 
     public
@@ -261,10 +265,4 @@ class Users
         return $this->num_tel;
     }
 }
-
-$user = new users;
-var_dump($user->register('test','test','test2@test.com', 'Testtest&1','Testtest&1', '1234567891'));
-var_dump($user->connect('test@test.com', 'Testtest&21'));
-var_dump($user->isConnected());
-/*var_dump($user->modifyPassword('Testtest&1', 'Testtest&21', 'Testtest&21'));*/
 
