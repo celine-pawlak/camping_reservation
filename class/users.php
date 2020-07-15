@@ -1,5 +1,5 @@
 <?php
-
+use messages;
 
 class Users
 {
@@ -51,7 +51,8 @@ class Users
                 return $_SESSION['user'];
             } else {
                 $errors[] = "Le mail ou le mot de passe est erroné.";
-                return $errors;
+                $this->messages->renderMessage($errors);
+
             }
         } else {
             $errors[] = "Le mail ou le mot de passe est erroné.";

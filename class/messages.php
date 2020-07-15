@@ -1,20 +1,16 @@
 <?php
 
 
-class error_messages
+class messages
 {
     protected $messages;
-    protected $type = 'error';
-    protected $icon = true;
-
-    public function __construct(array $messages, $type = "error", $icon = true)
+    
+    public function __construct(array $messages)
     {
         $this->messages = $messages;
-        $this->type = $type;
-        $this->icon = $icon;
     }
 
-    protected function renderMessage($type, $icon = true)
+    protected function renderMessage()
     {
         $message = $this->messages;
         if (!empty($message)) {
@@ -28,8 +24,7 @@ class error_messages
             } else {
                 $output = $message[0];
             }
-            $classIcon = $icon ? 'block-rowMessage--iconic' : '';
-            return "<div class=\"blockMessage blockMessage--$type $classIcon\">"
+            return "<div class=\"blockMessage\">"
                 . $output .
                 "</div>";
         } else {
