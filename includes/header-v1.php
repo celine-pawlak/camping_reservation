@@ -6,19 +6,19 @@ if (isset($_POST["deco"])) {
 }
 ?>
 <header>
-  <section id="top-header">
+  <section id="top-header1">
     <a href="newsletter-form.php">RECEVOIR NOTRE BROCHURE</a>
     <a id="header-title" href="reservation-form.php">RESERVER</a>
   </section>
   <section>
     <nav>
-      <ul id="nav_links">
+      <ul id="nav_links1">
         <li><a href="planning.php">NOS DISPONIBILITÉS</a></li>
         <li><a href="#">NOS SERVICES</a></li>
         <li id="title">
           <a href="index.php">
             <img id="logo1" src="https://i.ibb.co/hMhFxXF/logotype1.png" alt="logotype1">
-            <h1>camping chic</h1>
+            <h1>camping boheme chic</h1>
           </a>
         </li>
         <?php 

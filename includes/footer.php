@@ -5,7 +5,7 @@
         <?php 
           try
          {
-         $bdd = new PDO('mysql:host=localhost;dbname=camping;charset=utf8', 'root', 'root');
+         $bdd = new PDO('mysql:host=localhost;dbname=camping;charset=utf8', 'root', '');
          $bdd->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_WARNING);
          $bdd->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE,PDO::FETCH_OBJ);
          }
@@ -58,7 +58,7 @@
     
       <section id="social-media">
         <ul id="social-list">
-          <li><a href="https://facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></i></a></li>
+          <li><a href="https://facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></a></li>
           <li><a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i></a></li>
           <li><a href="https://www.instagram.com" target="_blank"><i class="fab fa-instagram"></i></a></li>
           <li><a href="https://www.linkedin.com" target="_blank"><i class="fab fa-linkedin"></i></a></li>
