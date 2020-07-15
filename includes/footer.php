@@ -1,3 +1,6 @@
+<?php
+$user->redirect($page_selected);
+?>
 <footer>
   <nav>
       <ul>

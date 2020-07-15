@@ -129,7 +129,7 @@ class users
             $q2->bindValue(':is_admin', 0, PDO::PARAM_INT);
             $q2->bindParam(':num_tel', $num_tel, PDO::PARAM_STR);
             $q2->execute();
-            header('connexion.php');
+            header('location:connexion.php');
         } else {
             $message = new messages($errors);
             echo $message->renderMessage();
@@ -149,7 +149,7 @@ class users
         $this->num_tel = "";
         session_unset();
         session_destroy();
-        header('Location:index.php');
+        header('location:index.php');
     }
 
     public
@@ -160,6 +160,22 @@ class users
         } else {
             return true;
         }
+    }
+
+    public function refresh()
+    {
+        $q = $this->db->prepare("SELECT * FROM utilisateurs WHERE id_utilisateur = :session");
+        $q->bindParam(':session',$_SESSION['user']['id_user'],PDO::PARAM_STR);
+        $q->execute();
+        $user = $q->fetch(PDO::FETCH_ASSOC);
+        $this->id_user = $user['id_utilisateur'];
+        $this->firstname = $user['prenom'];
+        $this->lastname = $user['nom'];
+        $this->email = $user['email'];
+        $this->password = $user['password'];
+        $this->register_date = $user['register_date'];
+        $this->is_admin = $user['is_admin'];
+        $this->num_tel = $user['num_tel'];
     }
 
     public
@@ -201,6 +217,20 @@ class users
             $errors[] = "L'ancien mot de passe est erroné.";
             $message = new messages($errors);
             echo $message->renderMessage();
+        }
+    }
+
+    public function redirect($page_selected)
+    {
+        if (in_array($page_selected, ['connexion', 'inscription']) and self::isConnected() == true) {
+            echo 'test';
+            header('location:index.php');
+        }
+        if (in_array($page_selected, ['profil', 'reservation', 'reservation-form']) and self::isConnected() == false) {
+            header('location:connexion.php');
+        }
+        if ($page_selected == 'admin' and $this->is_admin != "1") {
+            header('location:index.php');
         }
     }
     /*    public function modifyLogin{

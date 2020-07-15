@@ -1,5 +1,5 @@
 <?php
-
+$page_selected = 'admin';
 ?>
 
 <!DOCTYPE html>

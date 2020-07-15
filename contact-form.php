@@ -1,4 +1,5 @@
 <?php
+$page_selected = 'contact_form';
 ?>
 
 <!DOCTYPE html>

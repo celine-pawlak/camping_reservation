@@ -1,4 +1,5 @@
 <?php
+$page_selected = 'newsletter_form';
 ?>
 
 <!DOCTYPE html>

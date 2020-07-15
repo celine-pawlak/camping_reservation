@@ -1,3 +1,6 @@
+<?php
+$page_selected = 'connexion';
+?>
 <!DOCTYPE html>
 <html>
 <head>

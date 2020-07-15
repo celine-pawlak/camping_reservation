@@ -1,5 +1,5 @@
 <?php
-
+$page_selected = 'reservation_form';
 ?>
 <!DOCTYPE html>
 <html>

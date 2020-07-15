@@ -1,5 +1,5 @@
 <?php
-require 'class/users.php';
+$page_selected = 'inscription';
 
 ?>
 

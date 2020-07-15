@@ -1,4 +1,6 @@
-
+<?php
+$page_selected = 'index';
+?>
 <!DOCTYPE html>
 <html>
 <head>

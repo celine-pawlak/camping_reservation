@@ -1,4 +1,5 @@
 <?php
+$page_selected = 'planning';
 ?>
 <!DOCTYPE html>
 <html>
