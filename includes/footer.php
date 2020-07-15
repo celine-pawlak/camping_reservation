@@ -2,7 +2,6 @@
   <nav>
       <ul>
         <li><a href="index.php">homepage</a></li>
-
         <?php 
           try
          {
@@ -23,10 +22,11 @@
         <?php
            }
         ?> 
-
+        <li><a href="planning.php">nos disponibilités</a></li>
+        <li><a href="planning.php">nous contacter</a></li>
         <li>
           <form action="index.php" method="post">
-            <input class="deco" name="deco" value="DECONNEXION" type="submit"/>
+            <input id="deco1" name="deco" value="DECONNEXION" type="submit"/>
           </form>
         </li>
 
@@ -75,8 +75,8 @@
       </p>
       <address>
         1 avenue de la Madrague 13008 Marseille
-        <a href="tel:+330491919191">"tel:+330491919191"</a>
-        <a href="mailto:hello@thewowsclan.com">hello@sardinescamp.com</a>
+        <a class="contact" href="tel:+330491919191">"tel:+330491919191"</a>
+        <a class="contact" href="mailto:hello@thewowsclan.com">hello@sardinescamp.com</a>
       </address>
     </section>
   </section>
