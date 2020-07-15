@@ -37,7 +37,7 @@ $user->redirect($page_selected);
           }else{
         ?>
         <li><a href="connexion.php">réserver</a></li>
-        <li><a href="connexion.php">espace admin</a></li>
+        <li><a href="inscription.php">s'inscrire</a></li>
         <li><a href="connexion.php">se connecter</a></li>
         <?php }?>
       </ul>

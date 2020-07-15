@@ -1,8 +1,12 @@
-<?php 
+<?php
+
+require 'class/users.php';
+session_start();
+
+$user = new users;
+
 if (isset($_POST["deco"])) {
-    session_unset();
-    session_destroy();
-    header('Location:index.php');
+    $user->disconnect();
 }
 ?>
 <header>
@@ -22,8 +26,8 @@ if (isset($_POST["deco"])) {
           </a>
         </li>
         <?php 
-        if (isset($_SESSION["login"])){
-          if($_SESSION["login"] == "admin"){
+        if (isset($_SESSION['user'])){
+          if($_SESSION['user']['is_admin'] == 1){
           ?>
           <li><a href="admin.php">PANEL BOARD</a></li>
           
