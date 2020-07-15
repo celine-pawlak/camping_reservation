@@ -13,8 +13,8 @@
          die('Erreur : ' . $e->getMessage());
          }
 
-        if (isset($_SESSION["login"])){
-          if($_SESSION["login"] == "admin"){
+        if (isset($_SESSION['user'])){
+          if($_SESSION['user']['is_admin'] == 1){
         ?>
 
         <li><a href="admin.php">espace admin</a></li>

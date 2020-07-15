@@ -38,23 +38,29 @@ class users
                 $this->register_date = $user['register_date'];
                 $this->is_admin = $user['is_admin'];
                 $this->num_tel = $user['num_tel'];
-                session_start();
                 $_SESSION['user'] = [
-                    $this->id_user,
-                    $this->firstname,
-                    $this->lastname,
-                    $this->email,
-                    $this->password,
-                    $this->register_date,
-                    $this->is_admin,
-                    $this->num_tel
+                    'id_user' =>
+                        $this->id_user,
+                    'firstname' =>
+                        $this->firstname,
+                    'lastname' =>
+                        $this->lastname,
+                    'email' =>
+                        $this->email,
+                    'password' =>
+                        $this->password,
+                    'register_date' =>
+                        $this->register_date,
+                    'is_admin' =>
+                        $this->is_admin,
+                    'num_tel' =>
+                        $this->num_tel
                 ];
                 return $_SESSION['user'];
             } else {
                 $errors[] = "Le mail ou le mot de passe est erroné.";
                 $message = new messages($errors);
                 echo $message->renderMessage();
-
             }
         } else {
             $errors[] = "Le mail ou le mot de passe est erroné.";
@@ -104,10 +110,10 @@ class users
         date_default_timezone_set("Europe/Paris");
         //Phone number
         $num_tel_required = preg_match("/^[0-9]{10}$/", $num_tel);
-        if (!$num_tel_required){
+        if (!$num_tel_required) {
             $errors[] = "Le numéro de téléphone doit contenir exactement 10 chiffres.";
         }
-        if (empty($firstname) OR empty($lastname) OR empty($email) OR empty($password) OR empty($password_check) OR empty($num_tel)){
+        if (empty($firstname) or empty($lastname) or empty($email) or empty($password) or empty($password_check) or empty($num_tel)) {
             $errors[] = "Tous les champs doivent être remplis.";
         }
 
@@ -171,35 +177,35 @@ class users
             echo $message->renderMessage();
         }
     }
-    public function modifyPassword($old_password,$new_password,$confirm_password){
-        if (password_verify($old_password, $this->password)){
-            if ($old_password == $new_password){
+
+    public function modifyPassword($old_password, $new_password, $confirm_password)
+    {
+        if (password_verify($old_password, $this->password)) {
+            if ($old_password == $new_password) {
                 $errors[] = "Vous devez entrer un nouveau mot de passe.";
             }
-            if ($new_password != $confirm_password){
+            if ($new_password != $confirm_password) {
                 $errors[] = "Les mots de passe ne correspondent pas.";
-            }
-            elseif (empty($errors) AND $new_password == $confirm_password) {
-                $password_modified = password_hash($new_password, PASSWORD_BCRYPT,  array('cost' => 10));
+            } elseif (empty($errors) and $new_password == $confirm_password) {
+                $password_modified = password_hash($new_password, PASSWORD_BCRYPT, array('cost' => 10));
                 $q = $this->db->prepare("UPDATE utilisateurs SET password = :password WHERE id_utilisateur = :id");
-                $q->bindParam(':password',$password_modified, PDO::PARAM_STR);
-                $q->bindParam(':id',$this->id_user, PDO::PARAM_INT);
+                $q->bindParam(':password', $password_modified, PDO::PARAM_STR);
+                $q->bindParam(':id', $this->id_user, PDO::PARAM_INT);
                 $q->execute();
                 $this->password = $password_modified;
                 return [$this->password];
             }
             $message = new messages($errors);
             echo $message->renderMessage();
-        }
-        else {
+        } else {
             $errors[] = "L'ancien mot de passe est erroné.";
             $message = new messages($errors);
             echo $message->renderMessage();
         }
     }
-/*    public function modifyLogin{
+    /*    public function modifyLogin{
 
-    }*/
+        }*/
 
 //GETTERS
     /**

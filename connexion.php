@@ -1,8 +1,3 @@
-<?php
-
-require 'class/users.php';
-
-?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,13 +16,14 @@ require 'class/users.php';
 </header>
 <main>
     <?php
+
     if (isset($_POST['submit'])) {
-        $user = new users;
         $user->connect(
             $_POST['email'],
             $_POST['password']
         );
     }
+
     ?>
     <form action="connexion.php" method="post">
         <label for="email">Email</label>
