@@ -2,7 +2,6 @@
   <nav>
       <ul>
         <li><a href="index.php">homepage</a></li>
-
         <?php 
           try
          {
@@ -14,8 +13,8 @@
          die('Erreur : ' . $e->getMessage());
          }
 
-        if (isset($_SESSION["login"])){
-          if($_SESSION["login"] == "admin"){
+        if (isset($_SESSION['user'])){
+          if(($_SESSION['user']['is_admin'])==1){
         ?>
 
         <li><a href="admin.php">espace admin</a></li>
@@ -23,10 +22,11 @@
         <?php
            }
         ?> 
-
+        <li><a href="planning.php">nos disponibilités</a></li>
+        <li><a href="planning.php">nous contacter</a></li>
         <li>
           <form action="index.php" method="post">
-            <input class="deco" name="deco" value="DECONNEXION" type="submit"/>
+            <input id="deco1" name="deco" value="DECONNEXION" type="submit"/>
           </form>
         </li>
 
@@ -34,7 +34,7 @@
           }else{
         ?>
         <li><a href="connexion.php">réserver</a></li>
-        <li><a href="connexion.php">espace admin</a></li>
+        <li><a href="inscription.php">inscription</a></li>
         <li><a href="connexion.php">se connecter</a></li>
         <?php }?>
       </ul>
@@ -58,7 +58,7 @@
     
       <section id="social-media">
         <ul id="social-list">
-          <li><a href="https://facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></i></a></li>
+          <li><a href="https://facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></a></li>
           <li><a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i></a></li>
           <li><a href="https://www.instagram.com" target="_blank"><i class="fab fa-instagram"></i></a></li>
           <li><a href="https://www.linkedin.com" target="_blank"><i class="fab fa-linkedin"></i></a></li>
@@ -75,8 +75,8 @@
       </p>
       <address>
         1 avenue de la Madrague 13008 Marseille
-        <a href="tel:+330491919191">"tel:+330491919191"</a>
-        <a href="mailto:hello@thewowsclan.com">hello@sardinescamp.com</a>
+        <a class="contact" href="tel:+330491919191">"tel:+330491919191"</a>
+        <a class="contact" href="mailto:hello@thewowsclan.com">hello@sardinescamp.com</a>
       </address>
     </section>
   </section>

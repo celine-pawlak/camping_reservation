@@ -1,7 +1,8 @@
 <?php
 
+require 'messages.php';
 
-class Users
+class users
 {
     private $id_user;
     public $firstname;
@@ -37,25 +38,34 @@ class Users
                 $this->register_date = $user['register_date'];
                 $this->is_admin = $user['is_admin'];
                 $this->num_tel = $user['num_tel'];
-                session_start();
                 $_SESSION['user'] = [
-                    $this->id_user,
-                    $this->firstname,
-                    $this->lastname,
-                    $this->email,
-                    $this->password,
-                    $this->register_date,
-                    $this->is_admin,
-                    $this->num_tel
+                    'id_user' =>
+                        $this->id_user,
+                    'firstname' =>
+                        $this->firstname,
+                    'lastname' =>
+                        $this->lastname,
+                    'email' =>
+                        $this->email,
+                    'password' =>
+                        $this->password,
+                    'register_date' =>
+                        $this->register_date,
+                    'is_admin' =>
+                        $this->is_admin,
+                    'num_tel' =>
+                        $this->num_tel
                 ];
                 return $_SESSION['user'];
             } else {
                 $errors[] = "Le mail ou le mot de passe est erroné.";
-                return $errors;
+                $message = new messages($errors);
+                echo $message->renderMessage();
             }
         } else {
             $errors[] = "Le mail ou le mot de passe est erroné.";
-            return $errors;
+            $test = new messages($errors);
+            echo $test->renderMessage();
         }
     }
 
@@ -92,7 +102,7 @@ class Users
             $errors[] = "Le mot de passe doit contenir:<br>- Entre 8 et 20 caractères<br>- Au moins 1 caractère spécial<br>- Au moins 1 majuscule et 1 minuscule<br>- Au moins un chiffre.";
         }
         if ($password != $password_check) {
-            $errors[] = "Passwords are not identical.";
+            $errors[] = "Les mots de passe ne correspondent pas.";
         } else {
             $password_modified = password_hash($password, PASSWORD_BCRYPT, array('cost' => 10));
         }
@@ -100,8 +110,11 @@ class Users
         date_default_timezone_set("Europe/Paris");
         //Phone number
         $num_tel_required = preg_match("/^[0-9]{10}$/", $num_tel);
-        if (!$num_tel_required){
+        if (!$num_tel_required) {
             $errors[] = "Le numéro de téléphone doit contenir exactement 10 chiffres.";
+        }
+        if (empty($firstname) or empty($lastname) or empty($email) or empty($password) or empty($password_check) or empty($num_tel)) {
+            $errors[] = "Tous les champs doivent être remplis.";
         }
 
         if (empty($errors)) {
@@ -116,9 +129,10 @@ class Users
             $q2->bindValue(':is_admin', 0, PDO::PARAM_INT);
             $q2->bindParam(':num_tel', $num_tel, PDO::PARAM_STR);
             $q2->execute();
-            return [$lastname, $firstname, $email, $password_modified,date("Y-m-d H:i:s"), 0, $num_tel];
+            header('location:connexion.php');
         } else {
-            return $errors;
+            $message = new messages($errors);
+            echo $message->renderMessage();
         }
     }
 
@@ -135,6 +149,7 @@ class Users
         $this->num_tel = "";
         session_unset();
         session_destroy();
+        header('location:index.php');
     }
 
     public
@@ -145,6 +160,22 @@ class Users
         } else {
             return true;
         }
+    }
+
+    public function refresh()
+    {
+        $q = $this->db->prepare("SELECT * FROM utilisateurs WHERE id_utilisateur = :session");
+        $q->bindParam(':session',$_SESSION['user']['id_user'],PDO::PARAM_STR);
+        $q->execute();
+        $user = $q->fetch(PDO::FETCH_ASSOC);
+        $this->id_user = $user['id_utilisateur'];
+        $this->firstname = $user['prenom'];
+        $this->lastname = $user['nom'];
+        $this->email = $user['email'];
+        $this->password = $user['password'];
+        $this->register_date = $user['register_date'];
+        $this->is_admin = $user['is_admin'];
+        $this->num_tel = $user['num_tel'];
     }
 
     public
@@ -158,36 +189,53 @@ class Users
             $this->disconnect();
         } else {
             $errors[] = "Le mot de passe est erroné.";
-            return $errors;
+            $message = new messages($errors);
+            echo $message->renderMessage();
         }
     }
-    public function modifyPassword($old_password,$new_password,$confirm_password){
-        if (password_verify($old_password, $this->password)){
-            if ($old_password == $new_password){
+
+    public function modifyPassword($old_password, $new_password, $confirm_password)
+    {
+        if (password_verify($old_password, $this->password)) {
+            if ($old_password == $new_password) {
                 $errors[] = "Vous devez entrer un nouveau mot de passe.";
             }
-            if ($new_password != $confirm_password){
+            if ($new_password != $confirm_password) {
                 $errors[] = "Les mots de passe ne correspondent pas.";
-            }
-            elseif (empty($errors) AND $new_password == $confirm_password) {
-                $password_modified = password_hash($new_password, PASSWORD_BCRYPT,  array('cost' => 10));
+            } elseif (empty($errors) and $new_password == $confirm_password) {
+                $password_modified = password_hash($new_password, PASSWORD_BCRYPT, array('cost' => 10));
                 $q = $this->db->prepare("UPDATE utilisateurs SET password = :password WHERE id_utilisateur = :id");
-                $q->bindParam(':password',$password_modified, PDO::PARAM_STR);
-                $q->bindParam(':id',$this->id_user, PDO::PARAM_INT);
-                var_dump($q->execute());
+                $q->bindParam(':password', $password_modified, PDO::PARAM_STR);
+                $q->bindParam(':id', $this->id_user, PDO::PARAM_INT);
+                $q->execute();
                 $this->password = $password_modified;
                 return [$this->password];
             }
-            return $errors;
-        }
-        else {
+            $message = new messages($errors);
+            echo $message->renderMessage();
+        } else {
             $errors[] = "L'ancien mot de passe est erroné.";
-            return $errors;
+            $message = new messages($errors);
+            echo $message->renderMessage();
         }
     }
-/*    public function modifyLogin{
 
-    }*/
+    public function redirect($page_selected)
+    {
+        if (in_array($page_selected, ['connexion', 'inscription']) and self::isConnected() == true) {
+            echo 'test';
+            header('location:index.php');
+        }
+        if (in_array($page_selected, ['profil', 'reservation', 'reservation-form']) and self::isConnected() == false) {
+            header('location:connexion.php');
+        }
+        if ($page_selected == 'admin' and $this->is_admin != "1") {
+            header('location:index.php');
+        }
+    }
+    /*    public function modifyLogin{
+
+        }*/
 
 //GETTERS
     /**
@@ -261,10 +309,3 @@ class Users
         return $this->num_tel;
     }
 }
-
-$user = new users;
-var_dump($user->register('test','test','test2@test.com', 'Testtest&1','Testtest&1', '1234567891'));
-var_dump($user->connect('test@test.com', 'Testtest&21'));
-var_dump($user->isConnected());
-/*var_dump($user->modifyPassword('Testtest&1', 'Testtest&21', 'Testtest&21'));*/
-
