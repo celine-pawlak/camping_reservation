@@ -1,8 +1,7 @@
 <?php 
 if (isset($_POST["deco"])) {
-    session_unset();
-    session_destroy();
-    header('Location:index.php');
+    require '../class/users.php';
+    $user->disconnect();
 }
 ?>
 <header>
