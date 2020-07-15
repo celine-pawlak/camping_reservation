@@ -1,18 +1,5 @@
 <?php
-session_start();
 require 'class/users.php';
-
-if (isset($_POST['submit'])) {
-    $user = new Users;
-    var_dump($user->register(
-        $_POST['firstname'],
-        $_POST['lastname'],
-        $_POST['email'],
-        $_POST['password'],
-        $_POST['conf_password'],
-        $_POST['num_tel']
-    ));
-}
 
 ?>
 
@@ -33,19 +20,32 @@ if (isset($_POST['submit'])) {
     include("includes/header.php") ?>
 </header>
 <main>
+    <?php
+    if (isset($_POST['submit'])) {
+        $user = new users;
+        $user->register(
+            $_POST['firstname'],
+            $_POST['lastname'],
+            $_POST['email'],
+            $_POST['password'],
+            $_POST['conf_password'],
+            $_POST['num_tel']
+        );
+    }
+    ?>
     <form action="inscription.php" method="post">
         <label for="firstname">Prénom</label>
         <input type="text" name="firstname" placeholder="Prénom">
         <label for="lastname">Nom</label>
         <input type="text" name="lastname" placeholder="Nom">
         <label for="email">Email</label>
-        <input type="text" name="email" placeholder="Email">
+        <input type="text" name="email" placeholder="email@email.com">
         <label for="password">Mot de passe</label>
         <input type="password" name="password" placeholder="Mot de passe">
         <label for="conf_password">Confirmation mot de passe</label>
         <input type="password" name="conf_password" placeholder="Confirmer mot de passe">
         <label for="num_tel">Numéro de téléphone</label>
-        <input type="text" name="num_tel" placeholder="Numéro de téléphone">
+        <input type="text" name="num_tel" placeholder="0123456789">
         <button type="submit" name="submit">Enregistrer</button>
     </form>
 </main>

@@ -3,14 +3,14 @@
 
 class messages
 {
-    protected $messages;
+    public $messages;
     
     public function __construct(array $messages)
     {
         $this->messages = $messages;
     }
 
-    protected function renderMessage()
+    public function renderMessage()
     {
         $message = $this->messages;
         if (!empty($message)) {

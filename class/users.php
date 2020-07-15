@@ -1,7 +1,8 @@
 <?php
-use messages;
 
-class Users
+require 'messages.php';
+
+class users
 {
     private $id_user;
     public $firstname;
@@ -51,12 +52,14 @@ class Users
                 return $_SESSION['user'];
             } else {
                 $errors[] = "Le mail ou le mot de passe est erroné.";
-                $this->messages->renderMessage($errors);
+                $message = new messages($errors);
+                echo $message->renderMessage();
 
             }
         } else {
             $errors[] = "Le mail ou le mot de passe est erroné.";
-            return $errors;
+            $test = new messages($errors);
+            echo $test->renderMessage();
         }
     }
 
@@ -120,9 +123,10 @@ class Users
             $q2->bindValue(':is_admin', 0, PDO::PARAM_INT);
             $q2->bindParam(':num_tel', $num_tel, PDO::PARAM_STR);
             $q2->execute();
-            return [$lastname, $firstname, $email, $password_modified,date("Y-m-d H:i:s"), 0, $num_tel];
+            header('connexion.php');
         } else {
-            return $errors;
+            $message = new messages($errors);
+            echo $message->renderMessage();
         }
     }
 
@@ -163,7 +167,8 @@ class Users
             $this->disconnect();
         } else {
             $errors[] = "Le mot de passe est erroné.";
-            return $errors;
+            $message = new messages($errors);
+            echo $message->renderMessage();
         }
     }
     public function modifyPassword($old_password,$new_password,$confirm_password){
@@ -179,15 +184,17 @@ class Users
                 $q = $this->db->prepare("UPDATE utilisateurs SET password = :password WHERE id_utilisateur = :id");
                 $q->bindParam(':password',$password_modified, PDO::PARAM_STR);
                 $q->bindParam(':id',$this->id_user, PDO::PARAM_INT);
-                var_dump($q->execute());
+                $q->execute();
                 $this->password = $password_modified;
                 return [$this->password];
             }
-            return $errors;
+            $message = new messages($errors);
+            echo $message->renderMessage();
         }
         else {
             $errors[] = "L'ancien mot de passe est erroné.";
-            return $errors;
+            $message = new messages($errors);
+            echo $message->renderMessage();
         }
     }
 /*    public function modifyLogin{
@@ -266,4 +273,3 @@ class Users
         return $this->num_tel;
     }
 }
-
