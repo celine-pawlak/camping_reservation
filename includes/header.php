@@ -27,7 +27,7 @@ if (isset($_POST["deco"])) {
                     </a>
                 </li>
                 <?php
-                if (!empty($_SESSION['user'])){
+                if (isset($_SESSION['user'])){
                     if ($_SESSION['user']['is_admin'] == 1) {
                         ?>
                         <li><a href="admin.php">PANEL BOARD</a></li>
