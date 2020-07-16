@@ -34,17 +34,32 @@ $page_selected = 'admin';
                 $data_users->execute();
                 //RECUPERATION RESULTAT
                 $resultat_data_users = $data_users->fetchAll(PDO::FETCH_ASSOC);
-                
             
-                //SELECTION DE TOUS LES TARIFS
-                $data_price = $connexion->prepare("SELECT reservations.id_reservation, lieux.nom_lieu,lieux.prix_base, types_emplacement.nom_type_emplacement,types_emplacement.nb_emplacement,options.nom_option, options.prix_option FROM reservations, lieux, types_emplacement, options WHERE reservations.id_reservation = lieux.id_reservation AND reservations.id_reservation = types_emplacement.id_reservation AND reservations.id_reservation = options.id_reservation ");
+            
+                //SELECTION DU LIEU ET DU TARIF PAR LIEU
+                $data_place_price = $connexion->prepare("SELECT * FROM lieux ");
                 //EXECUTION REQUETE
-                $data_price->execute();
+                $data_place_price->execute();
                 //RECUPERATION DONNEES TARIFS
-                $date_price_result = $data_price->fetchAll(PDO::FETCH_ASSOC);
+                $data_place_price_result = $data_place_price->fetchAll(PDO::FETCH_ASSOC);
+            
+                 //SELECTION DU TYPE D'EMPLACEMENT ET DU NB
+                $data_place_type = $connexion->prepare("SELECT * FROM types_emplacement ");
+                //EXECUTION REQUETE
+                $data_place_type->execute();
+                //RECUPERATION DONNEES TARIFS
+                $data_place_type_result = $data_place_type->fetchAll(PDO::FETCH_ASSOC);
+            
+                 //SELECTION DES OPTIONS ET DE LEUR PRIX
+                $data_option_price = $connexion->prepare("SELECT * FROM options ");
+                //EXECUTION REQUETE
+                $data_option_price->execute();
+                //RECUPERATION DONNEES TARIFS
+                $data_option_price_result = $data_option_price->fetchAll(PDO::FETCH_ASSOC);
+            
 
-                //SI ON APPUIS SUR DELETE
-                if(isset($_POST['delete']))
+                //SI ON APPUIS SUR DELETE UTILISATEUR
+                if(isset($_POST['delete_user']))
                 {
                     //DEFINITION VARIABLE ID_HIDDEN
                     $user_id = htmlentities(trim($_POST['id_hidden']));
@@ -57,69 +72,159 @@ $page_selected = 'admin';
                     //RAFRAICHISSEMENT PAGE
                     header("location:admin.php");
                 }
-                
-                
-                
-                //SI ON APPUIS SUR MODIFIER LES PRIX
-                if(isset ($_POST['price']))
+        
+                //SI ON APPUIS SUR DELETE PLACE
+                if(isset($_POST['delete_place']))
                 {
-                    //DEFINITION DES VARIABLES STOCKANT LES TARIFS ET OPTIONS
-                    $emplacement=htmlentities(trim($_POST['emplacement']));
-                    $option_A=htmlentities(trim($_POST['option_A']));
-                    $option_B=htmlentities(trim($_POST['option_B']));
-                    $option_C=htmlentities(trim($_POST['option_C']));
+                    //DEFINITION VARIABLE ID_HIDDEN
+                    $place_id = htmlentities(trim($_POST['place_id_hidden']));
+
+                    //SUPPRESSION DES DONNEES UTILISATEUR EN BDD
+                    $place_delete = $connexion->prepare("DELETE FROM lieux WHERE id_lieu = '$place_id' ");
+                    //EXECUTION REQUETE
+                    $place_delete->execute();
                     
-                    //SI LE CHAMPS EMPLACEMENT EST RENSEIGNE
-                    if($emplacement)
+                     //RAFRAICHISSEMENT PAGE
+                    header("location:admin.php");
+                }
+            
+                //SI ON APPUIS SUR DELETE TYPE
+                if(isset($_POST['delete_type']))
+                {
+                    //DEFINITION VARIABLE ID_HIDDEN
+                    $type_id = htmlentities(trim($_POST['type_id_hidden']));
+                    //SUPPRESSION DES DONNEES UTILISATEUR EN BDD
+                    $type_delete = $connexion->prepare("DELETE FROM types_emplacement WHERE id_type_emplacement = '$type_id' ");
+                    //EXECUTION REQUETE
+                    $type_delete->execute();
+                    
+                     //RAFRAICHISSEMENT PAGE
+                    header("location:admin.php");
+                }
+            
+                //SI ON APPUIS SUR DELETE OPTION
+                if(isset($_POST['delete_option']))
+                {
+                    //DEFINITION VARIABLE ID_HIDDEN
+                    $option_id = htmlentities(trim($_POST['option_id_hidden']));
+                    //SUPPRESSION DES DONNEES UTILISATEUR EN BDD
+                    $option_delete = $connexion->prepare("DELETE FROM options WHERE id_option = '$option_id' ");
+                    //EXECUTION REQUETE
+                    $option_delete->execute();
+                    
+                     //RAFRAICHISSEMENT PAGE
+                    header("location:admin.php");
+                }
+
+                
+                //SI ON APPUIS SUR AJOUTER UN LIEU ET LE TARIF ASSOCIE
+                if(isset ($_POST['add_place']))
+                {
+                    //DEFINITION DES VARIABLES STOCKANT LES LIEUX, NBR EMPLACEMENT PAR LIEU ET TARIFS
+                    $place=htmlentities(trim($_POST['place']));
+                    $nbr_place=htmlentities(trim($_POST['number_place']));
+                    $tarif=htmlentities(trim($_POST['price_place']));
+
+                    //SI LES CHAMPS PRECEDENTS SONT RENSEIGNES
+                    if($place AND $nbr_place AND $tarif)
                     {
-                        //MISE A JOUR DU TARIF
-                        $update_place_price = "UPDATE tarifs SET emplacement=:emplacement ";
-                        //PREPARATION REQUETE
-                        $update_price1 = $connexion->prepare($update_place_price);
-                        //EXECUTION REQUETE
-                        $update_price1->bindParam(':emplacement',$emplacement,PDO::PARAM_INT);
-                        $update_price1->execute();
+                        // VERIFICATION CORRESPONDANCE BDD 
+                        $check_place_match = $connexion->prepare ("SELECT * FROM lieux WHERE nom_lieu = '$place' ");
+                        // EXECUTION REQUETE
+                        $check_place_match->execute();
+                        //RECUPERATION DONNEES
+                        $check_place_match_result = $check_place_match->rowCount();
+                        
+                        //SI IL EXISTE DEJA DANS LA BDD
+                        if($check_place_match_result>=1)
+                        {
+                           echo'Ce lieu existe déjà'; 
+                        }
+                        else
+                        {
+                            //INSERTION NOUVEAU LIEU
+                            $insert_place = "INSERT INTO lieux (nom_lieu,emplacements_disponibles,prix_journalier) VALUES (:place,:nbr_place, :tarif)";
+                            //PREPARATION REQUETE
+                            $insert_place1 = $connexion->prepare($insert_place);
+                            $insert_place1->bindParam(':place',$place, PDO::PARAM_STR);
+                            $insert_place1->bindParam(':nbr_place',$nbr_place, PDO::PARAM_INT);
+                            $insert_place1->bindParam(':tarif',$tarif, PDO::PARAM_INT);
+                            //EXECUTION REQUETE
+                            $insert_place1->execute(); 
+                             header("location:admin.php");
+                        }
                     }
-                    
-                    if($option_A)
+                    else 
                     {
-                        //MISE A JOUR DU TARIF
-                        $update_optionA_price = "UPDATE tarifs SET option_A=:option_A ";
-                        //PREPARATION REQUETE
-                        $update_price2 = $connexion->prepare($update_optionA_price);
-                        //EXECUTION REQUETE
-                        $update_price2->bindParam(':option_A',$option_A,PDO::PARAM_INT);
-                        $update_price2->execute();
+                    echo'Veuillez remplir tous les champs';
                     }
+                }
+                
+            
+                //SI ON APPUIS SUR AJOUTER UN TYPE D'EMPLACEMENT ET SA TAILLE
+                if(isset ($_POST['add_type']))
+                {
+                    //DEFINITION DES VARIABLES STOCKANT LES TYPES D'EMPLACEMENTS ET LEUR TAILLE
+                    $type_place=htmlentities(trim($_POST['type']));
+                    $nbr_place_type=htmlentities(trim($_POST['number_place_type']));
+
                     
-                    if($option_B)
+                   
+                    //SI LE LIEU EST RENSEIGNE
+                    if($place)
                     {
-                        //MISE A JOUR DU TARIF
-                        $update_optionB_price = "UPDATE tarifs SET option_B=:option_B ";
-                        //PREPARATION REQUETE
-                        $update_price3 = $connexion->prepare($update_optionB_price);
-                        //EXECUTION REQUETE
-                        $update_price3->bindParam(':option_B',$option_B,PDO::PARAM_INT);
-                        $update_price3->execute();
-                    }
-                    
-                    if($option_C)
-                    {
-                        //MISE A JOUR DU TARIF
-                        $update_optionC_price = "UPDATE tarifs SET option_B=:option_B ";
-                        //PREPARATION REQUETE
-                        $update_price4 = $connexion->prepare($update_optionC_price);
-                        //EXECUTION REQUETE
-                        $update_price4->bindParam(':option_C',$option_C,PDO::PARAM_INT);
-                        $update_price4->execute();
+                        // VERIFICATION CORRESPONDANCE BDD 
+                        $check_place_match = $connexion->prepare ("SELECT * FROM lieux WHERE lieu = '$place' ");
+                        // EXECUTION REQUETE
+                        $check_place_match->execute();
+                        //RECUPERATION DONNEES
+                        $check_place_match_result = $check_place_match->rowCount();
+                        
+                        //SI IL EXISTE DEJA DANS LA BDD
+                        if($check_place_match_result>=1)
+                        {
+                           echo'Ce lieu existe déjà'; 
+                        }
+                        else
+                        {
+                            //INSERTION
+                        }
                     }
                     
                     header("location:admin.php");
                 }
-                
-                
-
-           
+            
+                 //SI ON APPUIS SUR AJOUTER UNE OPTION
+                if(isset ($_POST['add_type']))
+                {
+                    //DEFINITION DES VARIABLES STOCKANT OPTIONS ET TARIFS
+                    $option = htmlentities(trim($_POST['option']));
+                    $price_option = htmlentities(trim($_POST['price_option']));
+                    
+                   
+                    //SI LE LIEU EST RENSEIGNE
+                    if($place)
+                    {
+                        // VERIFICATION CORRESPONDANCE BDD 
+                        $check_place_match = $connexion->prepare ("SELECT * FROM lieux WHERE lieu = '$place' ");
+                        // EXECUTION REQUETE
+                        $check_place_match->execute();
+                        //RECUPERATION DONNEES
+                        $check_place_match_result = $check_place_match->rowCount();
+                        
+                        //SI IL EXISTE DEJA DANS LA BDD
+                        if($check_place_match_result>=1)
+                        {
+                           echo'Ce lieu existe déjà'; 
+                        }
+                        else
+                        {
+                            //INSERTION
+                        }
+                    }
+                    
+                    header("location:admin.php");
+                }
                 
         }
            
@@ -133,18 +238,18 @@ $page_selected = 'admin';
         ?>
 
 
-        <h1>TABLEAU UTILISATEUR</h1>
+        <h1>Tableau utilisateur</h1>
         <table>
             <thead>
                 <tr>
                     <th>Avatar</th>
                     <th>Id</th>
-                    <th>Login</th>
-                    <th>Prénom</th>
                     <th>Nom</th>
+                    <th>Prénom</th>
                     <th>Sexe</th>
                     <th>Email</th>
                     <th>Numéro de téléphone</th>
+                    <th>Date d'enregistrement</th>
                 </tr>
             </thead>
             <tbody>
@@ -161,10 +266,10 @@ $page_selected = 'admin';
                                             echo $info_users['avatar'] ; 
                                         }?>" alt="avatar" width='30'>
                     </td>
-                    <td><?php echo $info_users ['id']?></td>
-                    <td><?php echo $info_users ['login'] ?></td>
-                    <td><?php echo $info_users ['firstname'] ?></td>
-                    <td><?php echo $info_users ['lastname'] ?></td>
+                    <td><?php echo $info_users ['id_utilisateur']?></td>
+                    <td><?php echo $info_users ['nom'] ?></td>
+                    <td><?php echo $info_users ['prenom'] ?></td>
+                    
                     <td>
                         <?php 
                             if($info_users ['gender'] == "female"){
@@ -180,15 +285,17 @@ $page_selected = 'admin';
                             }
                         ?>
                     </td>
-                    <td><?php echo $info_users ['mail'] ?></td>
-                    <td><?php echo $info_users ['phone_number'] ?></td>
+                    <td><?php echo $info_users ['email'] ?></td>
+                    <td><?php echo $info_users ['num_tel'] ?></td>
+                    <td><?php echo $info_users ['register_date'] ?></td>
+                    
                     <td>
-                        <a href="compte_utilisateur.php?id=<?php echo $info_users['id']?>">MODIFIER</a>
+                        <a href="compte_utilisateur.php?id=<?php echo $info_users['id_utilisateur']?>">MODIFIER</a>
                     </td>
                     <td>
                         <form method="post" action="">
-                            <button type="submit" name="delete"><i class="fas fa-trash-alt"></i></button>
-                            <input type="hidden" name="id_hidden" value="<?php echo $info_users ['id']  ?>">
+                            <button type="submit" name="delete_user"><i class="fas fa-trash-alt"></i></button>
+                            <input type="hidden" name="id_hidden" value="<?php echo $info_users ['id_utilisateur']  ?>">
                         </form>
                     </td>
                 </tr>
@@ -196,50 +303,117 @@ $page_selected = 'admin';
             </tbody>
         </table>
 
-
-
-
-
-        <h1>Modification des tarifs</h1>
-
+        <h1>Modification des tarifs et emplacements</h1>
+        
+        <h2>Lieux, emplacements et tarifs journaliers</h2>
         <table>
             <thead>
                 <tr>
-                    <th>Tarif emplacement unique</th>
-                    <th>Option borne électrique</th>
-                    <th>Option Club Disco</th>
-                    <th>Option Sport</th>
-                </tr>
+                    <th>Supprimer</th>
+                    <th>Lieux</th>
+                    <th>Nbr d'emplacement par lieu</th>
+                    <th>Tarif journalier</th>         
             </thead>
             <tbody>
-                <?php foreach($date_price_result as $info_tarif){?>
+                <?php foreach($data_place_price_result as $place){ ?>
                 <tr>
-                    <td><?php echo  $info_tarif['emplacement'].' €'?></td>
-                    <td><?php echo  $info_tarif['option_A'].' €' ?></td>
-                    <td><?php echo  $info_tarif['option_B'].' €' ?></td>
-                    <td><?php echo  $info_tarif['option_C'].' €' ?></td>
+                    <td>
+                        <form method="post" action="">
+                            <button type="submit" name="delete_place"><i class="fas fa-times"></i></button>
+                            <input type="hidden" name="place_id_hidden" value="<?php echo $place['id_lieu']  ?>">
+                        </form>
+                    </td>
+                    <td><?php echo $place['nom_lieu'] ?></td>
+                    <td><?php echo $place['emplacements_disponibles'] ?></td>
+                    <td><?php echo $place['prix_journalier'].'€' ?></td> 
                 </tr>
                 <?php } ?>
             </tbody>
         </table>
-
-
-
-        <form method="post" action="">
-            <label for="emplacement">Tarif emplacement</label>
-            <input type="text" name="emplacement"><br />
-
-            <label for="option_A">Option borne électrique</label>
-            <input type="text" name="option_A"><br />
-
-            <label for="option_B">Option Club Disco</label>
-            <input type="text" name="option_B"><br />
-
-            <label for="option_C"> Option Sport</label>
-            <input type="text" name="option_C"><br />
-
-            <input type="submit" name="price" value="MODIFIER">
+        <h3>Ajouter un nouveau lieu</h3>
+        <form method="post" action=""> 
+            <label for="place">Lieux</label>
+            <input type="text" name="place"><br/>
+            <label for="place">Nbr d'emplacement(s) par lieu</label>
+            <input type="number" name="number_place"><br/>
+            <label for="place">Tarif journalier</label>
+            <input type="number" step="0.01" name="price_place"><br/>
+            <input type="submit" name="add_place" value="VALIDER">
         </form>
+        
+        <h1>ICI>>>>>>>></h1>
+        <h2>Types et nombre d'emplacement(s)</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Supprimer</th>
+                    <th>Types d'emplacement</th>
+                    <th>Nbr d'emplacement par types</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach($data_place_type_result as $type){ ?>
+                <tr>
+                    <td>
+                        <form method="post" action="">
+                            <button type="submit" name="delete_type"><i class="fas fa-times"></i></button>
+                            <input type="hidden" name="type_id_hidden" value="<?php echo $type['id_type_emplacement']  ?>">
+                        </form>
+                    </td>
+                    <td><?php echo $type['nom_type_emplacement'] ?></td>
+                    <td><?php echo $type['nb_emplacement'] ?></td>
+                    
+                </tr>
+                <?php } ?>
+            </tbody>
+        </table>
+        <h3>Ajouter un nouveau type d'emplacement</h3>
+        <form method="post" action=""> 
+            <label for="place">Type d'emplacement</label>
+            <input type="text" name="type"><br/>
+            <label for="place">Nbr d'emplacement(s) par type</label>
+            <input type="number" name="number_place_type"><br/>
+            <input type="submit" name="add_type" value="VALIDER">
+        </form>
+        
+        <h2>Options</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Supprimer</th>
+                    <th>Options</th>
+                    <th>Tarifs</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach($data_option_price_result as $option){ ?>
+                <tr>
+                    <td>
+                        <form method="post" action="">
+                            <button type="submit" name="delete_option"><i class="fas fa-times"></i></button>
+                            <input type="hidden" name="option_id_hidden" value="<?php echo $option['id_option']  ?>">
+                        </form>
+                    </td>
+                    <td><?php echo $option['nom_option'] ?></td>
+                    <td><?php echo $option['prix_option'] ?></td>
+                    
+                </tr>
+                <?php } ?>
+            </tbody>
+        </table>
+        <h3>Ajouter une nouvelle option</h3>
+        <form method="post" action=""> 
+            <label for="option">Options</label>
+            <input type="text" name="option"><br/>
+            <label for="place">Tarifs</label>
+            <input type="number" name="price_option"><br/>
+            <input type="submit" name="add_option" value="VALIDER">
+        </form>
+
+
+        
+        
+        
     </main>
     <footer>
         <?php include("includes/footer.php")?>
@@ -247,3 +421,11 @@ $page_selected = 'admin';
 </body>
 
 </html>
+
+<!-- 
+
+
+
+
+
+-->
