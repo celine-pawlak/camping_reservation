@@ -1,13 +1,13 @@
 <?php
-
 require 'class/users.php';
 session_start();
-
 $user = new users;
+$user->refresh();
 
 if (isset($_POST["deco"])) {
     $user->disconnect();
 }
+
 ?>
 <header>
   <section id="top-header1">
