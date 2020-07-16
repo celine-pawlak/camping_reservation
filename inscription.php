@@ -29,7 +29,8 @@ $page_selected = 'inscription';
             $_POST['email'],
             $_POST['password'],
             $_POST['conf_password'],
-            $_POST['num_tel']
+            $_POST['num_tel'],
+            $_POST['gender']
         );
     }
     ?>
@@ -46,6 +47,12 @@ $page_selected = 'inscription';
         <input type="password" name="conf_password" placeholder="Confirmer mot de passe">
         <label for="num_tel">Numéro de téléphone</label>
         <input type="text" name="num_tel" placeholder="0123456789">
+        <input type="radio" name="gender" id="male" value="Homme">
+        <label for="male">Homme</label>
+        <input type="radio" name="gender" id="female" value="Femme">
+        <label for="female">Femme</label>
+        <input type="radio" name="gender" id="no_gender" value="Non genré">
+        <label for="no_gender">Non genré</label>
         <button type="submit" name="submit">Enregistrer</button>
     </form>
 </main>

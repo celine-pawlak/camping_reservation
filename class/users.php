@@ -12,6 +12,7 @@ class users
     public $register_date;
     public $is_admin;
     public $num_tel;
+    public $gender;
     public $db;
 
     public function __construct($host = "localhost", $username = "root", $password = "", $dbname = "camping")
@@ -38,6 +39,7 @@ class users
                 $this->register_date = $user['register_date'];
                 $this->is_admin = $user['is_admin'];
                 $this->num_tel = $user['num_tel'];
+                $this->gender = $user['gender'];
                 $_SESSION['user'] = [
                     'id_user' =>
                         $this->id_user,
@@ -54,7 +56,9 @@ class users
                     'is_admin' =>
                         $this->is_admin,
                     'num_tel' =>
-                        $this->num_tel
+                        $this->num_tel,
+                    'gender' =>
+                        $this->gender
                 ];
                 return $_SESSION['user'];
             } else {
@@ -69,7 +73,7 @@ class users
         }
     }
 
-    public function register($firstname, $lastname, $email, $password, $password_check, $num_tel)
+    public function register($firstname, $lastname, $email, $password, $password_check, $num_tel, $gender)
     {
         //firstname
         $firstname_required = preg_match("/^(?=.*[A-Za-z]$)[A-Za-z][A-Za-z\-]{2,19}$/", $firstname);
@@ -119,7 +123,7 @@ class users
 
         if (empty($errors)) {
             $q2 = $this->db->prepare(
-                "INSERT INTO utilisateurs (nom, prenom, email, password, register_date, is_admin, num_tel) VALUES (:nom,:prenom,:email,:password,:register_date,:is_admin,:num_tel)"
+                "INSERT INTO utilisateurs (nom, prenom, email, password, register_date, is_admin, num_tel, gender) VALUES (:nom,:prenom,:email,:password,:register_date,:is_admin,:num_tel,:gender)"
             );
             $q2->bindParam(':nom', $lastname, PDO::PARAM_STR);
             $q2->bindParam(':prenom', $firstname, PDO::PARAM_STR);
@@ -128,6 +132,7 @@ class users
             $q2->bindValue(':register_date', date("Y-m-d H:i:s"), PDO::PARAM_STR);
             $q2->bindValue(':is_admin', 0, PDO::PARAM_INT);
             $q2->bindParam(':num_tel', $num_tel, PDO::PARAM_STR);
+            $q2->bindParam(':gender', $gender, PDO::PARAM_STR);
             $q2->execute();
             header('location:connexion.php');
         } else {
@@ -164,18 +169,21 @@ class users
 
     public function refresh()
     {
-        $q = $this->db->prepare("SELECT * FROM utilisateurs WHERE id_utilisateur = :session");
-        $q->bindParam(':session',$_SESSION['user']['id_user'],PDO::PARAM_STR);
-        $q->execute();
-        $user = $q->fetch(PDO::FETCH_ASSOC);
-        $this->id_user = $user['id_utilisateur'];
-        $this->firstname = $user['prenom'];
-        $this->lastname = $user['nom'];
-        $this->email = $user['email'];
-        $this->password = $user['password'];
-        $this->register_date = $user['register_date'];
-        $this->is_admin = $user['is_admin'];
-        $this->num_tel = $user['num_tel'];
+        if (self::isConnected()==TRUE){
+            $q = $this->db->prepare("SELECT * FROM utilisateurs WHERE id_utilisateur = :session");
+            $q->bindParam(':session', $_SESSION['user']['id_user'], PDO::PARAM_STR);
+            $q->execute();
+            $user = $q->fetch(PDO::FETCH_ASSOC);
+            $this->id_user = $user['id_utilisateur'];
+            $this->firstname = $user['prenom'];
+            $this->lastname = $user['nom'];
+            $this->email = $user['email'];
+            $this->password = $user['password'];
+            $this->register_date = $user['register_date'];
+            $this->is_admin = $user['is_admin'];
+            $this->num_tel = $user['num_tel'];
+            $this->gender = $user['gender'];
+        }
     }
 
     public
