@@ -14,7 +14,11 @@ class reservation
         }
     }
 
-    //dates
+    public function CheckDisponibilite($lieu, $date_debut, $date_fin, $emplacements_tentes, $e)
+
+    //Parcours les dates d'une période donnée et vérifie le nombre d'emplacements disponible dans un lieu donné:
+    //-> return message d'erreur quand aucun emplacement n'est disponible
+    //-> return tableau quand des jours sont disponible
     public function checkDates($lieu, $date_debut, $date_fin)
     {
         $date_debut_jour = idate('d',strtotime($date_debut));
@@ -43,10 +47,10 @@ class reservation
         $errors[] = "Il n'y a aucun emplacement disponible entre le $date_debut et le $date_fin à $lieu";
         $message = new messages($errors);
         echo $message->renderMessage();
-
-
     }
 
+    //Donne le nombre d'emplacement disponible pour un jour donné et un lieu donné
+    //-> return null si 0 emplacement disponible
     public function HowManyEmplacementAvailableForADay($lieu, $day_check)
     {
         $q = $this->db->prepare(
