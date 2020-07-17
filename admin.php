@@ -12,6 +12,7 @@ $page_selected = 'admin';
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
     <link rel="shortcut icon" type="image/x-icon" href="https://i.ibb.co/XzyCCqt/LOGO1.png">
     <link rel="stylesheet" type="text/css" href="css/style.css">
+
 </head>
 
 <body>
@@ -27,6 +28,8 @@ $page_selected = 'admin';
             $connexion=new PDO("mysql:host=localhost;dbname=camping",'root','');
             // DEFINITION MODE D'ERREUR PDO SUR EXCEPTION
             $connexion->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+                
+            
             
                 //SELECTION DE TOUTES LES DONNEES UTILISATEURS
                 $data_users = $connexion->prepare("SELECT * FROM utilisateurs");
@@ -34,6 +37,8 @@ $page_selected = 'admin';
                 $data_users->execute();
                 //RECUPERATION RESULTAT
                 $resultat_data_users = $data_users->fetchAll(PDO::FETCH_ASSOC);
+            
+                
             
             
                 //SELECTION DU LIEU ET DU TARIF PAR LIEU
@@ -57,7 +62,9 @@ $page_selected = 'admin';
                 //RECUPERATION DONNEES TARIFS
                 $data_option_price_result = $data_option_price->fetchAll(PDO::FETCH_ASSOC);
             
-
+                
+            
+            
                 //SI ON APPUIS SUR DELETE UTILISATEUR
                 if(isset($_POST['delete_user']))
                 {
@@ -65,7 +72,7 @@ $page_selected = 'admin';
                     $user_id = htmlentities(trim($_POST['id_hidden']));
 
                     //SUPPRESSION DES DONNEES UTILISATEUR EN BDD
-                    $user_delete = $connexion->prepare("DELETE FROM utilisateurs WHERE id = '$user_id' ");
+                    $user_delete = $connexion->prepare("DELETE FROM utilisateurs WHERE id_utilisateur = $user_id ");
                     //EXECUTION REQUETE
                     $user_delete->execute();
 
@@ -78,9 +85,8 @@ $page_selected = 'admin';
                 {
                     //DEFINITION VARIABLE ID_HIDDEN
                     $place_id = htmlentities(trim($_POST['place_id_hidden']));
-
                     //SUPPRESSION DES DONNEES UTILISATEUR EN BDD
-                    $place_delete = $connexion->prepare("DELETE FROM lieux WHERE id_lieu = '$place_id' ");
+                    $place_delete = $connexion->prepare("DELETE FROM lieux WHERE id_lieu = $place_id");
                     //EXECUTION REQUETE
                     $place_delete->execute();
                     
@@ -94,7 +100,7 @@ $page_selected = 'admin';
                     //DEFINITION VARIABLE ID_HIDDEN
                     $type_id = htmlentities(trim($_POST['type_id_hidden']));
                     //SUPPRESSION DES DONNEES UTILISATEUR EN BDD
-                    $type_delete = $connexion->prepare("DELETE FROM types_emplacement WHERE id_type_emplacement = '$type_id' ");
+                    $type_delete = $connexion->prepare("DELETE FROM types_emplacement WHERE id_type_emplacement = $type_id ");
                     //EXECUTION REQUETE
                     $type_delete->execute();
                     
@@ -108,7 +114,7 @@ $page_selected = 'admin';
                     //DEFINITION VARIABLE ID_HIDDEN
                     $option_id = htmlentities(trim($_POST['option_id_hidden']));
                     //SUPPRESSION DES DONNEES UTILISATEUR EN BDD
-                    $option_delete = $connexion->prepare("DELETE FROM options WHERE id_option = '$option_id' ");
+                    $option_delete = $connexion->prepare("DELETE FROM options WHERE id_option = $option_id ");
                     //EXECUTION REQUETE
                     $option_delete->execute();
                     
@@ -117,6 +123,9 @@ $page_selected = 'admin';
                 }
 
                 
+            
+            
+            
                 //SI ON APPUIS SUR AJOUTER UN LIEU 
                 if(isset ($_POST['add_place']))
                 {
@@ -159,7 +168,6 @@ $page_selected = 'admin';
                     echo'Veuillez remplir tous les champs';
                     }
                 }
-                
             
                 //SI ON APPUIS SUR AJOUTER UN TYPE D'EMPLACEMENT 
                 if(isset ($_POST['add_type']))
@@ -172,7 +180,7 @@ $page_selected = 'admin';
                     if( $type_place AND $nbr_place_type)
                     {
                         // VERIFICATION CORRESPONDANCE BDD 
-                        $check_type_match = $connexion->prepare ("SELECT * FROM types_emplacement WHERE nom_type_emplacement = ' $type_place' ");
+                        $check_type_match = $connexion->prepare ("SELECT * FROM types_emplacement WHERE nom_type_emplacement = '$type_place' ");
                         // EXECUTION REQUETE
                         $check_type_match->execute();
                         //RECUPERATION DONNEES
@@ -237,8 +245,17 @@ $page_selected = 'admin';
                             header("location:admin.php");
                         }
                     }
+                    else 
+                    {
+                    echo'Veuillez remplir tous les champs';
+                    }
                     
                 }
+            
+            
+            
+            
+            
             
             
                 //SI ON APPUIS SUR MODIFIER LIEUX
@@ -249,12 +266,155 @@ $page_selected = 'admin';
                     $update_nb_place = htmlentities(trim($_POST['update_nb_place']));
                     $update_price_place = htmlentities(trim($_POST['update_price_place']));
                     
-                    //SI L'UN DES CHAMPS PRECEDENTS EST RENSEIGNE
-                    if($update_place OR $update_nb_place OR $update_price_place)
+                   
+                    //DEFINITION VARIABLE ID_HIDDEN ET NAME_HIDDEN
+                    $place_name = htmlentities(trim($_POST['place_name_hidden']));
+                    $place_id2 = htmlentities(trim($_POST['place_id_hidden2']));
+                    
+                    //SI LE NOM DU LIEU EST RENSEIGNE 
+                    if(!empty($update_place))
                     {
                         
+                        //MISE A JOUR NOM LIEU
+                        $update_place_name = "UPDATE lieux SET nom_lieu=:nom_lieu WHERE id_lieu = $place_id2";
+                        $update_place_name_bis = "UPDATE detail_lieux SET nom_lieu=:nom_lieu WHERE nom_lieu='$place_name' ";
+                        //PREPARATION REQUETE
+                        $update_place_name1 = $connexion->prepare($update_place_name);
+                        $update_place_name1_bis = $connexion->prepare($update_place_name_bis);
+                        $update_place_name1->bindParam(':nom_lieu',$update_place, PDO::PARAM_STR);
+                        $update_place_name1_bis->bindParam(':nom_lieu',$update_place, PDO::PARAM_STR);
+                        //EXECUTION REQUETE
+                        $update_place_name1->execute(); 
+                        $update_place_name1_bis->execute(); 
+                        
+                        header("location:admin.php");
+                    }
+                    
+                    if(!empty($update_nb_place))
+                    {
+                        //MISE A JOUR NB EMPLACEMENT 
+                        $update_place_nb = "UPDATE lieux SET emplacements_disponibles=:nb_place WHERE id_lieu = $place_id2";
+                        //PREPARATION REQUETE
+                        $update_place_nb1 = $connexion->prepare($update_place_nb);
+                        $update_place_nb1->bindParam(':nb_place',$update_nb_place, PDO::PARAM_INT);
+                        //EXECUTION REQUETE
+                       $update_place_nb1->execute(); 
+                        
+                        header("location:admin.php");
+                    }
+                    
+                    if(!empty($update_price_place))
+                    {
+                        //MISE A JOUR NB EMPLACEMENT 
+                        $update_place_price = "UPDATE lieux SET prix_journalier=:price_place WHERE id_lieu = $place_id2";
+                        //PREPARATION REQUETE
+                        $update_place_price1 = $connexion->prepare($update_place_price);
+                        $update_place_price1->bindParam(':price_place',$update_price_place, PDO::PARAM_INT);
+                        //EXECUTION REQUETE
+                        $update_place_price1->execute(); 
+                        
+                        header("location:admin.php");
                     }
                 }
+ 
+            
+                //SI ON APPUIS SUR MODIFIER TYPE D'EMPLACEMENT
+                if(isset($_POST['update_type']))
+                {
+                    //DEFINITION DES VARIABLES STOCKANT LES TYPES D'EMPLACEMENT ET LEUR TAILLE
+                    $update_type_name = htmlentities(trim($_POST['update_type_name']));
+                    $update_size_type = htmlentities(trim($_POST['update_size']));
+                   
+                    //DEFINITION VARIABLE ID_HIDDEN
+                    $type_id2 = htmlentities(trim($_POST['type_id_hidden2']));
+                    
+                    //SI LE TYPE D'EMPLACEMENT EST RENSEIGNE 
+                    if(!empty( $update_type_name))
+                    {
+                        //MISE A JOUR TYPE D'EMPLACEMENT
+                        $update_type = "UPDATE types_emplacement SET nom_type_emplacement=:nom_type WHERE id_type_emplacement = $type_id2";
+                        //PREPARATION REQUETE
+                        $update_type1 = $connexion->prepare($update_type);
+                        $update_type1->bindParam(':nom_type',$update_type_name, PDO::PARAM_STR);
+                        //EXECUTION REQUETE
+                        $update_type1->execute(); 
+                        
+                        header("location:admin.php");
+                    }
+                    
+                    //SI LA TAILLE DU TYPE D'EMPLACEMENT EST RENSEIGNE 
+                    if(!empty($update_size_type))
+                    {
+                        //MISE A JOUR TAILLE EMPLACEMENT 
+                        $update_size = "UPDATE types_emplacement SET nb_emplacement=:nb_size WHERE id_type_emplacement = $type_id2";
+                        //PREPARATION REQUETE
+                        $update_size1 = $connexion->prepare($update_size);
+                        $update_size1->bindParam(':nb_size',$update_size_type, PDO::PARAM_INT);
+                        //EXECUTION REQUETE
+                        $update_size1->execute(); 
+                        
+                        header("location:admin.php");
+                    }
+                }
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+                //SI ON APPUIS SUR MODIFIER OPTION
+                if(isset($_POST['update_option']))
+                {
+                    //DEFINITION DES VARIABLES STOCKANT LES TYPES D'EMPLACEMENT ET LEUR TAILLE
+                    $update_option_name = htmlentities(trim($_POST['update_option_name']));
+                    $update_option_price = htmlentities(trim($_POST['update_price_option']));
+                   
+                    //DEFINITION VARIABLE ID_HIDDEN
+                    $option_id2 = htmlentities(trim($_POST['option_id_hidden2']));
+                    
+                    //var_dump($POST);
+                    //SI LE TYPE D'EMPLACEMENT EST RENSEIGNE 
+                    if(!empty( $update_option_name))
+                    {
+                        //MISE A JOUR TYPE D'EMPLACEMENT
+                        $update_option = "UPDATE options SET nom_option=:nom_option WHERE id_option = $option_id2";
+                        //PREPARATION REQUETE
+                        $update_option1 = $connexion->prepare($update_option);
+                        $update_option1->bindParam(':nom_option',$update_option_name, PDO::PARAM_STR);
+                        //EXECUTION REQUETE
+                        $update_option1->execute(); 
+                        
+                        header("location:admin.php");
+                    }
+                    
+                    //SI LA TAILLE DU TYPE D'EMPLACEMENT EST RENSEIGNE 
+                    if(!empty($update_option_price))
+                    {
+                        //MISE A JOUR TAILLE EMPLACEMENT 
+                        $update_price_option = "UPDATE options SET prix_option=:prix_option WHERE id_option = $option_id2";
+                        //PREPARATION REQUETE
+                        $update_price_option1 = $connexion->prepare($update_price_option);
+                        $update_price_option1->bindParam(':prix_option',$update_option_price, PDO::PARAM_INT);
+                        //EXECUTION REQUETE
+                        $update_price_option1->execute(); 
+                        
+                        header("location:admin.php");
+                    }
+                }
+
+
+
                 
         }
            
@@ -268,7 +428,29 @@ $page_selected = 'admin';
         ?>
 
 
-        <h1>Tableau utilisateur</h1>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <h1>Tableau utilisateurs</h1>
         <table>
             <thead>
                 <tr>
@@ -333,39 +515,55 @@ $page_selected = 'admin';
             </tbody>
         </table>
 
-        <h1>Modification des tarifs et emplacements</h1>
         
-        <h2>Lieux, emplacements et tarifs journaliers</h2>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <h1>Modification des tarifs emplacements et options</h1>
+        
+        <h2>Lieux, nbr d'emplacements et tarifs journaliers</h2>
         <table>
             <thead>
                 <tr>
-                    
-                    <th>Lieux</th>
-                    <th>Nbr d'emplacement par lieu</th>
-                    <th>Tarif journalier</th>
                     <th>Mise à jour</th>
-                    <th>Suppression</th>
-                   
-                    
+                    <th>Lieux</th>
+                    <th>Emplacement(s) </th>
+                    <th>Tarif journalier</th>   
+                </tr>   
             </thead>
             <tbody>
                 <?php foreach($data_place_price_result as $place){ ?>
                 <tr>
-                    
+                    <td>
+                        <form action="" method="post">
+                            <label for="update_place_name">Modification nom lieu</label>
+                            <input type="text" name="update_place_name">
+                            <label for="update_nb_place">Modification du nbr d'emplacement</label>
+                            <input type="number" name="update_nb_place">
+                            <label for="update_price_place">Modification du tarif</label>
+                            <input type="number" step="0.01" name="update_price_place">
+                            <input type="hidden" name="place_id_hidden2" value="<?php echo $place['id_lieu']?>">
+                            <input type="hidden" name="place_name_hidden" value="<?php echo $place['nom_lieu']  ?>">
+                            <input type="submit" name="update_place" value="MODIFIER">
+                        </form>
+                    </td>
                     <td><?php echo $place['nom_lieu'] ?></td>
                     <td><?php echo $place['emplacements_disponibles'] ?></td>
                     <td><?php echo $place['prix_journalier'].'€' ?></td>
-                    <td>
-                        <form action="" method="post">
-                            <label for="update_place_name">Modification nom lieu</label><br/>
-                            <input type="text" name="update_place_name"><br/>
-                            <label for="update_nb_place">Modification du nbr d'emplacement</label><br/>
-                            <input type="number" name="update_nb_place"><br/>
-                            <label for="update_price_place">Modification du tarif</label><br/>
-                            <input type="number" step="0.01" name="update_price_place"><br/>
-                            <input type="submit" name="update_place" value="MODIFIER"><br/>
-                        </form>
-                    </td>
                     <td>
                         <form method="post" action="">
                             <button type="submit" name="delete_place"><i class="fas fa-times"></i></button>
@@ -378,22 +576,27 @@ $page_selected = 'admin';
         </table>
         <h3>Ajouter un nouveau lieu</h3>
         <form method="post" action=""> 
-            <label for="place">Lieux</label>
+            <label for="place">Lieux</label><br/>
             <input type="text" name="place"><br/>
-            <label for="place">Nbr d'emplacement(s) par lieu</label>
+            <label for="place">Nbr d'emplacement(s) par lieu</label><br/>
             <input type="number" name="number_place"><br/>
-            <label for="place">Tarif journalier</label>
+            <label for="place">Tarif journalier</label><br/>
             <input type="number" step="0.01" name="price_place"><br/>
             <input type="submit" name="add_place" value="VALIDER">
         </form>
         
-        <h2>Types et nombre d'emplacement(s)</h2>
+        
+        
+        
+        
+        
+        <h2>Type et taille emplacement(s)</h2>
         <table>
             <thead>
-                <tr>
-                    <th>Supprimer</th>
-                    <th>Types d'emplacement</th>
-                    <th>Nbr d'emplacement par types</th>
+                <tr> 
+                    <th>Mise à jour</th>
+                    <th>Type d'emplacement</th>
+                    <th>Taille emplacement</th>
                 </tr>
             </thead>
             <tbody>
@@ -401,31 +604,45 @@ $page_selected = 'admin';
                 <tr>
                     <td>
                         <form method="post" action="">
-                            <button type="submit" name="delete_type"><i class="fas fa-times"></i></button>
-                            <input type="hidden" name="type_id_hidden" value="<?php echo $type['id_type_emplacement']  ?>">
+                            <label for="update_type_name">Modification type d'emplacement</label>
+                            <input type="text" name="update_type_name">
+                            <label for="update_size">Modification taille emplacement</label>
+                            <input type="number" name="update_size">
+                            <input type="hidden" name="type_id_hidden2" value="<?php echo $type['id_type_emplacement']  ?>">
+                            <input type="submit" name="update_type" value="MODIFIER">
                         </form>
                     </td>
                     <td><?php echo $type['nom_type_emplacement'] ?></td>
                     <td><?php echo $type['nb_emplacement'] ?></td>
-                    
+                    <td>
+                        <form method="post" action="">
+                            <button type="submit" name="delete_type"><i class="fas fa-times"></i></button>
+                            <input type="hidden" name="type_id_hidden" value="<?php echo $type['id_type_emplacement']  ?>">
+                        </form>
+                    </td>
                 </tr>
                 <?php } ?>
             </tbody>
         </table>
         <h3>Ajouter un nouveau type d'emplacement</h3>
         <form method="post" action=""> 
-            <label for="place">Type d'emplacement</label>
+            <label for="type">Type d'emplacement</label><br/>
             <input type="text" name="type"><br/>
-            <label for="place">Nbr d'emplacement(s) par type</label>
+            <label for="number_place_type">Taille emplacement</label><br/>
             <input type="number" name="number_place_type"><br/>
             <input type="submit" name="add_type" value="VALIDER">
         </form>
+        
+        
+        
+        
+        
         
         <h2>Options</h2>
         <table>
             <thead>
                 <tr>
-                    <th>Supprimer</th>
+                    <th>Mise à jour</th>
                     <th>Options</th>
                     <th>Tarifs</th>
                 </tr>
@@ -435,29 +652,35 @@ $page_selected = 'admin';
                 <tr>
                     <td>
                         <form method="post" action="">
-                            <button type="submit" name="delete_option"><i class="fas fa-times"></i></button>
-                            <input type="hidden" name="option_id_hidden" value="<?php echo $option['id_option']  ?>">
+                            <label for="update_option_name">Modification option</label>
+                            <input type="text" name="update_option_name">
+                            <label for="update_price_option">Modification tarifs</label>
+                            <input type="number" step="0.01" name="update_price_option">
+                            <input type="hidden" name="option_id_hidden2" value="<?php echo $option['id_option']  ?>">
+                            <input type="submit" name="update_option" value="MODIFIER">
                         </form>
                     </td>
                     <td><?php echo $option['nom_option'] ?></td>
                     <td><?php echo $option['prix_option'].'€' ?></td>
-                    
+                    <td>
+                        <form method="post" action="">
+                            <button type="submit" name="delete_option"><i class="fas fa-times"></i></button>
+                            <input type="hidden" name="option_id_hidden" value="<?php echo $option['id_option']  ?>">
+                        </form>
+                    </td>
                 </tr>
                 <?php } ?>
             </tbody>
         </table>
         <h3>Ajouter une nouvelle option</h3>
         <form method="post" action=""> 
-            <label for="option">Options</label>
+            <label for="option">Options</label><br/>
             <input type="text" name="option"><br/>
-            <label for="place">Tarifs</label>
+            <label for="place">Tarifs</label><br/>
             <input type="number" step="0.01" name="price_option"><br/>
             <input type="submit" name="add_option" value="VALIDER">
         </form>
-
-
-        
-        
+   
         
     </main>
     <footer>
