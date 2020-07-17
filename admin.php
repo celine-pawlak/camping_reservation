@@ -117,7 +117,7 @@ $page_selected = 'admin';
                 }
 
                 
-                //SI ON APPUIS SUR AJOUTER UN LIEU ET LE TARIF ASSOCIE
+                //SI ON APPUIS SUR AJOUTER UN LIEU 
                 if(isset ($_POST['add_place']))
                 {
                     //DEFINITION DES VARIABLES STOCKANT LES LIEUX, NBR EMPLACEMENT PAR LIEU ET TARIFS
@@ -161,69 +161,99 @@ $page_selected = 'admin';
                 }
                 
             
-                //SI ON APPUIS SUR AJOUTER UN TYPE D'EMPLACEMENT ET SA TAILLE
+                //SI ON APPUIS SUR AJOUTER UN TYPE D'EMPLACEMENT 
                 if(isset ($_POST['add_type']))
                 {
                     //DEFINITION DES VARIABLES STOCKANT LES TYPES D'EMPLACEMENTS ET LEUR TAILLE
                     $type_place=htmlentities(trim($_POST['type']));
                     $nbr_place_type=htmlentities(trim($_POST['number_place_type']));
 
-                    
-                   
-                    //SI LE LIEU EST RENSEIGNE
-                    if($place)
+                    //SI LES CHAMPS PRECEDENTS SONT RENSEIGNES
+                    if( $type_place AND $nbr_place_type)
                     {
                         // VERIFICATION CORRESPONDANCE BDD 
-                        $check_place_match = $connexion->prepare ("SELECT * FROM lieux WHERE lieu = '$place' ");
+                        $check_type_match = $connexion->prepare ("SELECT * FROM types_emplacement WHERE nom_type_emplacement = ' $type_place' ");
                         // EXECUTION REQUETE
-                        $check_place_match->execute();
+                        $check_type_match->execute();
                         //RECUPERATION DONNEES
-                        $check_place_match_result = $check_place_match->rowCount();
+                        $check_type_match_result = $check_type_match->rowCount();
                         
                         //SI IL EXISTE DEJA DANS LA BDD
-                        if($check_place_match_result>=1)
+                        if($check_type_match_result>=1)
                         {
-                           echo'Ce lieu existe déjà'; 
+                           echo'Ce type d\'emplacement existe déjà'; 
                         }
                         else
                         {
-                            //INSERTION
+                            //INSERTION NOUVEAU TYPE
+                            $insert_type = "INSERT INTO types_emplacement (nom_type_emplacement,nb_emplacement) VALUES (:type,:nbr_place_type)";
+                            //PREPARATION REQUETE
+                            $insert_type1 = $connexion->prepare($insert_type);
+                            $insert_type1->bindParam(':type',$type_place, PDO::PARAM_STR);
+                            $insert_type1->bindParam(':nbr_place_type',$nbr_place_type, PDO::PARAM_INT);
+                            //EXECUTION REQUETE
+                            $insert_type1->execute(); 
+                            header("location:admin.php");
                         }
                     }
-                    
-                    header("location:admin.php");
+                    else 
+                    {
+                    echo'Veuillez remplir tous les champs';
+                    }
                 }
             
                  //SI ON APPUIS SUR AJOUTER UNE OPTION
-                if(isset ($_POST['add_type']))
+                if(isset ($_POST['add_option']))
                 {
                     //DEFINITION DES VARIABLES STOCKANT OPTIONS ET TARIFS
                     $option = htmlentities(trim($_POST['option']));
                     $price_option = htmlentities(trim($_POST['price_option']));
-                    
-                   
-                    //SI LE LIEU EST RENSEIGNE
-                    if($place)
+
+                    //SI LES CHAMPS PRECEDENTS SONT RENSEIGNES
+                    if($option AND $price_option)
                     {
                         // VERIFICATION CORRESPONDANCE BDD 
-                        $check_place_match = $connexion->prepare ("SELECT * FROM lieux WHERE lieu = '$place' ");
+                        $check_option_match = $connexion->prepare ("SELECT * FROM options WHERE nom_option = '$option' ");
                         // EXECUTION REQUETE
-                        $check_place_match->execute();
+                        $check_option_match->execute();
                         //RECUPERATION DONNEES
-                        $check_place_match_result = $check_place_match->rowCount();
+                        $check_option_match_result = $check_option_match->rowCount();
                         
                         //SI IL EXISTE DEJA DANS LA BDD
-                        if($check_place_match_result>=1)
+                        if($check_option_match_result>=1)
                         {
-                           echo'Ce lieu existe déjà'; 
+                           echo'Cette option existe déjà'; 
                         }
                         else
                         {
-                            //INSERTION
+                            //INSERTION NOUVELLE OPTION
+                             $insert_option = "INSERT INTO options (nom_option,prix_option) VALUES (:option,:prix_option)";
+                            //PREPARATION REQUETE
+                            $insert_option1 = $connexion->prepare($insert_option);
+                            $insert_option1->bindParam(':option',$option, PDO::PARAM_STR);
+                            $insert_option1->bindParam(':prix_option',$price_option, PDO::PARAM_INT);
+                            //EXECUTION REQUETE
+                            $insert_option1->execute(); 
+                            header("location:admin.php");
                         }
                     }
                     
-                    header("location:admin.php");
+                }
+            
+            
+                //SI ON APPUIS SUR MODIFIER LIEUX
+                if(isset($_POST['update_place']))
+                {
+                    //DEFINITION DES VARIABLES STOCKANT LES LIEUX, NBR EMPLACEMENT PAR LIEU ET TARIFS
+                    $update_place = htmlentities(trim($_POST['update_place_name']));
+                    $update_nb_place = htmlentities(trim($_POST['update_nb_place']));
+                    $update_price_place = htmlentities(trim($_POST['update_price_place']));
+                    
+                    //SI L'UN DES CHAMPS PRECEDENTS EST RENSEIGNE
+                    if($update_place OR $update_nb_place OR $update_price_place)
+                    {
+                        
+                    }
                 }
                 
         }
@@ -281,7 +311,7 @@ $page_selected = 'admin';
                             }
                             else
                             {
-                                echo'<i class="far fa-circle"></i>';
+                                echo'<i class="fas fa-genderless"></i></i>';
                             }
                         ?>
                     </td>
@@ -309,23 +339,39 @@ $page_selected = 'admin';
         <table>
             <thead>
                 <tr>
-                    <th>Supprimer</th>
+                    
                     <th>Lieux</th>
                     <th>Nbr d'emplacement par lieu</th>
-                    <th>Tarif journalier</th>         
+                    <th>Tarif journalier</th>
+                    <th>Mise à jour</th>
+                    <th>Suppression</th>
+                   
+                    
             </thead>
             <tbody>
                 <?php foreach($data_place_price_result as $place){ ?>
                 <tr>
+                    
+                    <td><?php echo $place['nom_lieu'] ?></td>
+                    <td><?php echo $place['emplacements_disponibles'] ?></td>
+                    <td><?php echo $place['prix_journalier'].'€' ?></td>
+                    <td>
+                        <form action="" method="post">
+                            <label for="update_place_name">Modification nom lieu</label><br/>
+                            <input type="text" name="update_place_name"><br/>
+                            <label for="update_nb_place">Modification du nbr d'emplacement</label><br/>
+                            <input type="number" name="update_nb_place"><br/>
+                            <label for="update_price_place">Modification du tarif</label><br/>
+                            <input type="number" step="0.01" name="update_price_place"><br/>
+                            <input type="submit" name="update_place" value="MODIFIER"><br/>
+                        </form>
+                    </td>
                     <td>
                         <form method="post" action="">
                             <button type="submit" name="delete_place"><i class="fas fa-times"></i></button>
                             <input type="hidden" name="place_id_hidden" value="<?php echo $place['id_lieu']  ?>">
                         </form>
                     </td>
-                    <td><?php echo $place['nom_lieu'] ?></td>
-                    <td><?php echo $place['emplacements_disponibles'] ?></td>
-                    <td><?php echo $place['prix_journalier'].'€' ?></td> 
                 </tr>
                 <?php } ?>
             </tbody>
@@ -341,7 +387,6 @@ $page_selected = 'admin';
             <input type="submit" name="add_place" value="VALIDER">
         </form>
         
-        <h1>ICI>>>>>>>></h1>
         <h2>Types et nombre d'emplacement(s)</h2>
         <table>
             <thead>
@@ -395,7 +440,7 @@ $page_selected = 'admin';
                         </form>
                     </td>
                     <td><?php echo $option['nom_option'] ?></td>
-                    <td><?php echo $option['prix_option'] ?></td>
+                    <td><?php echo $option['prix_option'].'€' ?></td>
                     
                 </tr>
                 <?php } ?>
@@ -406,7 +451,7 @@ $page_selected = 'admin';
             <label for="option">Options</label>
             <input type="text" name="option"><br/>
             <label for="place">Tarifs</label>
-            <input type="number" name="price_option"><br/>
+            <input type="number" step="0.01" name="price_option"><br/>
             <input type="submit" name="add_option" value="VALIDER">
         </form>
 
