@@ -28,8 +28,7 @@ $page_selected = 'admin';
             $connexion=new PDO("mysql:host=localhost;dbname=camping",'root','');
             // DEFINITION MODE D'ERREUR PDO SUR EXCEPTION
             $connexion->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-                
-            
+                           
             
                 //SELECTION DE TOUTES LES DONNEES UTILISATEURS
                 $data_users = $connexion->prepare("SELECT * FROM utilisateurs");
@@ -257,65 +256,65 @@ $page_selected = 'admin';
             
             
             
-            
-                //SI ON APPUIS SUR MODIFIER LIEUX
-                if(isset($_POST['update_place']))
-                {
-                    //DEFINITION DES VARIABLES STOCKANT LES LIEUX, NBR EMPLACEMENT PAR LIEU ET TARIFS
-                    $update_place = htmlentities(trim($_POST['update_place_name']));
-                    $update_nb_place = htmlentities(trim($_POST['update_nb_place']));
-                    $update_price_place = htmlentities(trim($_POST['update_price_place']));
-                    
-                   
-                    //DEFINITION VARIABLE ID_HIDDEN ET NAME_HIDDEN
-                    $place_name = htmlentities(trim($_POST['place_name_hidden']));
-                    $place_id2 = htmlentities(trim($_POST['place_id_hidden2']));
-                    
-                    //SI LE NOM DU LIEU EST RENSEIGNE 
-                    if(!empty($update_place))
-                    {
-                        
-                        //MISE A JOUR NOM LIEU
-                        $update_place_name = "UPDATE lieux SET nom_lieu=:nom_lieu WHERE id_lieu = $place_id2";
-                        $update_place_name_bis = "UPDATE detail_lieux SET nom_lieu=:nom_lieu WHERE nom_lieu='$place_name' ";
-                        //PREPARATION REQUETE
-                        $update_place_name1 = $connexion->prepare($update_place_name);
-                        $update_place_name1_bis = $connexion->prepare($update_place_name_bis);
-                        $update_place_name1->bindParam(':nom_lieu',$update_place, PDO::PARAM_STR);
-                        $update_place_name1_bis->bindParam(':nom_lieu',$update_place, PDO::PARAM_STR);
-                        //EXECUTION REQUETE
-                        $update_place_name1->execute(); 
-                        $update_place_name1_bis->execute(); 
-                        
-                        header("location:admin.php");
-                    }
-                    
-                    if(!empty($update_nb_place))
-                    {
-                        //MISE A JOUR NB EMPLACEMENT 
-                        $update_place_nb = "UPDATE lieux SET emplacements_disponibles=:nb_place WHERE id_lieu = $place_id2";
-                        //PREPARATION REQUETE
-                        $update_place_nb1 = $connexion->prepare($update_place_nb);
-                        $update_place_nb1->bindParam(':nb_place',$update_nb_place, PDO::PARAM_INT);
-                        //EXECUTION REQUETE
-                       $update_place_nb1->execute(); 
-                        
-                        header("location:admin.php");
-                    }
-                    
-                    if(!empty($update_price_place))
-                    {
-                        //MISE A JOUR NB EMPLACEMENT 
-                        $update_place_price = "UPDATE lieux SET prix_journalier=:price_place WHERE id_lieu = $place_id2";
-                        //PREPARATION REQUETE
-                        $update_place_price1 = $connexion->prepare($update_place_price);
-                        $update_place_price1->bindParam(':price_place',$update_price_place, PDO::PARAM_INT);
-                        //EXECUTION REQUETE
-                        $update_place_price1->execute(); 
-                        
-                        header("location:admin.php");
-                    }
-                }
+//            
+//                //SI ON APPUIS SUR MODIFIER LIEUX
+//                if(isset($_POST['update_place']))
+//                {
+//                    //DEFINITION DES VARIABLES STOCKANT LES LIEUX, NBR EMPLACEMENT PAR LIEU ET TARIFS
+//                    $update_place = htmlentities(trim($_POST['update_place_name']));
+//                    $update_nb_place = htmlentities(trim($_POST['update_nb_place']));
+//                    $update_price_place = htmlentities(trim($_POST['update_price_place']));
+//                    
+//                   
+//                    //DEFINITION VARIABLE ID_HIDDEN ET NAME_HIDDEN
+//                    $place_name = htmlentities(trim($_POST['place_name_hidden']));
+//                    $place_id2 = htmlentities(trim($_POST['place_id_hidden2']));
+//                    
+//                    //SI LE NOM DU LIEU EST RENSEIGNE 
+//                    if(!empty($update_place))
+//                    {
+//                        
+//                        //MISE A JOUR NOM LIEU
+//                        $update_place_name = "UPDATE lieux SET nom_lieu=:nom_lieu WHERE id_lieu = $place_id2";
+//                        $update_place_name_bis = "UPDATE detail_lieux SET nom_lieu=:nom_lieu WHERE nom_lieu='$place_name' ";
+//                        //PREPARATION REQUETE
+//                        $update_place_name1 = $connexion->prepare($update_place_name);
+//                        $update_place_name1_bis = $connexion->prepare($update_place_name_bis);
+//                        $update_place_name1->bindParam(':nom_lieu',$update_place, PDO::PARAM_STR);
+//                        $update_place_name1_bis->bindParam(':nom_lieu',$update_place, PDO::PARAM_STR);
+//                        //EXECUTION REQUETE
+//                        $update_place_name1->execute(); 
+//                        $update_place_name1_bis->execute(); 
+//                        
+//                        header("location:admin.php");
+//                    }
+//                    
+//                    if(!empty($update_nb_place))
+//                    {
+//                        //MISE A JOUR NB EMPLACEMENT 
+//                        $update_place_nb = "UPDATE lieux SET emplacements_disponibles=:nb_place WHERE id_lieu = $place_id2";
+//                        //PREPARATION REQUETE
+//                        $update_place_nb1 = $connexion->prepare($update_place_nb);
+//                        $update_place_nb1->bindParam(':nb_place',$update_nb_place, PDO::PARAM_INT);
+//                        //EXECUTION REQUETE
+//                       $update_place_nb1->execute(); 
+//                        
+//                        header("location:admin.php");
+//                    }
+//                    
+//                    if(!empty($update_price_place))
+//                    {
+//                        //MISE A JOUR NB EMPLACEMENT 
+//                        $update_place_price = "UPDATE lieux SET prix_journalier=:price_place WHERE id_lieu = $place_id2";
+//                        //PREPARATION REQUETE
+//                        $update_place_price1 = $connexion->prepare($update_place_price);
+//                        $update_place_price1->bindParam(':price_place',$update_price_place, PDO::PARAM_INT);
+//                        //EXECUTION REQUETE
+//                        $update_place_price1->execute(); 
+//                        
+//                        header("location:admin.php");
+//                    }
+//                }
  
             
                 //SI ON APPUIS SUR MODIFIER TYPE D'EMPLACEMENT
@@ -412,8 +411,10 @@ $page_selected = 'admin';
                         header("location:admin.php");
                     }
                 }
+            
+                
 
-
+            
 
                 
         }
@@ -548,7 +549,7 @@ $page_selected = 'admin';
             <tbody>
                 <?php foreach($data_place_price_result as $place){ ?>
                 <tr>
-                    <td>
+                   <!--<td>
                         <form action="" method="post">
                             <label for="update_place_name">Modification nom lieu</label>
                             <input type="text" name="update_place_name">
@@ -556,24 +557,119 @@ $page_selected = 'admin';
                             <input type="number" name="update_nb_place">
                             <label for="update_price_place">Modification du tarif</label>
                             <input type="number" step="0.01" name="update_price_place">
-                            <input type="hidden" name="place_id_hidden2" value="<?php echo $place['id_lieu']?>">
-                            <input type="hidden" name="place_name_hidden" value="<?php echo $place['nom_lieu']  ?>">
+                            <input type="hidden" name="place_id_hidden2" value="<?php /*echo $place['id_lieu']*/?>">
+                            <input type="hidden" name="place_name_hidden" value="<?/*php echo $place['nom_lieu']*/  ?>">
                             <input type="submit" name="update_place" value="MODIFIER">
                         </form>
-                    </td>
+                    </td>-->
                     <td><?php echo $place['nom_lieu'] ?></td>
                     <td><?php echo $place['emplacements_disponibles'] ?></td>
                     <td><?php echo $place['prix_journalier'].'€' ?></td>
                     <td>
                         <form method="post" action="">
+
+                            <!--<input type="submit" name="modifier" value="MODIFIER">-->
+                            <a href="admin.php?modifier_lieu=<?php echo $place['nom_lieu']  ?>">EDITER</a>
                             <button type="submit" name="delete_place"><i class="fas fa-times"></i></button>
                             <input type="hidden" name="place_id_hidden" value="<?php echo $place['id_lieu']  ?>">
+                            <!--<input type="hidden" name="place_id_hidden2" value="<?php /*echo $place['id_lieu']*/?>">
+                            <input type="hidden" name="place_name_hidden" value="<?php /*echo $place['nom_lieu'] */ ?>">-->
                         </form>
                     </td>
+                    
                 </tr>
                 <?php } ?>
             </tbody>
         </table>
+        
+        <?php 
+        
+        if(isset($_GET['modifier_lieu']))
+        {
+            //DEFINITION VARIABLE NAME_HIDDEN
+            $place_name = htmlentities(trim($_GET['modifier_lieu']));
+            
+            //SI ON APPUIS SUR MODIFIER LIEUX
+                if(isset($_POST['update_place']))
+                {
+                    //DEFINITION DES VARIABLES STOCKANT LES LIEUX, NBR EMPLACEMENT PAR LIEU ET TARIFS
+                    $update_place = htmlentities(trim($_POST['update_place_name']));
+                    $update_nb_place = htmlentities(trim($_POST['update_nb_place']));
+                    $update_price_place = htmlentities(trim($_POST['update_price_place']));
+
+                    
+                    //var_dump($_POST);
+                    //var_dump($_GET);
+                    
+                    //SI LE NOM DU LIEU EST RENSEIGNE 
+                    if(!empty($update_place))
+                    {
+                        
+                        //MISE A JOUR NOM LIEU
+                        $update_place_name = "UPDATE lieux SET nom_lieu=:nom_lieu WHERE nom_lieu = '$place_name'";
+                        $update_place_name_bis = "UPDATE detail_lieux SET nom_lieu=:nom_lieu WHERE nom_lieu='$place_name' ";
+                        //PREPARATION REQUETE
+                        $update_place_name1 = $connexion->prepare($update_place_name);
+                        $update_place_name1_bis = $connexion->prepare($update_place_name_bis);
+                        $update_place_name1->bindParam(':nom_lieu',$update_place, PDO::PARAM_STR);
+                        $update_place_name1_bis->bindParam(':nom_lieu',$update_place, PDO::PARAM_STR);
+                        //EXECUTION REQUETE
+                        $update_place_name1->execute(); 
+                        $update_place_name1_bis->execute(); 
+                        
+                        header("location:admin.php");
+                    }
+                    
+                    if(!empty($update_nb_place))
+                    {
+                        //MISE A JOUR NB EMPLACEMENT 
+                        $update_place_nb = "UPDATE lieux SET emplacements_disponibles=:nb_place WHERE nom_lieu = '$place_name'";
+                        //PREPARATION REQUETE
+                        $update_place_nb1 = $connexion->prepare($update_place_nb);
+                        $update_place_nb1->bindParam(':nb_place',$update_nb_place, PDO::PARAM_INT);
+                        //EXECUTION REQUETE
+                       $update_place_nb1->execute(); 
+                        
+                        header("location:admin.php");
+                    }
+                    
+                    if(!empty($update_price_place))
+                    {
+                        //MISE A JOUR NB EMPLACEMENT 
+                        $update_place_price = "UPDATE lieux SET prix_journalier=:price_place WHERE nom_lieu = '$place_name'";
+                        //PREPARATION REQUETE
+                        $update_place_price1 = $connexion->prepare($update_place_price);
+                        $update_place_price1->bindParam(':price_place',$update_price_place, PDO::PARAM_INT);
+                        //EXECUTION REQUETE
+                        $update_place_price1->execute(); 
+                        
+                        header("location:admin.php");
+                    }
+                }
+            
+            
+            ?>
+            
+            <form action='' method='post'>
+                            <h3>Modifier un lieu</h3>
+                            <label for='update_place_name'>Modification nom lieu</label><br/>
+                            <input type='text' name='update_place_name'><br/>
+                            <label for='update_nb_place'>Modification du nbr d'emplacement</label><br/>
+                            <input type='number' name='update_nb_place'><br/>
+                            <label for='update_price_place'>Modification du tarif</label><br/>
+                            <input type='number' step='0.01' name='update_price_place'><br/>
+                            <input type='submit' name='update_place' value='EDITER'>
+            </form>
+        
+            <?php
+        }
+        
+
+        
+        
+        
+        ?>
+        
         <h3>Ajouter un nouveau lieu</h3>
         <form method="post" action=""> 
             <label for="place">Lieux</label><br/>
