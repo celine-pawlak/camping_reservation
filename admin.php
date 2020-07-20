@@ -1,4 +1,5 @@
 <?php
+ob_start();
 $page_selected = 'admin';
 ?>
 
@@ -62,7 +63,22 @@ $page_selected = 'admin';
                 $data_option_price_result = $data_option_price->fetchAll(PDO::FETCH_ASSOC);
             
                 
+                //AJOUT NOUVEL UTILISATEUR
             
+                
+                if (isset($_POST['submit'])) {
+                    $user2 = new users;
+                    $user2->register(
+                        $_POST['firstname'],
+                        $_POST['lastname'],
+                        $_POST['email'],
+                        $_POST['password'],
+                        $_POST['conf_password'],
+                        $_POST['num_tel'],
+                        $_POST['gender']
+                    );
+                }
+                    
             
                 //SI ON APPUIS SUR DELETE UTILISATEUR
                 if(isset($_POST['delete_user']))
@@ -429,355 +445,354 @@ $page_selected = 'admin';
         ?>
 
 
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        <h1>Tableau utilisateurs</h1>
-        <table>
-            <thead>
-                <tr>
-                    <th>Avatar</th>
-                    <th>Id</th>
-                    <th>Nom</th>
-                    <th>Prénom</th>
-                    <th>Sexe</th>
-                    <th>Email</th>
-                    <th>Numéro de téléphone</th>
-                    <th>Date d'enregistrement</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach($resultat_data_users as $info_users ){ ?>
-                <tr>
-                    <td>
-                        <img src="<?php if($info_users['avatar'] == NULL)
-                                        {   
-                                            echo 'css/images/no-image.png';
-                                            
-                                        }
-                                        else
-                                        {
-                                            echo $info_users['avatar'] ; 
-                                        }?>" alt="avatar" width='30'>
-                    </td>
-                    <td><?php echo $info_users ['id_utilisateur']?></td>
-                    <td><?php echo $info_users ['nom'] ?></td>
-                    <td><?php echo $info_users ['prenom'] ?></td>
-                    
-                    <td>
-                        <?php 
-                            if($info_users ['gender'] == "female"){
-                                echo '<i class="fas fa-venus"></i>';
-                            }
-                            elseif($info_users ['gender'] == "male")
-                            {
-                                echo'<i class="fas fa-mars"></i>';
-                            }
-                            else
-                            {
-                                echo'<i class="fas fa-genderless"></i></i>';
-                            }
-                        ?>
-                    </td>
-                    <td><?php echo $info_users ['email'] ?></td>
-                    <td><?php echo $info_users ['num_tel'] ?></td>
-                    <td><?php echo $info_users ['register_date'] ?></td>
-                    
-                    <td>
-                        <a href="compte_utilisateur.php?id=<?php echo $info_users['id_utilisateur']?>">MODIFIER</a>
-                    </td>
-                    <td>
-                        <form method="post" action="">
-                            <button type="submit" name="delete_user"><i class="fas fa-trash-alt"></i></button>
-                            <input type="hidden" name="id_hidden" value="<?php echo $info_users ['id_utilisateur']  ?>">
-                        </form>
-                    </td>
-                </tr>
-                <?php } ?>
-            </tbody>
-        </table>
 
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        <h1>Modification des tarifs emplacements et options</h1>
-        
-        <h2>Lieux, nbr d'emplacements et tarifs journaliers</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Mise à jour</th>
-                    <th>Lieux</th>
-                    <th>Emplacement(s) </th>
-                    <th>Tarif journalier</th>   
-                </tr>   
-            </thead>
-            <tbody>
-                <?php foreach($data_place_price_result as $place){ ?>
-                <tr>
-                   <!--<td>
-                        <form action="" method="post">
-                            <label for="update_place_name">Modification nom lieu</label>
-                            <input type="text" name="update_place_name">
-                            <label for="update_nb_place">Modification du nbr d'emplacement</label>
-                            <input type="number" name="update_nb_place">
-                            <label for="update_price_place">Modification du tarif</label>
-                            <input type="number" step="0.01" name="update_price_place">
-                            <input type="hidden" name="place_id_hidden2" value="<?php /*echo $place['id_lieu']*/?>">
-                            <input type="hidden" name="place_name_hidden" value="<?/*php echo $place['nom_lieu']*/  ?>">
-                            <input type="submit" name="update_place" value="MODIFIER">
-                        </form>
-                    </td>-->
-                    <td><?php echo $place['nom_lieu'] ?></td>
-                    <td><?php echo $place['emplacements_disponibles'] ?></td>
-                    <td><?php echo $place['prix_journalier'].'€' ?></td>
-                    <td>
-                        <form method="post" action="">
 
-                            <!--<input type="submit" name="modifier" value="MODIFIER">-->
-                            <a href="admin.php?modifier_lieu=<?php echo $place['nom_lieu']  ?>">EDITER</a>
-                            <button type="submit" name="delete_place"><i class="fas fa-times"></i></button>
-                            <input type="hidden" name="place_id_hidden" value="<?php echo $place['id_lieu']  ?>">
-                            <!--<input type="hidden" name="place_id_hidden2" value="<?php /*echo $place['id_lieu']*/?>">
-                            <input type="hidden" name="place_name_hidden" value="<?php /*echo $place['nom_lieu'] */ ?>">-->
-                        </form>
-                    </td>
-                    
-                </tr>
-                <?php } ?>
-            </tbody>
-        </table>
-        
-        <?php 
-        
-        if(isset($_GET['modifier_lieu']))
-        {
-            //DEFINITION VARIABLE NAME_HIDDEN
-            $place_name = htmlentities(trim($_GET['modifier_lieu']));
+
+
+
+
+
+
+        <section>
+            <h1>Tableau utilisateurs</h1>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Avatar</th>
+                        <th>Id</th>
+                        <th>Nom</th>
+                        <th>Prénom</th>
+                        <th>Sexe</th>
+                        <th>Email</th>
+                        <th>Numéro de téléphone</th>
+                        <th>Date d'enregistrement</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach($resultat_data_users as $info_users ){ ?>
+                    <tr>
+                        <td>
+                            <img src="<?php if($info_users['avatar'] == NULL)
+                                            {   
+                                                echo 'css/images/no-image.png';
+
+                                            }
+                                            else
+                                            {
+                                                echo $info_users['avatar'] ; 
+                                            }?>" alt="avatar" width='30'>
+                        </td>
+                        <td><?php echo $info_users ['id_utilisateur']?></td>
+                        <td><?php echo $info_users ['nom'] ?></td>
+                        <td><?php echo $info_users ['prenom'] ?></td>
+
+                        <td>
+                            <?php 
+                                if($info_users ['gender'] == "Femme"){
+                                    echo '<i class="fas fa-venus"></i>';
+                                }
+                                elseif($info_users ['gender'] == "Homme")
+                                {
+                                    echo'<i class="fas fa-mars"></i>';
+                                }
+                                else
+                                {
+                                    echo'<i class="fas fa-genderless"></i></i>';
+                                }
+                            ?>
+                        </td>
+                        <td><?php echo $info_users ['email'] ?></td>
+                        <td><?php echo $info_users ['num_tel'] ?></td>
+                        <td><?php echo $info_users ['register_date'] ?></td>
+
+                        <td>
+                            <a href="compte_utilisateur.php?id=<?php echo $info_users['id_utilisateur']?>">MODIFIER</a>
+                        </td>
+                        <td>
+                            <form method="post" action="">
+                                <button type="submit" name="delete_user"><i class="fas fa-trash-alt"></i></button>
+                                <input type="hidden" name="id_hidden" value="<?php echo $info_users ['id_utilisateur']  ?>">
+                            </form>
+                        </td>
+                    </tr>
+                    <?php } ?>
+                </tbody>
+            </table><br/>
             
-            //SI ON APPUIS SUR MODIFIER LIEUX
-                if(isset($_POST['update_place']))
-                {
-                    //DEFINITION DES VARIABLES STOCKANT LES LIEUX, NBR EMPLACEMENT PAR LIEU ET TARIFS
-                    $update_place = htmlentities(trim($_POST['update_place_name']));
-                    $update_nb_place = htmlentities(trim($_POST['update_nb_place']));
-                    $update_price_place = htmlentities(trim($_POST['update_price_place']));
+            <h3>Ajouter un nouvel utilisateur</h3>
+                <form method="post" action="">
+                    <label for="firstname">Prénom</label><br/>
+                    <input type="text" name="firstname" placeholder="Prénom"><br/>
+                    <label for="lastname">Nom</label><br/>
+                    <input type="text" name="lastname" placeholder="Nom"><br/>
+                    <label for="email">Email</label><br/>
+                    <input type="text" name="email" placeholder="email@email.com"><br/>
+                    <label for="password">Mot de passe</label><br/>
+                    <input type="password" name="password" placeholder="Mot de passe"><br/>
+                    <label for="conf_password">Confirmation mot de passe</label><br/>
+                    <input type="password" name="conf_password" placeholder="Confirmer mot de passe"><br/>
+                    <label for="num_tel">Numéro de téléphone</label><br/>
+                    <input type="text" name="num_tel" placeholder="0123456789"><br/>
+                    <input type="radio" name="gender" id="male" value="Homme">
+                    <label for="male">Homme</label>
+                    <input type="radio" name="gender" id="female" value="Femme">
+                    <label for="female">Femme</label>
+                    <input type="radio" name="gender" id="no_gender" value="Non genré">
+                    <label for="no_gender">Non genré</label><br/>
+                    <button type="submit" name="submit">Enregistrer</button>
+                </form>
+        </section>
 
-                    
-                    //var_dump($_POST);
-                    //var_dump($_GET);
-                    
-                    //SI LE NOM DU LIEU EST RENSEIGNE 
-                    if(!empty($update_place))
+
+
+
+
+
+
+
+
+        <section>
+            <h1>Modification des tarifs emplacements et options</h1>
+            <section>
+                <h2>Lieux, nbr d'emplacements et tarifs journaliers</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <!--<th>Mise à jour</th>-->
+                            <th>Lieux</th>
+                            <th>Emplacement(s)</th>
+                            <th>Tarif journalier</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach($data_place_price_result as $place){ ?>
+                        <tr>
+                            <!--<td>
+                            <form action="" method="post">
+                                <label for="update_place_name">Modification nom lieu</label>
+                                <input type="text" name="update_place_name">
+                                <label for="update_nb_place">Modification du nbr d'emplacement</label>
+                                <input type="number" name="update_nb_place">
+                                <label for="update_price_place">Modification du tarif</label>
+                                <input type="number" step="0.01" name="update_price_place">
+                                <input type="hidden" name="place_id_hidden2" value="<?php /*echo $place['id_lieu']*/?>">
+                                <input type="hidden" name="place_name_hidden" value="<?/*php echo $place['nom_lieu']*/  ?>">
+                                <input type="submit" name="update_place" value="MODIFIER">
+                            </form>
+                        </td>-->
+                            <td><?php echo $place['nom_lieu'] ?></td>
+                            <td><?php echo $place['emplacements_disponibles'] ?></td>
+                            <td><?php echo $place['prix_journalier'].'€' ?></td>
+                            <td>
+                                <form method="post" action="">
+
+                                    <!--<input type="submit" name="modifier" value="MODIFIER">-->
+                                    <a href="admin.php?modifier_lieu=<?php echo $place['nom_lieu']  ?>">EDITER</a>
+                                    <button type="submit" name="delete_place"><i class="fas fa-times"></i></button>
+                                    <input type="hidden" name="place_id_hidden" value="<?php echo $place['id_lieu']  ?>">
+                                    <!--<input type="hidden" name="place_id_hidden2" value="<?php /*echo $place['id_lieu']*/?>">
+                                <input type="hidden" name="place_name_hidden" value="<?php /*echo $place['nom_lieu'] */ ?>">-->
+                                </form>
+                            </td>
+
+                        </tr>
+                        <?php } ?>
+                    </tbody>
+                </table>
+
+                <?php 
+
+            if(isset($_GET['modifier_lieu']))
+            {
+                //DEFINITION VARIABLE NAME_HIDDEN
+                $place_name = htmlentities(trim($_GET['modifier_lieu']));
+
+                //SI ON APPUIS SUR MODIFIER LIEUX
+                    if(isset($_POST['update_place']))
                     {
-                        
-                        //MISE A JOUR NOM LIEU
-                        $update_place_name = "UPDATE lieux SET nom_lieu=:nom_lieu WHERE nom_lieu = '$place_name'";
-                        $update_place_name_bis = "UPDATE detail_lieux SET nom_lieu=:nom_lieu WHERE nom_lieu='$place_name' ";
-                        //PREPARATION REQUETE
-                        $update_place_name1 = $connexion->prepare($update_place_name);
-                        $update_place_name1_bis = $connexion->prepare($update_place_name_bis);
-                        $update_place_name1->bindParam(':nom_lieu',$update_place, PDO::PARAM_STR);
-                        $update_place_name1_bis->bindParam(':nom_lieu',$update_place, PDO::PARAM_STR);
-                        //EXECUTION REQUETE
-                        $update_place_name1->execute(); 
-                        $update_place_name1_bis->execute(); 
-                        
+                        //DEFINITION DES VARIABLES STOCKANT LES LIEUX, NBR EMPLACEMENT PAR LIEU ET TARIFS
+                        $update_place = htmlentities(trim($_POST['update_place_name']));
+                        $update_nb_place = htmlentities(trim($_POST['update_nb_place']));
+                        $update_price_place = htmlentities(trim($_POST['update_price_place']));
+
+                        //var_dump($_POST);
+                        //var_dump($_GET);
+
+                        //SI LE NOM DU LIEU EST RENSEIGNE 
+                        if(!empty($update_place))
+                        {
+
+                            //MISE A JOUR NOM LIEU
+                            $update_place_name = "UPDATE lieux SET nom_lieu=:nom_lieu WHERE nom_lieu = '$place_name'";
+                            $update_place_name_bis = "UPDATE detail_lieux SET nom_lieu=:nom_lieu WHERE nom_lieu='$place_name' ";
+                            //PREPARATION REQUETE
+                            $update_place_name1 = $connexion->prepare($update_place_name);
+                            $update_place_name1_bis = $connexion->prepare($update_place_name_bis);
+                            $update_place_name1->bindParam(':nom_lieu',$update_place, PDO::PARAM_STR);
+                            $update_place_name1_bis->bindParam(':nom_lieu',$update_place, PDO::PARAM_STR);
+                            //EXECUTION REQUETE
+                            $update_place_name1->execute(); 
+                            $update_place_name1_bis->execute(); 
+                        }
+
+                        elseif(!empty($update_nb_place))
+                        {
+                            //MISE A JOUR NB EMPLACEMENT 
+                            $update_place_nb = "UPDATE lieux SET emplacements_disponibles=:nb_place WHERE nom_lieu = '$place_name'";
+                            //PREPARATION REQUETE
+                            $update_place_nb1 = $connexion->prepare($update_place_nb);
+                            $update_place_nb1->bindParam(':nb_place',$update_nb_place, PDO::PARAM_INT);
+                            //EXECUTION REQUETE
+                           $update_place_nb1->execute(); 
+
+
+                        }
+
+                        elseif(!empty($update_price_place))
+                        {
+                            //MISE A JOUR NB EMPLACEMENT 
+                            $update_place_price = "UPDATE lieux SET prix_journalier=:price_place WHERE nom_lieu = '$place_name'";
+                            //PREPARATION REQUETE
+                            $update_place_price1 = $connexion->prepare($update_place_price);
+                            $update_place_price1->bindParam(':price_place',$update_price_place, PDO::PARAM_INT);
+                            //EXECUTION REQUETE
+                            $update_place_price1->execute(); 
+
+
+                        }
+                        else
+                        {
+                            echo 'Veuillez remplir au moins l\'un des champs';
+                        }
+
                         header("location:admin.php");
                     }
-                    
-                    if(!empty($update_nb_place))
-                    {
-                        //MISE A JOUR NB EMPLACEMENT 
-                        $update_place_nb = "UPDATE lieux SET emplacements_disponibles=:nb_place WHERE nom_lieu = '$place_name'";
-                        //PREPARATION REQUETE
-                        $update_place_nb1 = $connexion->prepare($update_place_nb);
-                        $update_place_nb1->bindParam(':nb_place',$update_nb_place, PDO::PARAM_INT);
-                        //EXECUTION REQUETE
-                       $update_place_nb1->execute(); 
-                        
-                        header("location:admin.php");
-                    }
-                    
-                    if(!empty($update_price_place))
-                    {
-                        //MISE A JOUR NB EMPLACEMENT 
-                        $update_place_price = "UPDATE lieux SET prix_journalier=:price_place WHERE nom_lieu = '$place_name'";
-                        //PREPARATION REQUETE
-                        $update_place_price1 = $connexion->prepare($update_place_price);
-                        $update_place_price1->bindParam(':price_place',$update_price_place, PDO::PARAM_INT);
-                        //EXECUTION REQUETE
-                        $update_place_price1->execute(); 
-                        
-                        header("location:admin.php");
-                    }
-                }
-            
-            
+
+
+                ?>
+                <form action='' method='post'>
+                    <h3>Modifier un lieu</h3>
+                    <label for='update_place_name'>Modification nom lieu</label><br />
+                    <input type='text' name='update_place_name'><br />
+                    <label for='update_nb_place'>Modification du nbr d'emplacement</label><br />
+                    <input type='number' name='update_nb_place'><br />
+                    <label for='update_price_place'>Modification du tarif</label><br />
+                    <input type='number' step='0.01' name='update_price_place'><br />
+                    <input type='submit' name='update_place' value='EDITER'>
+                </form>
+
+                <?php
+            }
             ?>
-            
-            <form action='' method='post'>
-                            <h3>Modifier un lieu</h3>
-                            <label for='update_place_name'>Modification nom lieu</label><br/>
-                            <input type='text' name='update_place_name'><br/>
-                            <label for='update_nb_place'>Modification du nbr d'emplacement</label><br/>
-                            <input type='number' name='update_nb_place'><br/>
-                            <label for='update_price_place'>Modification du tarif</label><br/>
-                            <input type='number' step='0.01' name='update_price_place'><br/>
-                            <input type='submit' name='update_place' value='EDITER'>
-            </form>
-        
-            <?php
-        }
-        
 
-        
-        
-        
-        ?>
-        
-        <h3>Ajouter un nouveau lieu</h3>
-        <form method="post" action=""> 
-            <label for="place">Lieux</label><br/>
-            <input type="text" name="place"><br/>
-            <label for="place">Nbr d'emplacement(s) par lieu</label><br/>
-            <input type="number" name="number_place"><br/>
-            <label for="place">Tarif journalier</label><br/>
-            <input type="number" step="0.01" name="price_place"><br/>
-            <input type="submit" name="add_place" value="VALIDER">
-        </form>
-        
-        
-        
-        
-        
-        
-        <h2>Type et taille emplacement(s)</h2>
-        <table>
-            <thead>
-                <tr> 
-                    <th>Mise à jour</th>
-                    <th>Type d'emplacement</th>
-                    <th>Taille emplacement</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach($data_place_type_result as $type){ ?>
-                <tr>
-                    <td>
-                        <form method="post" action="">
-                            <label for="update_type_name">Modification type d'emplacement</label>
-                            <input type="text" name="update_type_name">
-                            <label for="update_size">Modification taille emplacement</label>
-                            <input type="number" name="update_size">
-                            <input type="hidden" name="type_id_hidden2" value="<?php echo $type['id_type_emplacement']  ?>">
-                            <input type="submit" name="update_type" value="MODIFIER">
-                        </form>
-                    </td>
-                    <td><?php echo $type['nom_type_emplacement'] ?></td>
-                    <td><?php echo $type['nb_emplacement'] ?></td>
-                    <td>
-                        <form method="post" action="">
-                            <button type="submit" name="delete_type"><i class="fas fa-times"></i></button>
-                            <input type="hidden" name="type_id_hidden" value="<?php echo $type['id_type_emplacement']  ?>">
-                        </form>
-                    </td>
-                </tr>
-                <?php } ?>
-            </tbody>
-        </table>
-        <h3>Ajouter un nouveau type d'emplacement</h3>
-        <form method="post" action=""> 
-            <label for="type">Type d'emplacement</label><br/>
-            <input type="text" name="type"><br/>
-            <label for="number_place_type">Taille emplacement</label><br/>
-            <input type="number" name="number_place_type"><br/>
-            <input type="submit" name="add_type" value="VALIDER">
-        </form>
-        
-        
-        
-        
-        
-        
-        <h2>Options</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Mise à jour</th>
-                    <th>Options</th>
-                    <th>Tarifs</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach($data_option_price_result as $option){ ?>
-                <tr>
-                    <td>
-                        <form method="post" action="">
-                            <label for="update_option_name">Modification option</label>
-                            <input type="text" name="update_option_name">
-                            <label for="update_price_option">Modification tarifs</label>
-                            <input type="number" step="0.01" name="update_price_option">
-                            <input type="hidden" name="option_id_hidden2" value="<?php echo $option['id_option']  ?>">
-                            <input type="submit" name="update_option" value="MODIFIER">
-                        </form>
-                    </td>
-                    <td><?php echo $option['nom_option'] ?></td>
-                    <td><?php echo $option['prix_option'].'€' ?></td>
-                    <td>
-                        <form method="post" action="">
-                            <button type="submit" name="delete_option"><i class="fas fa-times"></i></button>
-                            <input type="hidden" name="option_id_hidden" value="<?php echo $option['id_option']  ?>">
-                        </form>
-                    </td>
-                </tr>
-                <?php } ?>
-            </tbody>
-        </table>
-        <h3>Ajouter une nouvelle option</h3>
-        <form method="post" action=""> 
-            <label for="option">Options</label><br/>
-            <input type="text" name="option"><br/>
-            <label for="place">Tarifs</label><br/>
-            <input type="number" step="0.01" name="price_option"><br/>
-            <input type="submit" name="add_option" value="VALIDER">
-        </form>
-   
-        
+                <h3>Ajouter un nouveau lieu</h3>
+                <form method="post" action="">
+                    <label for="place">Lieux</label><br />
+                    <input type="text" name="place"><br />
+                    <label for="place">Nbr d'emplacement(s) par lieu</label><br />
+                    <input type="number" name="number_place"><br />
+                    <label for="place">Tarif journalier</label><br />
+                    <input type="number" step="0.01" name="price_place"><br />
+                    <input type="submit" name="add_place" value="VALIDER">
+                </form>
+
+            </section>
+            <section>
+                <h2>Type et taille emplacement(s)</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Mise à jour</th>
+                            <th>Type d'emplacement</th>
+                            <th>Taille emplacement</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach($data_place_type_result as $type){ ?>
+                        <tr>
+                            <td>
+                                <form method="post" action="">
+                                    <label for="update_type_name">Modification type d'emplacement</label>
+                                    <input type="text" name="update_type_name">
+                                    <label for="update_size">Modification taille emplacement</label>
+                                    <input type="number" name="update_size">
+                                    <input type="hidden" name="type_id_hidden2" value="<?php echo $type['id_type_emplacement']  ?>">
+                                    <input type="submit" name="update_type" value="MODIFIER">
+                                </form>
+                            </td>
+                            <td><?php echo $type['nom_type_emplacement'] ?></td>
+                            <td><?php echo $type['nb_emplacement'] ?></td>
+                            <td>
+                                <form method="post" action="">
+                                    <button type="submit" name="delete_type"><i class="fas fa-times"></i></button>
+                                    <input type="hidden" name="type_id_hidden" value="<?php echo $type['id_type_emplacement']  ?>">
+                                </form>
+                            </td>
+                        </tr>
+                        <?php } ?>
+                    </tbody>
+                </table>
+                <h3>Ajouter un nouveau type d'emplacement</h3>
+                <form method="post" action="">
+                    <label for="type">Type d'emplacement</label><br />
+                    <input type="text" name="type"><br />
+                    <label for="number_place_type">Taille emplacement</label><br />
+                    <input type="number" name="number_place_type"><br />
+                    <input type="submit" name="add_type" value="VALIDER">
+                </form>
+            </section>
+            <section>
+                <h2>Options</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Mise à jour</th>
+                            <th>Options</th>
+                            <th>Tarifs</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach($data_option_price_result as $option){ ?>
+                        <tr>
+                            <td>
+                                <form method="post" action="">
+                                    <label for="update_option_name">Modification option</label>
+                                    <input type="text" name="update_option_name">
+                                    <label for="update_price_option">Modification tarifs</label>
+                                    <input type="number" step="0.01" name="update_price_option">
+                                    <input type="hidden" name="option_id_hidden2" value="<?php echo $option['id_option']  ?>">
+                                    <input type="submit" name="update_option" value="MODIFIER">
+                                </form>
+                            </td>
+                            <td><?php echo $option['nom_option'] ?></td>
+                            <td><?php echo $option['prix_option'].'€' ?></td>
+                            <td>
+                                <form method="post" action="">
+                                    <button type="submit" name="delete_option"><i class="fas fa-times"></i></button>
+                                    <input type="hidden" name="option_id_hidden" value="<?php echo $option['id_option']  ?>">
+                                </form>
+                            </td>
+                        </tr>
+                        <?php } ?>
+                    </tbody>
+                </table>
+                <h3>Ajouter une nouvelle option</h3>
+                <form method="post" action="">
+                    <label for="option">Options</label><br />
+                    <input type="text" name="option"><br />
+                    <label for="place">Tarifs</label><br />
+                    <input type="number" step="0.01" name="price_option"><br />
+                    <input type="submit" name="add_option" value="VALIDER">
+                </form>
+            </section>
+        </section>
+
+
+
+
+
+
+
     </main>
     <footer>
         <?php include("includes/footer.php")?>
@@ -785,6 +800,11 @@ $page_selected = 'admin';
 </body>
 
 </html>
+
+<?php 
+ob_end_flush();
+
+?>
 
 <!-- 
 

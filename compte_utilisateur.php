@@ -25,13 +25,10 @@ $page_selected = 'compte_utilisateur';//dire a celine d'ajouter cette page
                 try
                 {
                     //CONNEXION BDD 
-                    $connexion = new PDO("mysql:host=localhost;dbname=camping_marine",'root','');
+                    $connexion = new PDO("mysql:host=localhost;dbname=camping",'root','');
                     //DEFINITION MODE ERREUR PDO SUR EXCEPTION
                     $connexion->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
                     
-                    //SI LA SESSION EST BIEN UNE SESSION D'ADMIN
-                    if(isset($_SESSION['login']) AND $_SESSION['login'] == "admin")
-                    {
                         //STOCKAGE ID UTILISATEUR ENVOYE DEPUIS LA PAGE ADMIN 
                         $id_user=$_GET['id'];
                         //SELECTION DES DONNEES DE L'UTILISATEUR
@@ -193,11 +190,7 @@ $page_selected = 'compte_utilisateur';//dire a celine d'ajouter cette page
                             }
                             
                         }
-                    }
-                    else
-                    {
-                        header('location:connexion.php');
-                    }
+                    
                     
                     
                 }
