@@ -22,7 +22,6 @@ $page_selected = 'inscription';
 <main>
     <?php
     if (isset($_POST['submit'])) {
-        $user = new users;
         $user->register(
             $_POST['firstname'],
             $_POST['lastname'],

@@ -1,6 +1,9 @@
 <?php
 
 require 'messages.php';
+require 'Database.php';
+
+
 
 class users
 {
@@ -15,18 +18,15 @@ class users
     public $gender;
     public $db;
 
-    public function __construct($host = "localhost", $username = "root", $password = "", $dbname = "camping")
+    public function __construct($db)
     {
-        try {
-            $this->db = new PDO('mysql:dbname=' . $dbname . ';host=' . $host . '', $username, $password);
-        } catch (PDOException $e) {
-            echo 'Connexion échouée : ' . $e->getMessage();
-        }
+        $this->db = $db;
     }
 
     public function connect($email, $password)
     {
-        $q = $this->db->prepare("SELECT * FROM utilisateurs WHERE email = '$email'");
+        $connexion = $this->db->connectDb();
+        $q = $connexion->prepare("SELECT * FROM utilisateurs WHERE email = '$email'");
         $q->execute();
         $user = $q->fetch(PDO::FETCH_ASSOC);
         if (!empty($user)) {
@@ -68,13 +68,14 @@ class users
             }
         } else {
             $errors[] = "Le mail ou le mot de passe est erroné.";
-            $test = new messages($errors);
-            echo $test->renderMessage();
+            $message = new messages($errors);
+            echo $message->renderMessage();
         }
     }
 
     public function register($firstname, $lastname, $email, $password, $password_check, $num_tel, $gender)
     {
+        $connexion = $this->db->connectDb();
         //firstname
         $firstname_required = preg_match("/^(?=.*[A-Za-z]$)[A-Za-z][A-Za-z\-]{2,19}$/", $firstname);
         if (!$firstname_required) {
@@ -90,7 +91,7 @@ class users
         if (!$email_required) {
             $errors[] = "L'email n'est pas conforme.";
         }
-        $q = $this->db->prepare("SELECT email FROM utilisateurs WHERE email = :email");
+        $q = $connexion->prepare("SELECT email FROM utilisateurs WHERE email = :email");
         $q->bindParam(':email', $email, PDO::PARAM_STR);
         $q->execute();
         $email_check = $q->fetch();
@@ -122,7 +123,7 @@ class users
         }
 
         if (empty($errors)) {
-            $q2 = $this->db->prepare(
+            $q2 = $connexion->prepare(
                 "INSERT INTO utilisateurs (nom, prenom, email, password, register_date, is_admin, num_tel, gender) VALUES (:nom,:prenom,:email,:password,:register_date,:is_admin,:num_tel,:gender)"
             );
             $q2->bindParam(':nom', $lastname, PDO::PARAM_STR);
@@ -169,8 +170,9 @@ class users
 
     public function refresh()
     {
+        $connexion = $this->db->connectDb();
         if (self::isConnected()==TRUE){
-            $q = $this->db->prepare("SELECT * FROM utilisateurs WHERE id_utilisateur = :session");
+            $q = $connexion->prepare("SELECT * FROM utilisateurs WHERE id_utilisateur = :session");
             $q->bindParam(':session', $_SESSION['user']['id_user'], PDO::PARAM_STR);
             $q->execute();
             $user = $q->fetch(PDO::FETCH_ASSOC);
@@ -190,8 +192,9 @@ class users
     function delete(
         $password
     ) {
+        $connexion = $this->db->connectDb();
         if (password_verify($password, $this->password)) {
-            $q = $this->db->prepare("DELETE FROM utilisateurs WHERE id_utilisateur = :id");
+            $q = $connexion->prepare("DELETE FROM utilisateurs WHERE id_utilisateur = :id");
             $q->bindParam(':id', $this->id_user, PDO::PARAM_STR);
             $q->execute();
             $this->disconnect();
@@ -204,6 +207,7 @@ class users
 
     public function modifyPassword($old_password, $new_password, $confirm_password)
     {
+        $connexion = $this->db->connectDb();
         if (password_verify($old_password, $this->password)) {
             if ($old_password == $new_password) {
                 $errors[] = "Vous devez entrer un nouveau mot de passe.";
@@ -212,7 +216,7 @@ class users
                 $errors[] = "Les mots de passe ne correspondent pas.";
             } elseif (empty($errors) and $new_password == $confirm_password) {
                 $password_modified = password_hash($new_password, PASSWORD_BCRYPT, array('cost' => 10));
-                $q = $this->db->prepare("UPDATE utilisateurs SET password = :password WHERE id_utilisateur = :id");
+                $q = $connexion->prepare("UPDATE utilisateurs SET password = :password WHERE id_utilisateur = :id");
                 $q->bindParam(':password', $password_modified, PDO::PARAM_STR);
                 $q->bindParam(':id', $this->id_user, PDO::PARAM_INT);
                 $q->execute();

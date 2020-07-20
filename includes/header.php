@@ -1,8 +1,10 @@
 <?php
 
 require 'class/users.php';
+require 'class/camping_properties.php';
 session_start();
-$user = new users;
+$db = new Database();
+$user = new users($db);
 $user->refresh();
 
 if (isset($_POST["deco"])) {
