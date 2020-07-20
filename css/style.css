@@ -859,6 +859,16 @@ footer nav ul li{
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 /*** ADMIN  ***/
 
+.lieu
+{
+    display: flex;
+    flex-direction: row;
+}
+
+
+
+
+
 /*** RESPONSIVE ADMIN ***/
 @media (max-width: 980px){
 }
