@@ -859,10 +859,117 @@ footer nav ul li{
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 /*** ADMIN  ***/
 
-.lieu
+.users
 {
     display: flex;
+    flex-direction: column;
+    margin-right:10%;
+    margin-left:10%;
+    margin-top:5%;
+    margin-bottom:5%;
+}
+
+.admin_table
+{
+    margin-top:5%;
+}
+
+.admin_table h2
+{
+    text-align: center;
+}
+
+.admin_table table
+{
+    border:0.1px solid lightgray;
+    border-collapse: collapse;
+    width:100%;
+}
+
+.admin_table th
+{
+    color:white;
+    background-color:#333;
+}
+.admin_table td, th
+{
+    border-top:0.1px solid lightgray;
+    border-bottom:0.1px solid lightgray;
+    padding: 1%;
+    text-align: center;
+    align-items: center;
+}
+
+.user_modify_button
+{
+    border:0.1px solid red;
+    color:red;
+    padding:5%;
+    border-radius:5px;
+}
+
+.user_modify_button:hover
+{
+    
+    background-color: pink;
+    transition:1s;
+}
+
+.admin_table button
+{
+    color:red;
+    padding:4%;
+    background-color:white;
+    font-size:15px;
+    border:none;
+    border-radius:5px;
+}
+
+.admin_table button:hover
+{
+background-color:pink;
+border-radius:20%;
+
+}
+
+.form_user
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color:#333;
+    color:white;
+    padding:2%;
+    text-align: center;
+}
+
+.gestion_admin
+{
+    display:flex;
     flex-direction: row;
+    width:100%;
+    justify-content:space-evenly;
+}
+
+.admin_gestion
+{
+    display:flex;
+    flex-direction: column;
+    width:30%;
+}
+
+
+.admin_general h1
+{
+    text-align: center;
+}
+
+.form_admin 
+{
+    color:white;
+    background-color:#333;
+    text-align :center;
+    padding:5%;
 }
 
 
