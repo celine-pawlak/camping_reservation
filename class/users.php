@@ -3,8 +3,6 @@
 require 'messages.php';
 
 
-
-
 class users
 {
     private $id_user;

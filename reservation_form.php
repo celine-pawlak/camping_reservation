@@ -1,6 +1,7 @@
 <?php
 
 $page_selected = 'reservation_form';
+var_dump($_POST);
 
 ?>
 <!doctype html>
@@ -21,15 +22,27 @@ $page_selected = 'reservation_form';
     <?php
     include("includes/header.php");
     $infos = new camping_properties($db);
-    if (isset($_POST['submit'])){
+    if (isset($_POST['submit'])) {
         require 'class/reservation_form.php';
         $reservation = new reservation($db);
-        $reservation_possible = $reservation->Check_reservation($_POST['lieu'],$_POST['arrival'],$_POST['departure'],'nb emplacements ici');
-        if ($reservation_possible){
-            if (isset($_POST['submit'])){
-                if (isset($_POST['arrival']) && isset($_POST['departure']) && isset($_POST['lieu']) && isset($_POST['camping']) && isset($_POST['tente'])){
+        $reservation_possible = $reservation->checkReservation(
+            $_POST['lieu'],
+            $_POST['arrival'],
+            $_POST['departure'],
+            4
+        );
 
+        if ($reservation_possible) {
+            $connexion = $db->connectDb();
+            foreach ($_POST as $key => $value) {
+                if ($value != 'default') {
+                    $q = $connexion->prepare("SELECT * FROM types_emplacement WHERE nom_type_emplacement = '$key'");
+                    $q->execute();
+                    var_dump($q->fetchAll());
                 }
+            }
+            /*            if (!empty($_POST['arrival']) and !empty($_POST['departure']) and !empty($_POST['lieu']) and !empty($_POST['camping']) and !empty($_POST['tente'])) {
+                        }*/
         }
     }
     ?>
@@ -46,7 +59,7 @@ $page_selected = 'reservation_form';
                 <label for="arrival">Date d'arrivée</label>
                 <input type="date" name="arrival">
                 <label for="departure">Date de départ</label>
-                <input type="date" name="departure">
+                <input type="date" name="departure" id="departure">
             </section>
             <select name="lieu" id="" name="">
                 <optgroup label="Choix du lieu">
@@ -66,14 +79,14 @@ $page_selected = 'reservation_form';
         $_SESSION['departure'] = $_POST['departure'];
         $_SESSION['nom_lieu'] = $_POST['lieu'];
         ?>
-        <form id="form-resa" method="post" action="reservation-form.php">
+        <form id="form-resa" method="post" action="reservation_form.php">
             <section>
                 <label for="arrival">Date d'arrivée</label>
-                <input type="date" name="arrival" value="<?= $_SESSION['arrival'] ?>" disabled>
+                <input id="arrival" type="date" name="arrival" value="<?= $_SESSION['arrival'] ?>" readonly>
                 <label for="departure">Date de départ</label>
-                <input type="date" name="departure" value="<?= $_SESSION['departure'] ?>" disabled>
+                <input id="departure" type="date" name="departure" value="<?= $_SESSION['departure'] ?>" readonly>
                 <label for="lieu">Lieu</label>
-                <input type="text" name="lieu" value="<?= $_SESSION['nom_lieu'] ?>" disabled>
+                <input id="lieu" type="text" name="lieu" value="<?= $_SESSION['nom_lieu'] ?>" readonly>
             </section>
             <section>
                 <h2>Choisissez votre type d'emplacement</h2>
@@ -91,15 +104,16 @@ $page_selected = 'reservation_form';
                     if ($result >= 1) {
                         ?>
                         <select name="<?= $type_emplacement['nom_type_emplacement'] ?>">
+                            <option value="default">0 <?= $type_emplacement['nom_type_emplacement'] ?></option>
                             <?php
                             for ($i = 1; $i <= $result; $i++) {
                                 $nom_emplacement = $type_emplacement['nom_type_emplacement'];
-                                if (!isset($total_emplacement)){
+                                if (!isset($total_emplacement)) {
                                     $total_emplacement = 0;
                                 }
                                 echo $total_emplacement = $total_emplacement + (int)$type_emplacement['nb_emplacements'];
                                 ?>
-                                <option value="<?=$total_emplacement?>"><?php
+                                <option value="<?= $total_emplacement ?>"><?php
                                     echo "$i $nom_emplacement" ?></option>
                                 <?php
                             } ?>
@@ -112,10 +126,12 @@ $page_selected = 'reservation_form';
                 <h2>Choisissez vos options durant votre séjour</h2>
                 <?php
                 foreach ($infos->getOptions() as $option) { ?>
-                    <input type="checkbox" id="<?= $option['id_option'] ?>" name="option[]" value="<?= $option['nom_option'] ?>">
-                    <label for="<?= $option['id_option'] ?>"><?= $option['nom_option'] ?> à <?= $option['prix_option'] ?>€/jour</label>
+                    <input type="checkbox" id="<?= $option['id_option'] ?>" name="option[]"
+                           value="<?= $option['nom_option'] ?>">
+                    <label for="<?= $option['id_option'] ?>"><?= $option['nom_option'] ?>à <?= $option['prix_option'] ?>
+                        €/jour</label>
                     <?php
-                }  ?>
+                } ?>
             </section>
             <button class="btn-txt" type="submit" name="submit">Réserver</button>
         </form>
