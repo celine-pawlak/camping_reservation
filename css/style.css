@@ -992,6 +992,38 @@ border-radius:20%;
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 /*** PROFIL  ***/
 
+
+.personnal_data
+{
+    margin-right:10%;
+    margin-left:10%;
+    margin-top:5%;
+    margin-bottom:5%;
+    text-align: center;
+}
+
+.order_personnal_data
+{
+    display:flex;
+    justify-content:space-between;
+}
+
+.info_user
+{
+    margin-top:2%;
+    padding:5%;
+}
+
+
+.avatar img
+{
+    border-radius:50%;
+}
+
+.delete
+{
+    text-align: center;
+}
 /*** RESPONSIVE PROFIL ***/
 @media (max-width: 980px){
 }

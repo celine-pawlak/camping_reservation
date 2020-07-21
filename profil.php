@@ -267,76 +267,90 @@ $page_selected = 'profil';
 
 ?>
 
-
-        <h1>Modifier vos données personnelles</h1>
-
-
-        <form action="" method="post" enctype="multipart/form-data">
-            <img src="
-                     <?php 
-                      if($user_session_data_result[0]['avatar'] == NULL){
-                          echo 'css/images/no-image.png';
-                      }else{echo $user_session_data_result[0]['avatar'];}
-                      ?>" alt="avatar" width="200"><br />
-
-
-            <input type="file" name="photo">
-            <input type="submit" name="send" value="ENVOYER">
-            <input type='submit' name="delete" value="SUPPRIMER"><br />
-        </form>
-
-        <form action="" method="post">
-
-            <?php 
+        <section class="personnal_data">
             
-            $gender_check = html_entity_decode($user_session_data_result[0]['gender']);
-            $check = ($gender_check=="Femme")?true:false; 
-            $check2 = ($gender_check=="Homme")?true:false; 
-            $check3 = ($gender_check=="Non genré")?true:false; 
-            
-            ?>
+            <h1>PROFIL</h1>
 
-            <input type="radio" name="gender" value="Femme" <?php if($check==true){echo "checked";}else{echo "";}  ?> />
+            <form action="" method="post" class="info_user" enctype="multipart/form-data">
+                
+                <div class="order_personnal_data">
+                    <div class="avatar">
+                        <h2>Modifiez votre avatar</h2><br/>
+                        <img src="
+                             <?php 
+                              if($user_session_data_result[0]['avatar'] == NULL){
+                                  echo 'css/images/no-image.png';
+                              }else{echo $user_session_data_result[0]['avatar'];}
+                              ?>" alt="avatar" width="300" height="300"><br/>
 
-            <label for="female">Femme</label>
 
-            <input type="radio" name="gender" value="Homme" <?php if($check2==true){echo "checked";}else{echo "";} ?> />
-            <label for="male">Homme</label>
+                        <input type="file" name="photo">
+                        <input type="submit" name="send" value="ENVOYER">
+                        <input type='submit' name="delete" value="SUPPRIMER"><br /><br />
+                    </div>
+                    <div>
+                        <h2>Modifiez vos données personnelles</h2><br/>
+                        <?php 
 
-            <input type="radio" name="gender" value="Non genré" <?php if($check3==true){echo "checked";}else{echo "";} ?> />
-            <label for="no_gender">Non genré</label><br />
+                        $gender_check = html_entity_decode($user_session_data_result[0]['gender']);
+                        $check = ($gender_check=="Femme")?true:false; 
+                        $check2 = ($gender_check=="Homme")?true:false; 
+                        $check3 = ($gender_check=="Non genré")?true:false; 
 
-            <label for="name">Nom</label><br />
-            <input type="text" name="lastname" value="<?php echo $user_session_data_result[0]['nom'] ?>"><br />
-            <label for="firstname">Prénom</label><br />
-            <input type="text" name="firstname" value="<?php echo $user_session_data_result[0]['prenom'] ?>"><br />
+                        ?>
 
-            <label for="mail">Email</label><br />
-            <input type="mail" name="mail" value="<?php echo $user_session_data_result[0]['email'] ?>"><br />
-            <label for="phone_number">Numéro de téléphone</label><br />
-            <input type="text" name="phone_number" value="<?php echo $user_session_data_result[0]['num_tel'] ?>"><br />
+                        <input type="radio" name="gender" value="Femme" <?php if($check==true){echo "checked";}else{echo "";}  ?> />
 
-            <label for="password">Mot de passe</label><br />
-            <input type="password" name="password" placeholder="Entrez votre nouveau mot de passe"><br />
-            <label for="password">Confirmation de mot de passe</label><br />
-            <input type="password" name="check_password" placeholder="Confirmez votre nouveau mot de passe"><br />
+                        <label for="female">Femme</label>
 
-            <input type="submit" name="submit" value="VALIDER"><br />
+                        <input type="radio" name="gender" value="Homme" <?php if($check2==true){echo "checked";}else{echo "";} ?> />
+                        <label for="male">Homme</label>
 
-        </form>
+                        <input type="radio" name="gender" value="Non genré" <?php if($check3==true){echo "checked";}else{echo "";} ?> />
+                        <label for="no_gender">Non genré</label><br />
+
+                        <label for="name">Nom</label><br />
+                        <input type="text" name="lastname" value="<?php echo $user_session_data_result[0]['nom'] ?>"><br />
+                        <label for="firstname">Prénom</label><br />
+                        <input type="text" name="firstname" value="<?php echo $user_session_data_result[0]['prenom'] ?>"><br />
+
+                        <label for="mail">Email</label><br />
+                        <input type="mail" name="mail" value="<?php echo $user_session_data_result[0]['email'] ?>"><br />
+                        <label for="phone_number">Numéro de téléphone</label><br />
+                        <input type="text" name="phone_number" value="<?php echo $user_session_data_result[0]['num_tel'] ?>"><br />
+
+                        <label for="password">Mot de passe</label><br />
+                        <input type="password" name="password" placeholder="Entrez votre nouveau mot de passe"><br />
+                        <label for="password">Confirmation de mot de passe</label><br />
+                        <input type="password" name="check_password" placeholder="Confirmez votre nouveau mot de passe"><br /><br/>
+
+                        <input type="submit" name="submit" value="VALIDER"><br />
+                    </div>
+                </div>
+                
+                
+                
+                
+
+            </form>
+        </section>
+        
         
         <br/>
         
-        <h2>Suppression définitive du compte</h2>
+        <section class="delete">
+             <h2>Supprimez définitivement votre compte</h2>
         
-        <form action="" method="post">
-            <label for="">Entrez votre mot de passe actuel</label><br/>
-            <input type="password" name="password_delete" placeholder="Entrez votre mot de passe actuel"><br/>
-            <label for="password_delete_check">Confirmez votre mot de passe</label><br/>
-            <input type="password" name="password_delete_check" placeholder="Confirmez votre mot de passe actuel"><br/><br/>
-            <input type="submit" name="delete_account" value="SUPPRIMER">
-        </form>
+            <form action="" method="post">
+                <label for="">Entrez votre mot de passe actuel</label><br/>
+                <input type="password" name="password_delete" placeholder="Entrez votre mot de passe actuel"><br/>
+                <label for="password_delete_check">Confirmez votre mot de passe</label><br/>
+                <input type="password" name="password_delete_check" placeholder="Confirmez votre mot de passe actuel"><br/><br/>
+                <input type="submit" name="delete_account" value="SUPPRIMER">
+            </form>
 
+        </section>
+       
         <h1>Modifier vos réservations</h1>
 
 
