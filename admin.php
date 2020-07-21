@@ -66,7 +66,7 @@ $page_selected = 'admin';
                 //AJOUT NOUVEL UTILISATEUR
             
                 
-                if (isset($_POST['submit'])) {
+                if (isset($_POST['submit'])){
                     $user2 = new users;
                     $user2->register(
                         $_POST['firstname'],
@@ -428,7 +428,7 @@ $page_selected = 'admin';
                     <tbody>
                         <?php foreach($data_place_price_result as $place){ ?>
                         <tr>
-                            <td><?php echo $place['nom_lieu'] ?></td>
+                            <td><?php echo html_entity_decode($place['nom_lieu']) ?></td>
                             <td><?php echo $place['emplacements_disponibles'] ?></td>
                             <td><?php echo $place['prix_journalier'].'€' ?></td>
                             <td>
@@ -595,7 +595,7 @@ $page_selected = 'admin';
                         <tbody>
                             <?php foreach($data_place_type_result as $type){ ?>
                             <tr>
-                                <td><?php echo $type['nom_type_emplacement'] ?></td>
+                                <td><?php echo html_entity_decode($type['nom_type_emplacement']) ?></td>
                                 <td><?php echo $type['nb_emplacement'] ?></td>
                                 <td>
                                      <a class="user_modify_button" href="admin.php?modifier_type=<?php echo $type['id_type_emplacement']  ?>">EDITER</a>
@@ -739,7 +739,7 @@ $page_selected = 'admin';
                     <tbody>
                         <?php foreach($data_option_price_result as $option){ ?>
                         <tr>
-                            <td><?php echo $option['nom_option'] ?></td>
+                            <td><?php echo html_entity_decode($option['nom_option']) ?></td>
                             <td><?php echo $option['prix_option'].'€' ?></td>
                             <td>
                                  <a class="user_modify_button" href="admin.php?modifier_option=<?php echo $option['id_option']?>">EDITER</a>

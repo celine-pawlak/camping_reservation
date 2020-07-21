@@ -4,19 +4,21 @@ $page_selected = 'profil';
 
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>camping - profil</title>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, user-scalable=yes"/>
+    <meta name="viewport" content="width=device-width, user-scalable=yes" />
     <link rel="shortcut icon" type="image/x-icon" href="https://i.ibb.co/XzyCCqt/LOGO1.png">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
+
 <body>
-  <header>
-    <?php include("includes/header.php"); ?>
-  </header>
-  <main>
+    <header>
+        <?php include("includes/header.php"); ?>
+    </header>
+    <main>
         <?php
             //TENTATIVE CONNEXION BDD
             try
@@ -109,7 +111,7 @@ $page_selected = 'profil';
                                         } 
                                         else
                                         {
-                                            echo "Error: Il y a eu un problème de téléchargement de votre fichier. Veuillez réessayer."; 
+                                            echo "Error: Téléchargement du fichier impossible. Veuillez réessayer."; 
                                         }
                                     } 
                                     else
@@ -240,6 +242,19 @@ $page_selected = 'profil';
                       
                             header ('location:profil.php');
                         }
+                
+                        if(isset($_POST['delete_account']))
+                        {
+                            $password=htmlentities(trim($_POST['password_delete']));
+                            $check=htmlentities(trim($_POST['password_delete_check']));
+                            
+                            if(!empty($password) AND !empty($check))
+                            {
+                                if($password == $check);
+                                $user->delete($password); 
+                            }
+                            
+                        }
 
 
                 }
@@ -251,70 +266,84 @@ $page_selected = 'profil';
     
 
 ?>
-        <h1>MODIFIER VOTRE COMPTE</h1>
-        
-        <h2>Modifier vos données personnelles</h2>
-        
+
+
+        <h1>Modifier vos données personnelles</h1>
+
+
         <form action="" method="post" enctype="multipart/form-data">
-            <img 
-                src="
+            <img src="
                      <?php 
                       if($user_session_data_result[0]['avatar'] == NULL){
                           echo 'css/images/no-image.png';
                       }else{echo $user_session_data_result[0]['avatar'];}
-                      ?>" alt="avatar"
-            width="200"><br/>
-            
-            
+                      ?>" alt="avatar" width="200"><br />
+
+
             <input type="file" name="photo">
             <input type="submit" name="send" value="ENVOYER">
-            <input type='submit' name="delete" value="SUPPRIMER"><br/>
+            <input type='submit' name="delete" value="SUPPRIMER"><br />
+        </form>
+
+        <form action="" method="post">
+
+            <?php 
+            
+            $gender_check = html_entity_decode($user_session_data_result[0]['gender']);
+            $check = ($gender_check=="Femme")?true:false; 
+            $check2 = ($gender_check=="Homme")?true:false; 
+            $check3 = ($gender_check=="Non genré")?true:false; 
+            
+            ?>
+
+            <input type="radio" name="gender" value="Femme" <?php if($check==true){echo "checked";}else{echo "";}  ?> />
+
+            <label for="female">Femme</label>
+
+            <input type="radio" name="gender" value="Homme" <?php if($check2==true){echo "checked";}else{echo "";} ?> />
+            <label for="male">Homme</label>
+
+            <input type="radio" name="gender" value="Non genré" <?php if($check3==true){echo "checked";}else{echo "";} ?> />
+            <label for="no_gender">Non genré</label><br />
+
+            <label for="name">Nom</label><br />
+            <input type="text" name="lastname" value="<?php echo $user_session_data_result[0]['nom'] ?>"><br />
+            <label for="firstname">Prénom</label><br />
+            <input type="text" name="firstname" value="<?php echo $user_session_data_result[0]['prenom'] ?>"><br />
+
+            <label for="mail">Email</label><br />
+            <input type="mail" name="mail" value="<?php echo $user_session_data_result[0]['email'] ?>"><br />
+            <label for="phone_number">Numéro de téléphone</label><br />
+            <input type="text" name="phone_number" value="<?php echo $user_session_data_result[0]['num_tel'] ?>"><br />
+
+            <label for="password">Mot de passe</label><br />
+            <input type="password" name="password" placeholder="Entrez votre nouveau mot de passe"><br />
+            <label for="password">Confirmation de mot de passe</label><br />
+            <input type="password" name="check_password" placeholder="Confirmez votre nouveau mot de passe"><br />
+
+            <input type="submit" name="submit" value="VALIDER"><br />
+
         </form>
         
+        <br/>
+        
+        <h2>Suppression définitive du compte</h2>
+        
         <form action="" method="post">
-        
-            <?php 
-            $check = ($user_session_data_result[0]['gender']=="Femme")?true:false; 
-            $check2 = ($user_session_data_result[0]['gender']=="Homme")?true:false; 
-            $check3 = ($user_session_data_result[0]['gender']=="Non genré")?true:false; 
-        
-            ?>
-            
-            <input type="radio" name="gender" value="Femme" <?php if($check==true){echo "checked";}else{echo "";}  ?>/>
-            
-            <label for="female">Femme</label>
-            
-            <input type="radio" name="gender" value="Homme" <?php if($check2==true){echo "checked";}else{echo "";} ?>/>
-            <label for="male">Homme</label>
-            
-            <input type="radio" name="gender" value="Non genré" <?php if($check3==true){echo "checked";}else{echo "";} ?>/>
-            <label for="no_gender">Non genré</label><br/>
+            <label for="">Entrez votre mot de passe actuel</label><br/>
+            <input type="password" name="password_delete" placeholder="Entrez votre mot de passe actuel"><br/>
+            <label for="password_delete_check">Confirmez votre mot de passe</label><br/>
+            <input type="password" name="password_delete_check" placeholder="Confirmez votre mot de passe actuel"><br/><br/>
+            <input type="submit" name="delete_account" value="SUPPRIMER">
+        </form>
 
-            <label for="name">Nom</label><br/>
-            <input type="text" name="lastname" value="<?php echo $user_session_data_result[0]['nom'] ?>"><br/>
-            <label for="firstname">Prénom</label><br/>
-            <input type="text" name="firstname" value="<?php echo $user_session_data_result[0]['prenom'] ?>"><br/>
-            
-            <label for="mail">Email</label><br/>
-            <input type="mail" name="mail" value="<?php echo $user_session_data_result[0]['email'] ?>"><br/>
-            <label for="phone_number">Numéro de téléphone</label><br/>
-            <input type="text" name="phone_number" value="<?php echo $user_session_data_result[0]['num_tel'] ?>"><br/>
-            
-            <label for="password">Mot de passe</label><br/>
-            <input type="password" name="password" placeholder="Entrez votre nouveau mot de passe"><br/>
-            <label for="password">Confirmation de mot de passe</label><br/>
-            <input type="password" name="check_password" placeholder="Confirmez votre nouveau mot de passe"><br/>
-            
-            <input type="submit" name="submit" value="VALIDER">
-
-        </form>  
-        
-        <h2>Modifier vos réservations</h2>
+        <h1>Modifier vos réservations</h1>
 
 
     </main>
-  <footer>
-    <?php include('includes/footer.php'); ?>
-  </footer>
+    <footer>
+        <?php include('includes/footer.php'); ?>
+    </footer>
 </body>
+
 </html>
