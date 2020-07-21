@@ -1,6 +1,5 @@
 <?php
 
-
 class Database{
     private $db_host;
     private $db_login;

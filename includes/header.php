@@ -2,6 +2,7 @@
 
 require 'class/users.php';
 require 'class/camping_properties.php';
+
 session_start();
 $db = new Database();
 $user = new users($db);
@@ -10,12 +11,11 @@ $user->refresh();
 if (isset($_POST["deco"])) {
     $user->disconnect();
 }
-
 ?>
 <header>
     <section id="top-header">
         <a href="newsletter-form.php">RECEVOIR NOTRE BROCHURE</a>
-        <a id="header-title" href="reservation-form.php">RESERVER</a>
+        <a id="header-title" href="reservation_form.php">RESERVER</a>
     </section>
     <section>
         <nav>

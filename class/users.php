@@ -1,7 +1,7 @@
 <?php
 
 require 'messages.php';
-require 'Database.php';
+
 
 
 
@@ -235,10 +235,9 @@ class users
     public function redirect($page_selected)
     {
         if (in_array($page_selected, ['connexion', 'inscription']) and self::isConnected() == true) {
-            echo 'test';
             header('location:index.php');
         }
-        if (in_array($page_selected, ['profil', 'reservation', 'reservation-form']) and self::isConnected() == false) {
+        if (in_array($page_selected, ['profil', 'reservation', 'reservation_form']) and self::isConnected() == false) {
             header('location:connexion.php');
         }
         if ($page_selected == 'admin' and $this->is_admin != "1") {

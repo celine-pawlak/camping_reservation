@@ -61,28 +61,24 @@ $infos = new camping_properties;
 </style>
 
 <form action="" method="post" id="myForm">
-        <select name="lieu" id="" name="status-select">
-            <optgroup label="Choix du lieu">
-                <option value="default" selected hidden>--Sélectionnez votre lieu--</option>
-                <?php
-                foreach ($infos->getLieux() as $lieu) { ?>
-                    <option value="<?= $lieu['nom_lieu'] ?>"><?= $lieu['nom_lieu'] ?></option>
-                    <?php
-                } ?>
-            </optgroup>
-        </select>
-    <!--    <div>
-        <?php
-    /*        foreach ($infos->getOptions() as $option) { */ ?>
-            <input type="checkbox" id="<?
-    /*= $option['id_option'] */ ?>" name="option[]" value="<?
-    /*= $option['id_option'] */ ?>">
-            <label for="<?
-    /*= $option['id_option'] */ ?>"><?
-    /*= $option['nom_option'] */ ?></label>
+    <select name="lieu" id="" name="status-select">
+        <optgroup label="Choix du lieu">
+            <option value="default" selected hidden>--Sélectionnez votre lieu--</option>
             <?php
-    /*        } */ ?>
-    </div>-->
+            foreach ($infos->getLieux() as $lieu) { ?>
+                <option value="<?= $lieu['nom_lieu'] ?>"><?= $lieu['nom_lieu'] ?></option>
+                <?php
+            } ?>
+        </optgroup>
+    </select>
+    <div>
+        <?php
+    foreach ($infos->getOptions() as $option) { ?>
+        <input type="checkbox" id="<?= $option['id_option'] ?>" name="option[]" value="<?= $option['id_option'] ?>">
+        <label for="<?= $option['id_option'] ?>"><?= $option['nom_option'] ?></label>
+        <?php
+        }  ?>
+    </div>
 
     <div>
         <?php

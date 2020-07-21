@@ -364,7 +364,7 @@ $page_selected = 'profil';
 
     </main>
   <footer>
-    <?php include("includes/footer.php"); ?>
+    <?php include('includes/footer.php'); ?>
   </footer>
 </body>
 </html>

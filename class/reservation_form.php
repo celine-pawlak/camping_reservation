@@ -12,7 +12,7 @@ class reservation
         $this->db = $db;
     }
 
-    public function NormesDates($lieu, $date_debut, $date_fin, $emplacements)
+    public function Check_reservation($lieu, $date_debut, $date_fin, $emplacements)
     {
         if (strtotime($date_fin) <= strtotime($date_debut)) {
             $errors[] = "La date de fin doit être supérieure à la date de début.";
@@ -51,7 +51,7 @@ class reservation
             }
 
             if (empty($jours_non_disponible)) {
-                echo "RESERVATION";
+                return TRUE;
             } else {
                 $jours_non_disponible = implode(", ", $jours_non_disponible);
                 $errors[] = "Les jours suivants ne sont pas disponibles avec votre choix de type d'emplacement : $jours_non_disponible";
@@ -134,8 +134,4 @@ class reservation
         }
     }
 }
-
-$db = new Database();
-$test = new reservation($db);
-$test->NormesDates('Les Pins', '2021-07-21', '2021-08-17', 4);
 

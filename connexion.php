@@ -19,14 +19,12 @@ $page_selected = 'connexion';
 </header>
 <main>
     <?php
-
     if (isset($_POST['submit'])) {
         $user->connect(
             $_POST['email'],
             $_POST['password']
         );
     }
-
     ?>
     <form action="connexion.php" method="post">
         <label for="email">Email</label>
