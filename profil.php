@@ -151,14 +151,8 @@ $page_selected = 'profil';
                             $gender=htmlentities(trim($_POST['gender']));
                             $lastname=htmlentities(trim($_POST['lastname']));
                             $firstname=htmlentities(trim($_POST['firstname']));
-/*
-                            $birth=htmlentities(trim($_POST['birthday_day']));
-*/
                             $mail=htmlentities(trim($_POST['mail']));
                             $phone=htmlentities(trim($_POST['phone_number']));
-/*
-                            $login=htmlentities(trim($_POST['login']));
-*/
                             $password=htmlentities(trim($_POST['password']));
                             $check_password=htmlentities(trim($_POST['check_password']));
                             $hash=password_hash($password,PASSWORD_BCRYPT,array('cost'=>10));
@@ -221,19 +215,6 @@ $page_selected = 'profil';
                                 //EXECUTION REQUETE
                                 $update_niv5->execute();
                             }
-                      
-                            
-                             //SI LE CHAMPS DATE DE NAISSANCE EST REMPLI
-                            /*if($birth)
-                            {
-                                //MISE A JOUR DES DONNEES
-                                $update_birth = "UPDATE utilisateurs SET birthday_day=:birth WHERE login = '$session' ";
-                                //PREPARATION REQUETE
-                                $update_niv4 = $connexion -> prepare($update_birth);
-                                $update_niv4->bindParam(':birth',$birth, PDO::PARAM_STR);
-                                //EXECUTION REQUETE
-                                $update_niv4->execute();
-                            }*/
                         
                             
                              //SI LES CHAMPS MOTS DE PASSE ET CONFIRMATION DE MOT DE PASSE SONT  REMPLIS
@@ -255,33 +236,7 @@ $page_selected = 'profil';
                                 }
                             }
                       
-                            
-                            //SI LE CHAMPS LOGIN EST REMPLI
-                            /*if($login)
-                            {
-                                //VERIFICATION CORRESPONDANCE LOGIN EN BDD ET NOUVEAU LOGIN
-                                $login_users = $connexion->prepare("SELECT * FROM utilisateurs WHERE login = '$login'");
-                                //EXECUTION REQUETE
-                                $login_users->execute();
-                                //RECUPERATION RESULTAT
-                                $login_users_result =  $login_users->rowCount();
-                                
-                                if($login_users_result >= 1)
-                                {
-                                    echo " Ce login existe déjà ! ";
-                                }
-                                else
-                                {
-                                    //MISE A JOUR DES DONNEES
-                                    $update_login_user = "UPDATE utilisateurs SET login=:login WHERE login = '$session' ";
-                                    //PREPARATION REQUETE
-                                    $update_niv6 = $connexion -> prepare($update_login_user);
-                                    $update_niv6->bindParam(':login',$login, PDO::PARAM_STR);
-                                    //EXECUTION REQUETE
-                                    $update_niv6->execute();
 
-                                }
-                            }*/
                       
                             header ('location:profil.php');
                         }
@@ -339,17 +294,12 @@ $page_selected = 'profil';
             <input type="text" name="lastname" value="<?php echo $user_session_data_result[0]['nom'] ?>"><br/>
             <label for="firstname">Prénom</label><br/>
             <input type="text" name="firstname" value="<?php echo $user_session_data_result[0]['prenom'] ?>"><br/>
-            <!--<label for="birthday_day">Date de naissance</label><br/>
-            <input type="date" name="birthday_day" value="<?php /*echo $user_session_data_result[0]['birthday_day']*/ ?>"><br/>-->
-
+            
             <label for="mail">Email</label><br/>
             <input type="mail" name="mail" value="<?php echo $user_session_data_result[0]['email'] ?>"><br/>
             <label for="phone_number">Numéro de téléphone</label><br/>
             <input type="text" name="phone_number" value="<?php echo $user_session_data_result[0]['num_tel'] ?>"><br/>
-
-
-            <!--<label for="login">Login</label><br/>
-            <input type="text" name="login" value="<?php /*echo $user_session_data_result[0]['login']*/ ?>"><br/>-->
+            
             <label for="password">Mot de passe</label><br/>
             <input type="password" name="password" placeholder="Entrez votre nouveau mot de passe"><br/>
             <label for="password">Confirmation de mot de passe</label><br/>
