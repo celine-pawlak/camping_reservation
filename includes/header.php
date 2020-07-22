@@ -14,7 +14,7 @@ if (isset($_POST["deco"])) {
 ?>
 <header>
     <section id="top-header">
-        <a href="newsletter-form.php">RECEVOIR NOTRE BROCHURE</a>
+        <a href="#newsletter">RECEVOIR NOTRE BROCHURE</a>
         <a id="header-title" href="reservation_form.php">RESERVER</a>
     </section>
     <section>

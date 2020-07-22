@@ -20,6 +20,7 @@ $page_selected = 'newsletter_form';
     include("includes/header.php") ?>
 </header>
 <main>
+
 </main>
 <footer>
     <?php
