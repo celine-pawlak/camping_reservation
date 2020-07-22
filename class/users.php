@@ -14,7 +14,7 @@ class users
     public $num_tel;
     public $db;
 
-    public function __construct($host = "localhost", $username = "root", $password = "", $dbname = "camping")
+    public function __construct($host = "localhost", $username = "root", $password = "root", $dbname = "camping")
     {
         try {
             $this->db = new PDO('mysql:dbname=' . $dbname . ';host=' . $host . '', $username, $password);
