@@ -350,7 +350,84 @@ $page_selected = 'profil';
         <br/>
         
         <section class="booking_section">
-            <h1>RESERVATIONS</h1>
+            
+            <?php 
+            
+             //RECUPERATION DES DONNEES UTILISATEURS 
+            $info = $connexion->prepare("SELECT id_reservation FROM reservations WHERE id_utilisateur = $session ");
+            //EXECUTION DE LA REQUETE
+            $info->execute();
+            //RECUPERATION RESULTAT
+            $info_result = $info->rowCount();
+            $info_result1 = $info->fetchAll(PDO::FETCH_ASSOC);
+                                   
+            var_dump($info_result1);     
+            //var_dump($info_result1[][]);     
+             
+            foreach($info_result1 as $id_reservations){
+                echo $id_reservations['id_reservation'][0].'<br/>' ;
+            }                       
+                                   
+                                   
+            if( $info_result >= 1)
+            {
+                $info2 = $connexion->prepare("
+                SELECT 
+                reservations.id_reservation, 
+                reservations.date_debut, 
+                reservations.date_fin, 
+                detail_lieux.nom_lieu, 
+                detail_lieux.prix_journalier, 
+                detail_types_emplacement.nom_type_emplacement, detail_types_emplacement.nb_emplacements_reserves,
+                detail_options.nom_option, 
+                detail_options.prix_option 
+                FROM 
+                reservations, detail_lieux, detail_types_emplacement,  detail_options
+                WHERE
+                reservations.id_reservation = '1'
+                AND 
+                reservations.id_reservation = detail_lieux.id_reservation
+                AND 
+                reservations.id_reservation = detail_types_emplacement.id_reservation
+                AND 
+                reservations.id_reservation = detail_options.id_reservation
+           
+                
+                
+                ");
+                
+                $info2->execute();
+                $info_result2 = $info2->fetchAll(PDO::FETCH_ASSOC);
+                var_dump($info_result2);  
+            }
+                                   
+            ?>
+            
+            
+            <h1>MES RESERVATIONS</h1>
+            
+            <table>
+                <thead>
+                    <?php foreach($info_result2 as $i){ ?>
+                    <tr>
+                        <th>Commande n°<?php echo $i['id_reservation'] ?></th>
+                        <th>Date de début <?php echo $i['date_debut'] ?></th>
+                        <th>Date de fin <?php echo $i['date_fin'] ?></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><?php echo $i['nom_lieu'] ?></td>
+                        <td><?php echo $i['prix_journalier'] ?></td>
+                        <td><?php echo $i['nom_type_emplacement'] ?></td>
+                        <td><?php echo $i['nb_emplacements_reserves'] ?></td>
+                        <td><?php echo $i['nom_option'] ?></td>
+                        <td><?php echo $i['prix_option'] ?></td>
+                    </tr>
+                    <?php } ?>
+                </tbody>
+            </table>
+            
             <form action="" method="post">
                 <h2>Modifiez vos réservations</h2>
             </form>

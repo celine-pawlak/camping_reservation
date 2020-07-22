@@ -1034,7 +1034,9 @@ border-radius:20%;
 
 .booking_section
 {
-    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 
