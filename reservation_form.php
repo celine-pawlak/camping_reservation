@@ -132,13 +132,17 @@ $page_selected = 'reservation_form';
                 $days = $nb_days[0][0] + 1;
 
                 //RECUPERE nombre total d'emplacements réservés
-                $emplacement = $connexion->prepare("SELECT SUM(nb_emplacements_reserves) FROM detail_types_emplacement WHERE id_reservation = ?");
+                $emplacement = $connexion->prepare(
+                    "SELECT SUM(nb_emplacements_reserves) FROM detail_types_emplacement WHERE id_reservation = ?"
+                );
                 $emplacement->execute([$idresa]);
                 $emplacement = ($emplacement->fetchAll());
                 $nb_emp = $emplacement[0][0];
 
                 //RECUPERE prix journalier multiplié par le nb d'emplacements
-                $lieux = $connexion->prepare("SELECT prix_journalier * $nb_emp FROM detail_lieux WHERE id_reservation = ?");
+                $lieux = $connexion->prepare(
+                    "SELECT prix_journalier * $nb_emp FROM detail_lieux WHERE id_reservation = ?"
+                );
                 $lieux->execute([$idresa]);
                 $lieux = $lieux->fetchAll();
                 $price_day = $lieux[0][0];
@@ -150,10 +154,12 @@ $page_selected = 'reservation_form';
                 $price_option = $option[0][0];
 
                 //FONCTION cacul prix réservation
-                function facture($nb_jours, $operation, $total_jour){
+                function facture($nb_jours, $operation, $total_jour)
+                {
                     $calcul = $nb_jours * $total_jour;
                     return $calcul;
                 }
+
                 $resultat = facture($nb_jours = $days, $operation = '*', $total_jour = ($price_day + $price_option));
 
                 //INSERTION finale
@@ -167,7 +173,7 @@ $page_selected = 'reservation_form';
                 $request_total->bindParam(':prix_total', $resultat, PDO::PARAM_STR);
                 $request_total->bindParam(':id_reservation', $idresa, PDO::PARAM_INT);
                 $request_total->execute();
-                header('location:reservation.php?id='.$idresa.'');
+                header('location:reservation.php?id=' . $idresa . '');
             }
         }
     }

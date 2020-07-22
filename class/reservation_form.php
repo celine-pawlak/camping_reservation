@@ -30,7 +30,7 @@ class reservation
             return self::checkDisponibilite($lieu, $date_debut, $date_fin, $emplacements);
         } else {
             $message = new messages($errors);
-             echo $message->renderMessage();
+            echo $message->renderMessage();
         }
     }
 
