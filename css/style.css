@@ -993,7 +993,8 @@ border-radius:20%;
 /*** PROFIL  ***/
 
 
-.personnal_data
+.personnal_data,
+.booking_section
 {
     margin-right:10%;
     margin-left:10%;
@@ -1023,7 +1024,24 @@ border-radius:20%;
 .delete
 {
     text-align: center;
+
 }
+
+.name_form
+{
+    display: flex;
+}
+
+.booking_section
+{
+    
+}
+
+
+
+
+
+
 /*** RESPONSIVE PROFIL ***/
 @media (max-width: 980px){
 }
@@ -1034,6 +1052,8 @@ border-radius:20%;
 @media screen and (max-width:500px){
  
 }
+
+
 
 
 

@@ -95,19 +95,19 @@ $page_selected = 'profil';
                                         // Vérifie le type MIME du fichier
                                         if(in_array($filetype, $allowed))
                                         {
-                                            // Vérifie si le fichier existe avant de le télécharger.
+                                            /*// Vérifie si le fichier existe avant de le télécharger.
                                             if(file_exists("uploads/".$_FILES["photo"]["name"]))
                                             {
                                                 echo $_FILES["photo"]["name"] . " existe déjà.";
 
                                             } 
                                             else
-                                            {
+                                            {*/
                                                 move_uploaded_file($_FILES["photo"]["tmp_name"], "uploads/" . $_FILES["photo"]["name"]);
 
                                                 header('location:profil.php');
 
-                                            } 
+                                            /*}*/ 
                                         } 
                                         else
                                         {
@@ -275,18 +275,18 @@ $page_selected = 'profil';
                 
                 <div class="order_personnal_data">
                     <div class="avatar">
-                        <h2>Modifiez votre avatar</h2><br/>
+                        
                         <img src="
                              <?php 
                               if($user_session_data_result[0]['avatar'] == NULL){
                                   echo 'css/images/no-image.png';
                               }else{echo $user_session_data_result[0]['avatar'];}
                               ?>" alt="avatar" width="300" height="300"><br/>
+                                <h2>Modifiez votre avatar</h2><br/>
 
-
-                        <input type="file" name="photo">
+                        <input type="file" name="photo"><br/><br/>
                         <input type="submit" name="send" value="ENVOYER">
-                        <input type='submit' name="delete" value="SUPPRIMER"><br /><br />
+                        <button type="submit" name="delete"><i class="fas fa-trash-alt"></i></button>
                     </div>
                     <div>
                         <h2>Modifiez vos données personnelles</h2><br/>
@@ -309,10 +309,13 @@ $page_selected = 'profil';
                         <input type="radio" name="gender" value="Non genré" <?php if($check3==true){echo "checked";}else{echo "";} ?> />
                         <label for="no_gender">Non genré</label><br />
 
-                        <label for="name">Nom</label><br />
-                        <input type="text" name="lastname" value="<?php echo $user_session_data_result[0]['nom'] ?>"><br />
-                        <label for="firstname">Prénom</label><br />
-                        <input type="text" name="firstname" value="<?php echo $user_session_data_result[0]['prenom'] ?>"><br />
+                        <div class="name_form">
+                             <label for="name">Nom</label><br/>
+                            <input type="text" name="lastname" value="<?php echo $user_session_data_result[0]['nom'] ?>">
+                            <label for="firstname">Prénom</label><br />
+                            <input type="text" name="firstname" value="<?php echo $user_session_data_result[0]['prenom'] ?>">
+                        </div>
+                       
 
                         <label for="mail">Email</label><br />
                         <input type="mail" name="mail" value="<?php echo $user_session_data_result[0]['email'] ?>"><br />
@@ -325,6 +328,14 @@ $page_selected = 'profil';
                         <input type="password" name="check_password" placeholder="Confirmez votre nouveau mot de passe"><br /><br/>
 
                         <input type="submit" name="submit" value="VALIDER"><br />
+                        
+                        <h2>Supprimez définitivement votre compte</h2>
+
+                         <label for="">Entrez votre mot de passe actuel</label><br/>
+                        <input type="password" name="password_delete" placeholder="Entrez votre mot de passe actuel"><br/>
+                        <label for="password_delete_check">Confirmez votre mot de passe</label><br/>
+                        <input type="password" name="password_delete_check" placeholder="Confirmez votre mot de passe actuel"><br/><br/>
+                        <input type="submit" name="delete_account" value="SUPPRIMER">
                     </div>
                 </div>
                 
@@ -338,20 +349,16 @@ $page_selected = 'profil';
         
         <br/>
         
-        <section class="delete">
-             <h2>Supprimez définitivement votre compte</h2>
-        
+        <section class="booking_section">
+            <h1>RESERVATIONS</h1>
             <form action="" method="post">
-                <label for="">Entrez votre mot de passe actuel</label><br/>
-                <input type="password" name="password_delete" placeholder="Entrez votre mot de passe actuel"><br/>
-                <label for="password_delete_check">Confirmez votre mot de passe</label><br/>
-                <input type="password" name="password_delete_check" placeholder="Confirmez votre mot de passe actuel"><br/><br/>
-                <input type="submit" name="delete_account" value="SUPPRIMER">
+                <h2>Modifiez vos réservations</h2>
             </form>
-
+            
+            
         </section>
        
-        <h1>Modifier vos réservations</h1>
+        
 
 
     </main>
