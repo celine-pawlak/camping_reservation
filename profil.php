@@ -142,9 +142,7 @@ $page_selected = 'profil';
                         }
                 
                 
-                
-                
-                
+            
                         
                         //MODIFICATION DES DONNEES DE L'UTILISATEUR SI ON APPUIS SUR VALIDER
                         if(isset($_POST['submit']))
@@ -160,7 +158,7 @@ $page_selected = 'profil';
                             $hash=password_hash($password,PASSWORD_BCRYPT,array('cost'=>10));
                             
                             //SI LE CHAMPS GENRE EST REMPLI
-                            if($gender)
+                            if(!empty($gender))
                             {
                                 //MISE A JOUR DES DONNEES
                                 $update_gender = "UPDATE utilisateurs SET gender=:gender WHERE id_utilisateur = '$session' ";
@@ -172,7 +170,7 @@ $page_selected = 'profil';
                             }
                            
                             //SI LE CHAMPS NOM EST REMPLI
-                            if($lastname)
+                            if(!empty($lastname))
                             {
                                 //MISE A JOUR DES DONNEES
                                 $update_lastname = "UPDATE utilisateurs SET nom=:lastname WHERE id_utilisateur = '$session' ";
@@ -185,7 +183,7 @@ $page_selected = 'profil';
                          
                             
                             //SI LE CHAMPS PRENOM EST REMPLI
-                            if($firstname)
+                            if(!empty($firstname))
                             {
                                 //MISE A JOUR DES DONNEES
                                 $update_firstname = "UPDATE utilisateurs SET prenom=:firstname WHERE id_utilisateur = '$session' ";
@@ -196,7 +194,7 @@ $page_selected = 'profil';
                                 $update_niv3->execute();
                             }
                             
-                            if($mail)
+                            if(!empty($mail))
                             {
                                 //MISE A JOUR DES DONNEES
                                 $update_mail = "UPDATE utilisateurs SET email=:mail WHERE id_utilisateur = '$session' ";
@@ -207,7 +205,7 @@ $page_selected = 'profil';
                                 $update_niv4->execute();
                             }
                             
-                            if($phone)
+                            if(!empty($phone))
                             {
                                 //MISE A JOUR DES DONNEES
                                 $update_phone = "UPDATE utilisateurs SET num_tel=:phone WHERE id_utilisateur = '$session' ";
@@ -220,7 +218,7 @@ $page_selected = 'profil';
                         
                             
                              //SI LES CHAMPS MOTS DE PASSE ET CONFIRMATION DE MOT DE PASSE SONT  REMPLIS
-                            if($password AND $check_password)
+                            if(!empty($password) AND !empty($check_password))
                             {
                                 if($password == $check_password)
                                 {
@@ -311,9 +309,9 @@ $page_selected = 'profil';
 
                         <div class="name_form">
                              <label for="name">Nom</label><br/>
-                            <input type="text" name="lastname" value="<?php echo $user_session_data_result[0]['nom'] ?>">
+                            <input type="text" name="lastname" value="<?php echo $user_session_data_result[0]['nom'] ?>"><br/>
                             <label for="firstname">Prénom</label><br />
-                            <input type="text" name="firstname" value="<?php echo $user_session_data_result[0]['prenom'] ?>">
+                            <input type="text" name="firstname" value="<?php echo $user_session_data_result[0]['prenom'] ?>"><br/>
                         </div>
                        
 

@@ -67,7 +67,7 @@ $page_selected = 'admin';
             
                 
                 if (isset($_POST['submit'])){
-                    $user2 = new users;
+                    $user2 = new users ($db);
                     $user2->register(
                         $_POST['firstname'],
                         $_POST['lastname'],
@@ -299,20 +299,20 @@ $page_selected = 'admin';
 
 
 
-        <section class="users">
-            <section class="admin_table">
+        <section class="users admin_table">
+            <div class="">
                 <h2>Tableau utilisateurs</h2><br/>
                 <table>
                     <thead>
                         <tr>
-                            <th>Avatar</th>
+                            <th class="display_none">Avatar</th>
                             <th>Id</th>
                             <th>Nom</th>
                             <th>Prénom</th>
-                            <th>Sexe</th>
-                            <th>Email</th>
+                            <th class="display_none">Sexe</th>
+                            <th class="display_none">Email</th>
                             <th>Téléphone</th>
-                            <th>Date d'enregistrement</th>
+                            <th class="display_none">Date d'enregistrement</th>
                             <th>Modifier</th>
                             <th>Supprimer</th>
                         </tr>
@@ -320,22 +320,21 @@ $page_selected = 'admin';
                     <tbody>
                         <?php foreach($resultat_data_users as $info_users ){ ?>
                         <tr>
-                            <td>
+                            <td class="display_none avatar">
                                 <img src="<?php if($info_users['avatar'] == NULL)
                                                         {   
                                                             echo 'css/images/no-image.png';
-
                                                         }
                                                         else
                                                         {
                                                             echo $info_users['avatar'] ; 
-                                                        }?>" alt="avatar" width='30'>
+                                                        }?>" alt="avatar" width='30' height='30'>
                             </td>
                             <td><?php echo $info_users ['id_utilisateur']?></td>
                             <td><?php echo $info_users ['nom'] ?></td>
                             <td><?php echo $info_users ['prenom'] ?></td>
 
-                            <td>
+                            <td class="display_none">
                                 <?php 
                                             if($info_users ['gender'] == "Femme"){
                                                 echo '<i class="fas fa-venus"></i>';
@@ -350,14 +349,14 @@ $page_selected = 'admin';
                                             }
                                         ?>
                             </td>
-                            <td><?php echo $info_users ['email'] ?></td>
+                            <td class="display_none"><?php echo $info_users ['email'] ?></td>
                             <td><?php echo $info_users ['num_tel'] ?></td>
-                            <td><?php echo $info_users ['register_date'] ?></td>
+                            <td class="display_none"><?php echo $info_users ['register_date'] ?></td>
 
                             <td>
                                 <a class="user_modify_button" href="compte_utilisateur.php?id=<?php echo $info_users['id_utilisateur']?>">MODIFIER</a>
                             </td>
-                            <td>
+                            <td class="delete_button">
                                 <form method="post" action="">
                                     <button type="submit" name="delete_user"><i class="fas fa-trash-alt"></i></button>
                                     <input type="hidden" name="id_hidden" value="<?php echo $info_users ['id_utilisateur']  ?>">
@@ -367,38 +366,51 @@ $page_selected = 'admin';
                         <?php } ?>
                     </tbody>
                 </table>
-            </section>
-            
-            <section class="form_user">
-                
-                <form method="post" action="">
+                <form method="post" action="" class="form_user">
                     <h2>Ajouter un nouvel utilisateur</h2><br/>
-                    <input type="radio" name="gender" id="male" value="Homme" checked="checked">
-                    <label for="male">Homme</label>
-                    <input type="radio" name="gender" id="female" value="Femme">
-                    <label for="female">Femme</label>
-                    <input type="radio" name="gender" id="no_gender" value="Non genré">
-                    <label for="no_gender">Non genré</label><br />
-
-                    <label for="lastname">Nom</label><br />
-                    <input type="text" name="lastname" placeholder="Nom" autocomplete="on"><br />
-                    <label for="firstname">Prénom</label><br />
-                    <input type="text" name="firstname" placeholder="Prénom" autocomplete="on"><br />
-
-                    <label for="email">Email</label><br />
-                    <input type="email" name="email" placeholder="email@email.com" autocomplete="on"><br />
-                    <label for="num_tel">Numéro de téléphone</label><br />
-                    <input type="text" name="num_tel" placeholder="0123456789" autocomplete="on"><br />
-
-                    <label for="password">Mot de passe</label><br />
-                    <input type="password" name="password" placeholder="Mot de passe"><br />
-                    <label for="conf_password">Confirmation mot de passe</label><br />
-                    <input type="password" name="conf_password" placeholder="Confirmer mot de passe"><br/><br/>
-
-                    <button type="submit" name="submit">Enregistrer</button>
+                    <div class="form_admin_user">
+                        <div class="section_add_list" id="gender_part">
+                            <div class="gender_column">
+                                <label>Genre</label>
+                                <div class="gender_line">
+                                     <input type="radio" name="gender" id="male" value="Homme" checked="checked">
+                                    <label for="male">Homme</label>
+                                </div>
+                                <div class="gender_line">
+                                    <input type="radio" name="gender" id="female" value="Femme">
+                                    <label for="female">Femme</label>
+                                </div>
+                                <div class="gender_line">
+                                    <input type="radio" name="gender" id="no_gender" value="Non genré">
+                                    <label for="no_gender">Non genré</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section_add_list">
+                            <label for="lastname">Nom</label>
+                            <input type="text" name="lastname" placeholder="Nom" autocomplete="on">
+                            <label for="firstname">Prénom</label>
+                            <input type="text" name="firstname" placeholder="Prénom" autocomplete="on">
+                            <label for="num_tel">Numéro de téléphone</label>
+                            <input type="text" name="num_tel" placeholder="0123456789" autocomplete="on">
+                            
+                        </div>
+                        <div class="section_add_list">
+                            
+                            <label for="email">Email</label>
+                            <input type="email" name="email" placeholder="email@email.com" autocomplete="on">
+                             <label for="password">Mot de passe</label>
+                            <input type="password" name="password" placeholder="Mot de passe">
+                            <label for="conf_password">Confirmation mot de passe</label>
+                            <input type="password" name="conf_password" placeholder="Confirmer mot de passe">
+                        </div>
+                    </div>
+                    <div>
+                        <button type="submit" name="submit">Enregistrer</button>
+                    </div>
                 </form>
-            </section>
-            
+            </div>
+
         </section>
 
 
