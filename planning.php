@@ -66,6 +66,7 @@ $page_selected = 'planning';
               <div class="calendar-weekday"><?= $day ?></div>
             <?php endif; ?>
             <div class="calendar-day"><?= $date->format('d');?></div>
+            <?php if (isset($_SESSION['user'])){ ?>
             <?php foreach($eventsForDay as $event): ?>
               <div class="calendar-event">
 
@@ -73,6 +74,7 @@ $page_selected = 'planning';
            
               </div>
             <?php endforeach; ?>
+            <?php } ?>
 
           </td>
           
