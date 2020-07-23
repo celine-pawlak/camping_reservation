@@ -11,6 +11,7 @@ $user->refresh();
 if (isset($_POST["deco"])) {
     $user->disconnect();
 }
+
 ?>
 <header>
     <section id="top-header">

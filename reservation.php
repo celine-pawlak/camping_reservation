@@ -1,8 +1,13 @@
 <?php
 
 $page_selected = 'reservation';
-?>
+$events = new Evenements();
+/*if(!isset ($_GET['id'])){
+  header('location:.php');
+}*/
+$event = $events->find($_GET['id'] ?? null);
 
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,10 +20,23 @@ $page_selected = 'reservation';
     <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
-<header>
-    <?php
-    include("includes/header.php"); ?>
-</header>
+    <header>
+      <?php include("includes/header.php");?>
+    </header>
+    <main>
+      <h1> VOS RÉSERVATIONS </h1>
+        <ul>
+          <li>Date d'arrivée : <?= (new DateTime($event['date_debut']))->format('d/m/Y')?></li>
+          <li>Date de départ : <?= (new DateTime($event['date_fin']))->format('d/m/Y')?></li>
+          <li>lieu: <?= ($event['nom_lieu'])?></li>
+          <li>vos emplacements : <?= ($event['nb_emplacement'])?></li>
+          <li>vos options : <?= ($event['nom_option'])?></li>
+          <li>prix total de la reservation : <?= ($event['prix_total'])?> Euros</li>
+        </ul>
+    </main>
+    <footer>
+      <?php include("includes/footer.php");?>
+    </footer>
 <main>
 </main>
 <footer>
