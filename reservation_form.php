@@ -24,7 +24,6 @@ $page_selected = 'reservation_form';
     require 'class/reservation_form.php';
     $reservation = new reservation($db);
     $connexion = $db->connectDb();
-
     $infos = new camping_properties($db);
     ?>
 </header>
