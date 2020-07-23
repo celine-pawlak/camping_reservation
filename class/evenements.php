@@ -37,27 +37,34 @@ class Evenements{
           $date = explode (' ',$event['date_debut'])[0];
           $fin = explode  (' ',$event['date_fin'])[0];
           //var_dump ($date);
-          //var_dump ($test);
 
-          $datetime1 = (new DateTime($date));
-          $datetime2 = (new DateTime($fin));
-          $interval = $datetime1->diff($datetime2);
-          echo $interval->format('%a');
+          $date_in = strtotime ($event['date_debut']);
+          $date_out = strtotime ($event['date_fin']);
 
-          if(!isset($days[$date])){
-              $days[$date] = [$event];
-          } else {
-              $days[$date][] = $event;
-          }
+          $test = array();
+        
 
-          if(!isset($days[$fin])){
-            $days[$fin] = [$event];
-        } else {
-            $days[$fin][] = $event;
+          for($i = $date_in; $i <= $date_out; $i += strtotime('+1 day', 0))
+          {
+             
+            $test[] = date('Y-m-d', $i);
+
+            //$days[date('Y-m-d', $i)] = [$event];
+
+            if(!isset($days[$date])){
+                $days[date('Y-m-d', $i)] = [$event];
+            } else {
+                $days[date('Y-m-d', $i)][] = $event;
+            }
+
+
         }
 
-        
+ 
       }
+      //echo '<pre>';
+      //var_dump($test);
+      //echo '</pre>';
       return $days;
 
     }
