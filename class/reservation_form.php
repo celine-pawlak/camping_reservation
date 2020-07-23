@@ -1,7 +1,5 @@
 <?php
 
-require 'messages.php';
-require 'Database.php';
 
 class reservation
 {
@@ -12,13 +10,13 @@ class reservation
         $this->db = $db;
     }
 
-    public function Check_reservation($lieu, $date_debut, $date_fin, $emplacements)
+    public function checkReservation($lieu, $date_debut, $date_fin, $emplacements)
     {
         if (strtotime($date_fin) <= strtotime($date_debut)) {
             $errors[] = "La date de fin doit être supérieure à la date de début.";
         }
         $ajd = strtotime(date('Y-m-d'));
-        if (strtotime($date_debut) < $ajd ) {
+        if (strtotime($date_debut) < $ajd) {
             $errors[] = "Vous ne pouvez pas réserver dans le passé !";
         }
         if ((strtotime($date_fin) - strtotime($date_debut)) > 2419200) {
@@ -29,7 +27,7 @@ class reservation
             $errors[] = "Nous ne permettons pas de réserver plus d'un an en avance, merci de revenir plus tard.";
         }
         if (empty($errors)) {
-            self::checkDisponibilite($lieu, $date_debut, $date_fin, $emplacements);
+            return self::checkDisponibilite($lieu, $date_debut, $date_fin, $emplacements);
         } else {
             $message = new messages($errors);
             echo $message->renderMessage();
@@ -41,7 +39,7 @@ class reservation
         $dates = self::checkDates($lieu, $date_debut, $date_fin);
         if (isset($dates)) {
             foreach ($dates as $key => $value) {
-                $prevision = $value - $emplacements;
+                $prevision = $value - (int)$emplacements;
                 if ($prevision < 0) {
                     $jours_non_disponible[] = $key;
                 }
@@ -51,7 +49,7 @@ class reservation
             }
 
             if (empty($jours_non_disponible)) {
-                return TRUE;
+                return true;
             } else {
                 $jours_non_disponible = implode(", ", $jours_non_disponible);
                 $errors[] = "Les jours suivants ne sont pas disponibles avec votre choix de type d'emplacement : $jours_non_disponible";

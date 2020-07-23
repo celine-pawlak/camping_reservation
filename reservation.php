@@ -1,7 +1,6 @@
-<?php 
+<?php
 
-require 'class/evenements.php';
-
+$page_selected = 'reservation';
 $events = new Evenements();
 /*if(!isset ($_GET['id'])){
   header('location:.php');
@@ -16,7 +15,8 @@ $event = $events->find($_GET['id'] ?? null);
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, user-scalable=yes"/>
     <link rel="shortcut icon" type="image/x-icon" href="https://i.ibb.co/XzyCCqt/LOGO1.png">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+          integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
@@ -37,5 +37,11 @@ $event = $events->find($_GET['id'] ?? null);
     <footer>
       <?php include("includes/footer.php");?>
     </footer>
+<main>
+</main>
+<footer>
+    <?php
+    include("includes/footer.php"); ?>
+</footer>
 </body>
 </html>

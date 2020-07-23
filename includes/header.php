@@ -1,8 +1,12 @@
 <?php
 
 require 'class/users.php';
+require 'class/camping_properties.php';
+
 session_start();
-$user = new users;
+$db = new Database();
+$user = new users($db);
+$user->refresh();
 
 if (isset($_POST["deco"])) {
     $user->disconnect();
@@ -11,8 +15,8 @@ if (isset($_POST["deco"])) {
 ?>
 <header>
     <section id="top-header">
-        <a href="newsletter-form.php">RECEVOIR NOTRE BROCHURE</a>
-        <a id="header-title" href="reservation-form.php">RESERVER</a>
+        <a href="#newsletter">RECEVOIR NOTRE BROCHURE</a>
+        <a id="header-title" href="reservation_form.php">RESERVER</a>
     </section>
     <section>
         <nav>
@@ -26,8 +30,8 @@ if (isset($_POST["deco"])) {
                     </a>
                 </li>
                 <?php
-                if (isset($_SESSION["user"])){
-                    if(($_SESSION['user']['is_admin']) == 1){
+                if (isset($_SESSION['user'])){
+                    if ($_SESSION['user']['is_admin'] == 1) {
                         ?>
                         <li><a href="admin.php">PANEL BOARD</a></li>
 
