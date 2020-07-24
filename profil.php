@@ -25,30 +25,30 @@ $page_selected = 'profil';
             //TENTATIVE CONNEXION BDD
             try
                 {
-                    //CONNEXION BDD 
+                    //CONNEXION BDD
                     $connexion = new PDO("mysql:host=localhost;dbname=camping", 'root', '');
                     //DEFINITION MODE ERREUR PDO SUR EXCEPTION
                     $connexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-         
+
                         //DEFINITION DE VARIABLE STOCKANT LA SESSION EN COURS
                         $session=htmlentities(trim($_SESSION['user']['id_user']));
-                        
-                        //RECUPERATION DES DONNEES UTILISATEURS 
+
+                        //RECUPERATION DES DONNEES UTILISATEURS
                         $user_session_data = $connexion->prepare("SELECT * FROM utilisateurs WHERE id_utilisateur = $session ");
                         //EXECUTION DE LA REQUETE
                         $user_session_data->execute();
                         //RECUPERATION RESULTAT
                         $user_session_data_result = $user_session_data->fetchAll(PDO::FETCH_ASSOC);
-                        
+
                          //var_dump($user_session_data_result);
-                        
+
                         //SI ON APPUIS SUR L'ENVOI DE FICHIER
                         if(isset($_POST['send']))
                         {
                                 //DEFINITION DES VARIABLES STOCKANT LA PHOTO ET LE CHEMIN VERS LA PHOTO
                                $file_name=$_FILES["photo"]["name"];
                                 $avatar="uploads/$file_name";
-                                
+
                                 //SI AUCUN AVATAR EXISTE POUR MA SESSION EN COURS
                                 if( $user_session_data_result[0]['avatar'] == "NULL")
                                 {
@@ -59,7 +59,7 @@ $page_selected = 'profil';
                                    $insert1->bindParam(':avatar',$avatar, PDO::PARAM_STR);
                                     //EXECUTION REQUETE
                                    $insert1->execute();
-           
+
                                 }
                             else
                                 {
@@ -69,9 +69,9 @@ $page_selected = 'profil';
                                    $update1= $connexion->prepare($update_avatar);
                                    $update1->bindParam(':avatar',$avatar, PDO::PARAM_STR);
                                     //EXECUTION REQUETE
-                                   $update1->execute(); 
+                                   $update1->execute();
                                 }
-                            
+
                                 if($_SERVER["REQUEST_METHOD"] == "POST")
                                 {
                                     // Vérifie si le fichier a été uploadé sans erreur.
@@ -94,29 +94,29 @@ $page_selected = 'profil';
                                             if(file_exists("uploads/".$_FILES["photo"]["name"]))
                                             {
                                                 echo $_FILES["photo"]["name"] . " existe déjà.";
-                                            } 
+                                            }
                                             else
                                             {*/
                                                 move_uploaded_file($_FILES["photo"]["tmp_name"], "uploads/" . $_FILES["photo"]["name"]);
                                                 header('location:profil.php');
                                            /* } */
-                                        } 
+                                        }
                                         else
                                         {
-                                            echo "Error: Il y a eu un problème de téléchargement de votre fichier. Veuillez réessayer."; 
-                                            echo "Error: Téléchargement du fichier impossible. Veuillez réessayer."; 
+                                            echo "Error: Il y a eu un problème de téléchargement de votre fichier. Veuillez réessayer.";
+                                            echo "Error: Téléchargement du fichier impossible. Veuillez réessayer.";
                                         }
-                                    } 
+                                    }
                                     else
                                     {
                                     echo "Error: " . $_FILES["photo"]["error"];
                                     }
-                                }              
+                                }
                         }
-                        
+
                         //SI ON SUPPRIME LA PHOTO
                         if(isset($_POST['delete']))
-                
+
                         {
                             //SI UN AVATAR EXISTE BIEN EN BDD
                             if($user_session_data_result[0]['avatar'] != NULL)
@@ -127,17 +127,17 @@ $page_selected = 'profil';
                                 //PREPARATION REQUETE
                                 $delete1 = $connexion->prepare($delete_avatar);
                                 $delete1->bindParam(':avatar',$avatar_delete, PDO::PARAM_NULL);
-                                //EXECUTION REQUETE 
+                                //EXECUTION REQUETE
                                 $delete1->execute();
                                 header('location:profil.php');
                             }
                         }
-                
-                
-                
-                
-                
-                        
+
+
+
+
+
+
                         //MODIFICATION DES DONNEES DE L'UTILISATEUR SI ON APPUIS SUR VALIDER
                         if(isset($_POST['submit']))
                         {
@@ -150,7 +150,7 @@ $page_selected = 'profil';
                             $password=htmlentities(trim($_POST['password']));
                             $check_password=htmlentities(trim($_POST['check_password']));
                             $hash=password_hash($password,PASSWORD_BCRYPT,array('cost'=>10));
-                            
+
                             //SI LE CHAMPS GENRE EST REMPLI
                             if($gender)
                             {
@@ -162,7 +162,7 @@ $page_selected = 'profil';
                                 //EXECUTION REQUETE
                                 $update_niv1->execute();
                             }
-                           
+
                             //SI LE CHAMPS NOM EST REMPLI
                             if($lastname)
                             {
@@ -174,8 +174,8 @@ $page_selected = 'profil';
                                 //EXECUTION REQUETE
                                 $update_niv2->execute();
                             }
-                         
-                            
+
+
                             //SI LE CHAMPS PRENOM EST REMPLI
                             if($firstname)
                             {
@@ -187,7 +187,7 @@ $page_selected = 'profil';
                                 //EXECUTION REQUETE
                                 $update_niv3->execute();
                             }
-                            
+
                             if($mail)
                             {
                                 //MISE A JOUR DES DONNEES
@@ -198,7 +198,7 @@ $page_selected = 'profil';
                                 //EXECUTION REQUETE
                                 $update_niv4->execute();
                             }
-                            
+
                             if($phone)
                             {
                                 //MISE A JOUR DES DONNEES
@@ -209,8 +209,8 @@ $page_selected = 'profil';
                                 //EXECUTION REQUETE
                                 $update_niv5->execute();
                             }
-                        
-                            
+
+
                              //SI LES CHAMPS MOTS DE PASSE ET CONFIRMATION DE MOT DE PASSE SONT  REMPLIS
                             if($password AND $check_password)
                             {
@@ -229,7 +229,7 @@ $page_selected = 'profil';
                                     echo "Vos mots de passe doivent être identiques<br/>";
                                 }
                             }
-                      
+
 
                             header ('location:profil.php');
                         }
@@ -242,7 +242,7 @@ $page_selected = 'profil';
                             if(!empty($password) AND !empty($check))
                             {
                                 if($password == $check);
-                                $user->delete($password); 
+                                $user->delete($password);
                             }
 
                         }

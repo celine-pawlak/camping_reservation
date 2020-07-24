@@ -121,7 +121,7 @@ class users
 
         if (empty($errors)) {
             $q2 = $connexion->prepare(
-                "INSERT INTO utilisateurs (nom, prenom, email, password, register_date, is_admin, num_tel, gender) VALUES (:nom,:prenom,:email,:password,:register_date,:is_admin,:num_tel,:gender)"
+                "INSERT INTO utilisateurs (nom, prenom, email, password, register_date, is_admin, num_tel, gender, avatar) VALUES (:nom,:prenom,:email,:password,:register_date,:is_admin,:num_tel,:gender, :avatar)"
             );
             $q2->bindParam(':nom', $lastname, PDO::PARAM_STR);
             $q2->bindParam(':prenom', $firstname, PDO::PARAM_STR);
@@ -131,6 +131,7 @@ class users
             $q2->bindValue(':is_admin', 0, PDO::PARAM_INT);
             $q2->bindParam(':num_tel', $num_tel, PDO::PARAM_STR);
             $q2->bindParam(':gender', $gender, PDO::PARAM_STR);
+            $q2->bindValue(':gender', 'css/images/no-image.png', PDO::PARAM_STR);
             $q2->execute();
             header('location:connexion.php');
         } else {
