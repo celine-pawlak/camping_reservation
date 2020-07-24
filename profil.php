@@ -266,28 +266,28 @@ $page_selected = 'profil';
 ?>
 
         <section class="personnal_data">
-            
+
             <h1>PROFIL</h1>
 
             <form action="" method="post" class="info_user" enctype="multipart/form-data">
-                
+
                 <div class="order_personnal_data">
                     <div class="avatar">
-                        
+
                         <img src="
                              <?php 
                               if($user_session_data_result[0]['avatar'] == NULL){
                                   echo 'css/images/no-image.png';
                               }else{echo $user_session_data_result[0]['avatar'];}
-                              ?>" alt="avatar" width="300" height="300"><br/>
-                                <h2>Modifiez votre avatar</h2><br/>
+                              ?>" alt="avatar" width="300" height="300"><br />
+                        <h2>Modifiez votre avatar</h2><br />
 
-                        <input type="file" name="photo"><br/><br/>
+                        <input type="file" name="photo"><br /><br />
                         <input type="submit" name="send" value="ENVOYER">
                         <button type="submit" name="delete"><i class="fas fa-trash-alt"></i></button>
                     </div>
                     <div>
-                        <h2>Modifiez vos données personnelles</h2><br/>
+                        <h2>Modifiez vos données personnelles</h2><br />
                         <?php 
 
                         $gender_check = html_entity_decode($user_session_data_result[0]['gender']);
@@ -308,12 +308,12 @@ $page_selected = 'profil';
                         <label for="no_gender">Non genré</label><br />
 
                         <div class="name_form">
-                             <label for="name">Nom</label><br/>
-                            <input type="text" name="lastname" value="<?php echo $user_session_data_result[0]['nom'] ?>"><br/>
+                            <label for="name">Nom</label><br />
+                            <input type="text" name="lastname" value="<?php echo $user_session_data_result[0]['nom'] ?>"><br />
                             <label for="firstname">Prénom</label><br />
-                            <input type="text" name="firstname" value="<?php echo $user_session_data_result[0]['prenom'] ?>"><br/>
+                            <input type="text" name="firstname" value="<?php echo $user_session_data_result[0]['prenom'] ?>"><br />
                         </div>
-                       
+
 
                         <label for="mail">Email</label><br />
                         <input type="mail" name="mail" value="<?php echo $user_session_data_result[0]['email'] ?>"><br />
@@ -323,32 +323,32 @@ $page_selected = 'profil';
                         <label for="password">Mot de passe</label><br />
                         <input type="password" name="password" placeholder="Entrez votre nouveau mot de passe"><br />
                         <label for="password">Confirmation de mot de passe</label><br />
-                        <input type="password" name="check_password" placeholder="Confirmez votre nouveau mot de passe"><br /><br/>
+                        <input type="password" name="check_password" placeholder="Confirmez votre nouveau mot de passe"><br /><br />
 
                         <input type="submit" name="submit" value="VALIDER"><br />
-                        
+
                         <h2>Supprimez définitivement votre compte</h2>
 
-                         <label for="">Entrez votre mot de passe actuel</label><br/>
-                        <input type="password" name="password_delete" placeholder="Entrez votre mot de passe actuel"><br/>
-                        <label for="password_delete_check">Confirmez votre mot de passe</label><br/>
-                        <input type="password" name="password_delete_check" placeholder="Confirmez votre mot de passe actuel"><br/><br/>
+                        <label for="">Entrez votre mot de passe actuel</label><br />
+                        <input type="password" name="password_delete" placeholder="Entrez votre mot de passe actuel"><br />
+                        <label for="password_delete_check">Confirmez votre mot de passe</label><br />
+                        <input type="password" name="password_delete_check" placeholder="Confirmez votre mot de passe actuel"><br /><br />
                         <input type="submit" name="delete_account" value="SUPPRIMER">
                     </div>
                 </div>
-                
-                
-                
-                
+
+
+
+
 
             </form>
         </section>
-        
-        
-        <br/>
-        
+
+
+        <br />
+
         <section class="booking_section">
-            
+
             <?php 
             
              //RECUPERATION DES DONNEES UTILISATEURS 
@@ -400,10 +400,10 @@ $page_selected = 'profil';
             }
                                    
             ?>
-            
-            
+
+
             <h1>MES RESERVATIONS</h1>
-            
+
             <table>
                 <thead>
                     <?php foreach($info_result2 as $i){ ?>
@@ -425,15 +425,15 @@ $page_selected = 'profil';
                     <?php } ?>
                 </tbody>
             </table>
-            
+
             <form action="" method="post">
                 <h2>Modifiez vos réservations</h2>
             </form>
-            
-            
+
+
         </section>
-       
-        
+
+
 
 
     </main>
