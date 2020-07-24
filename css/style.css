@@ -867,16 +867,14 @@ footer nav ul li{
 {
     display: flex;
     flex-direction: column;
-    margin-right:10%;
-    margin-left:10%;
     margin-top:5%;
     margin-bottom:5%;
+    align-items: center;
 }
 
-.admin_table
-{
-    margin-top:5%;
-}
+
+
+.admin_table{margin-top:5%;}
 
 .admin_table h2
 {
@@ -895,14 +893,22 @@ footer nav ul li{
     color:white;
     background-color:#333;
 }
-.admin_table td, th
+
+.admin_table td,
+.admin_table th
 {
     border-top:0.1px solid lightgray;
     border-bottom:0.1px solid lightgray;
-    padding: 1%;
     text-align: center;
-    align-items: center;
+    padding:1%;
 }
+ 
+.admin_gestion th,
+.admin_gestion td
+{
+    padding:3%;
+}
+
 
 .user_modify_button
 {
@@ -919,7 +925,7 @@ footer nav ul li{
     transition:1s;
 }
 
-.admin_table button
+.delete_button button
 {
     color:red;
     padding:4%;
@@ -929,23 +935,109 @@ footer nav ul li{
     border-radius:5px;
 }
 
-.admin_table button:hover
+.delete_button button:hover
 {
 background-color:pink;
 border-radius:20%;
 
 }
 
-.form_user
+.form_user,.form_admin
 {
     display: flex;
     flex-direction: column;
-    align-items: center;
     background-color:#333;
     color:white;
     padding:2%;
     text-align: center;
 }
+
+.form_user button
+{
+    color:white;
+    background-color:black;
+    padding:1%;
+    border:none;
+    border-radius:5px;
+    font-size:15px;
+    
+}
+
+.form_user button:hover
+{
+    background-color:#FFFACD;
+    color:#333;
+    border-radius:none;
+    transition:1s;
+}
+
+.section_add_list
+{
+    display:flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width:100%;
+    padding:3%;
+}
+
+.section_add_list input[type="text"],
+.section_add_list input[type="password"],
+.section_add_list input[type="number"],
+.section_add_list input[type="email"]
+{
+    width:100%;
+    margin-bottom:3%;
+}
+
+.section_add_list input[type="text"],
+.section_add_list input[type="password"],
+.section_add_list input[type="number"],
+.section_add_list input[type="email"],
+.form_admin input[type="text"],
+.form_admin  input[type="password"],
+.form_admin  input[type="number"],
+.form_admin  input[type="email"]
+{
+    
+    border-radius:5px;
+    height:25px;
+    padding:2%;
+    font-size:15px;
+}
+
+.form_admin {align-items: center;}
+
+.form_admin input[type="text"],
+.form_admin  input[type="password"],
+.form_admin  input[type="number"],
+.form_admin  input[type="email"]
+{
+    width:90%;
+    margin-bottom:5%;
+}
+
+.form_admin input[type="submit"]
+{
+    width:70%;
+    background-color:black;
+    color:white;
+    height:30px;
+    margin-bottom:5%;
+    border:none;
+    padding:2%;
+}
+
+
+
+
+.form_admin_user
+{
+    display: flex;
+    flex-direction:row;
+    justify-content: space-around;
+    width:100%;
+}
+
 
 .gestion_admin
 {
@@ -962,31 +1054,102 @@ border-radius:20%;
     width:30%;
 }
 
-
 .admin_general h1
 {
     text-align: center;
 }
 
-.form_admin 
+
+
+
+
+
+
+.gender_line
 {
-    color:white;
-    background-color:#333;
-    text-align :center;
-    padding:5%;
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    margin-top: 20%;
 }
+
+.gender_line label 
+{
+    margin-left:2%;
+}
+
+.gender_column
+{
+    display: flex;
+    flex-direction: column;
+    width:50%;
+    
+}
+
+#gender_part
+{
+    display: flex;
+    align-items: center; 
+}
+ 
+
+
+
 
 
 
 
 
 /*** RESPONSIVE ADMIN ***/
-@media (max-width: 980px){
+
+
+@media (max-width: 1400px){
+    .gestion_admin
+    {
+        flex-wrap:wrap;
+    }
+    .admin_gestion
+    {
+        width:40%;
+    }
+}
+
+@media (max-width: 980px)
+{
+    .admin_gestion
+    {
+        width:70%;
+    }
+    .display_none{display:none;}
+    .form_admin_user{flex-direction: column;}
+    .gender_column
+    {
+        flex-direction:row;
+        justify-content:center;
+        align-content: center;
+        background-color:pink;
+        width:100%;
+    }
+    .section_add_list input[type="text"],
+    .section_add_list input[type="password"],
+    .section_add_list input[type="number"],
+    .section_add_list input[type="email"]
+    {
+        width:90%;
+    }
+    .form_user button
+    {
+        padding:2%;
+        margin-bottom:5%;
+    }
+
+
 }
 
 @media screen and (max-width:800px){
  
 }
+
 @media screen and (max-width:500px){
  
 }
@@ -997,7 +1160,8 @@ border-radius:20%;
 /*** PROFIL  ***/
 
 
-.personnal_data
+.personnal_data,
+.booking_section
 {
     margin-right:10%;
     margin-left:10%;
@@ -1027,7 +1191,23 @@ border-radius:20%;
 .delete
 {
     text-align: center;
+
 }
+
+
+
+.booking_section
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+
+
+
+
+
 /*** RESPONSIVE PROFIL ***/
 @media (max-width: 980px){
 }
@@ -1038,6 +1218,8 @@ border-radius:20%;
 @media screen and (max-width:500px){
  
 }
+
+
 
 
 

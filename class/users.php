@@ -139,7 +139,7 @@ class users
             echo $message->renderMessage();
         }
     }
-
+    
     public
     function disconnect()
     {

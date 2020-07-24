@@ -17,93 +17,243 @@ $page_selected = 'profil';
 </head>
 
 <body>
-<header>
-    <?php
-    include("includes/header.php"); ?>
-</header>
-<main>
-    <?php
-    //TENTATIVE CONNEXION BDD
-    try {
-        //CONNEXION BDD
-        $connexion = new PDO("mysql:host=localhost;dbname=camping", 'root', '');
-        //DEFINITION MODE ERREUR PDO SUR EXCEPTION
-        $connexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    <header>
+        <?php include("includes/header.php"); ?>
+    </header>
+    <main>
+        <?php
+            //TENTATIVE CONNEXION BDD
+            try
+                {
+                    //CONNEXION BDD
+                    $connexion = new PDO("mysql:host=localhost;dbname=camping", 'root', '');
+                    //DEFINITION MODE ERREUR PDO SUR EXCEPTION
+                    $connexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        //DEFINITION DE VARIABLE STOCKANT LA SESSION EN COURS
-        $session = htmlentities(trim($_SESSION['user']['id_user']));
+                        //DEFINITION DE VARIABLE STOCKANT LA SESSION EN COURS
+                        $session=htmlentities(trim($_SESSION['user']['id_user']));
 
-        //RECUPERATION DES DONNEES UTILISATEURS
-        $user_session_data = $connexion->prepare("SELECT * FROM utilisateurs WHERE id_utilisateur = $session ");
-        //EXECUTION DE LA REQUETE
-        $user_session_data->execute();
-        //RECUPERATION RESULTAT
-        $user_session_data_result = $user_session_data->fetchAll(PDO::FETCH_ASSOC);
+                        //RECUPERATION DES DONNEES UTILISATEURS
+                        $user_session_data = $connexion->prepare("SELECT * FROM utilisateurs WHERE id_utilisateur = $session ");
+                        //EXECUTION DE LA REQUETE
+                        $user_session_data->execute();
+                        //RECUPERATION RESULTAT
+                        $user_session_data_result = $user_session_data->fetchAll(PDO::FETCH_ASSOC);
 
-        //var_dump($user_session_data_result);
+                         //var_dump($user_session_data_result);
 
-        //SI ON APPUIS SUR L'ENVOI DE FICHIER
-        if (isset($_POST['send'])) {
-            //DEFINITION DES VARIABLES STOCKANT LA PHOTO ET LE CHEMIN VERS LA PHOTO
-            $file_name = $_FILES["photo"]["name"];
-            $avatar = "uploads/$file_name";
+                        //SI ON APPUIS SUR L'ENVOI DE FICHIER
+                        if(isset($_POST['send']))
+                        {
+                                //DEFINITION DES VARIABLES STOCKANT LA PHOTO ET LE CHEMIN VERS LA PHOTO
+                               $file_name=$_FILES["photo"]["name"];
+                                $avatar="uploads/$file_name";
 
-            //SI AUCUN AVATAR EXISTE POUR MA SESSION EN COURS
-            if ($user_session_data_result[0]['avatar'] == "NULL") {
-                //INSERTION AVATAR
-                $insert_avatar = "INSERT INTO utilisateurs (avatar) VALUES (:avatar) WHERE id_utilisateur = '$session'";
-                //PREPARATION REQUETE
-                $insert1 = $connexion->prepare($insert_avatar);
-                $insert1->bindParam(':avatar', $avatar, PDO::PARAM_STR);
-                //EXECUTION REQUETE
-                $insert1->execute();
-            } else {
-                //MISE A JOUR AVATAR
-                $update_avatar = "UPDATE utilisateurs SET avatar = :avatar WHERE id_utilisateur = '$session'";
-                //PREPARATION REQUETE
-                $update1 = $connexion->prepare($update_avatar);
-                $update1->bindParam(':avatar', $avatar, PDO::PARAM_STR);
-                //EXECUTION REQUETE
-                $update1->execute();
-            }
+                                //SI AUCUN AVATAR EXISTE POUR MA SESSION EN COURS
+                                if( $user_session_data_result[0]['avatar'] == "NULL")
+                                {
+                                    //INSERTION AVATAR
+                                    $insert_avatar="INSERT INTO utilisateurs (avatar) VALUES (:avatar) WHERE id_utilisateur = '$session'";
+                                    //PREPARATION REQUETE
+                                   $insert1= $connexion->prepare($insert_avatar);
+                                   $insert1->bindParam(':avatar',$avatar, PDO::PARAM_STR);
+                                    //EXECUTION REQUETE
+                                   $insert1->execute();
+
+                                }
+                            else
+                                {
+                                    //MISE A JOUR AVATAR
+                                    $update_avatar="UPDATE utilisateurs SET avatar = :avatar WHERE id_utilisateur = '$session'";
+                                    //PREPARATION REQUETE
+                                   $update1= $connexion->prepare($update_avatar);
+                                   $update1->bindParam(':avatar',$avatar, PDO::PARAM_STR);
+                                    //EXECUTION REQUETE
+                                   $update1->execute();
+                                }
 
 
-            if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                // Vérifie si le fichier a été uploadé sans erreur.
-                if (isset($_FILES["photo"]) && $_FILES["photo"]["error"] == 0) {
-                    $allowed = array(
-                        "jpg" => "image/jpg",
-                        "jpeg" => "image/jpeg",
-                        "gif" => "image/gif",
-                        "png" => "image/png"
-                    );
-                    $filename = $_FILES["photo"]["name"];
-                    $filetype = $_FILES["photo"]["type"];
-                    $filesize = $_FILES["photo"]["size"];
 
-                    // Vérifie l'extension du fichier
-                    $ext = pathinfo($filename, PATHINFO_EXTENSION);
+                                if($_SERVER["REQUEST_METHOD"] == "POST")
+                                {
+                                    // Vérifie si le fichier a été uploadé sans erreur.
+                                    if(isset($_FILES["photo"]) && $_FILES["photo"]["error"] == 0)
+                                    {
+                                        $allowed = array("jpg" => "image/jpg", "jpeg" => "image/jpeg", "gif" => "image/gif", "png" => "image/png");
+                                        $filename = $_FILES["photo"]["name"];
+                                        $filetype = $_FILES["photo"]["type"];
+                                        $filesize = $_FILES["photo"]["size"];
 
-                    if (!array_key_exists($ext, $allowed)) {
-                        die("Erreur : Veuillez sélectionner un format de fichier valide.");
-                    }
+                                        // Vérifie l'extension du fichier
+                                        $ext = pathinfo($filename, PATHINFO_EXTENSION);
 
-                    // Vérifie la taille du fichier - 5Mo maximum
-                    $maxsize = 5 * 1024 * 1024;
+                                        if(!array_key_exists($ext, $allowed)) die("Erreur : Veuillez sélectionner un format de fichier valide.");
 
-                    if ($filesize > $maxsize) {
-                        die("Error: La taille du fichier est supérieure à la limite autorisée.");
-                    }
+                                        // Vérifie la taille du fichier - 5Mo maximum
+                                        $maxsize = 5 * 1024 * 1024;
 
-                    // Vérifie le type MIME du fichier
-                    if (in_array($filetype, $allowed)) {
-                        // Vérifie si le fichier existe avant de le télécharger.
-                        if (file_exists("uploads/" . $_FILES["photo"]["name"])) {
-                            echo $_FILES["photo"]["name"] . " existe déjà.";
-                        } else {
-                            move_uploaded_file($_FILES["photo"]["tmp_name"], "uploads/" . $_FILES["photo"]["name"]);
+                                        if($filesize > $maxsize) die("Error: La taille du fichier est supérieure à la limite autorisée.");
 
-                            header('location:profil.php');
+                                        // Vérifie le type MIME du fichier
+                                        if(in_array($filetype, $allowed))
+                                        {
+                                            /*// Vérifie si le fichier existe avant de le télécharger.
+                                            if(file_exists("uploads/".$_FILES["photo"]["name"]))
+                                            {
+                                                echo $_FILES["photo"]["name"] . " existe déjà.";
+
+                                            }
+                                            else
+                                            {*/
+                                                move_uploaded_file($_FILES["photo"]["tmp_name"], "uploads/" . $_FILES["photo"]["name"]);
+
+                                                header('location:profil.php');
+
+                                            /*}*/
+                                        }
+                                        else
+                                        {
+                                            echo "Error: Téléchargement du fichier impossible. Veuillez réessayer.";
+                                        }
+                                    }
+                                    else
+                                    {
+                                    echo "Error: " . $_FILES["photo"]["error"];
+                                    }
+                                }
+
+                        }
+
+                        //SI ON SUPPRIME LA PHOTO
+                        if(isset($_POST['delete']))
+
+                        {
+                            //SI UN AVATAR EXISTE BIEN EN BDD
+                            if($user_session_data_result[0]['avatar'] != NULL)
+                            {
+                                $avatar_delete = NULL ;
+                                //SUPPRESSION AVATAR EN BDD
+                                $delete_avatar = "UPDATE utilisateurs SET avatar=:avatar WHERE id_utilisateur = '$session' ";
+                                //PREPARATION REQUETE
+                                $delete1 = $connexion->prepare($delete_avatar);
+                                $delete1->bindParam(':avatar',$avatar_delete, PDO::PARAM_NULL);
+                                //EXECUTION REQUETE
+                                $delete1->execute();
+                                header('location:profil.php');
+                            }
+                        }
+
+
+
+
+                        //MODIFICATION DES DONNEES DE L'UTILISATEUR SI ON APPUIS SUR VALIDER
+                        if(isset($_POST['submit']))
+                        {
+                            //DEFINITION DES VARIABLES STOCKANT LES DONNEES UTILISATEURS
+                            $gender=htmlentities(trim($_POST['gender']));
+                            $lastname=htmlentities(trim($_POST['lastname']));
+                            $firstname=htmlentities(trim($_POST['firstname']));
+                            $mail=htmlentities(trim($_POST['mail']));
+                            $phone=htmlentities(trim($_POST['phone_number']));
+                            $password=htmlentities(trim($_POST['password']));
+                            $check_password=htmlentities(trim($_POST['check_password']));
+                            $hash=password_hash($password,PASSWORD_BCRYPT,array('cost'=>10));
+
+                            //SI LE CHAMPS GENRE EST REMPLI
+                            if(!empty($gender))
+                            {
+                                //MISE A JOUR DES DONNEES
+                                $update_gender = "UPDATE utilisateurs SET gender=:gender WHERE id_utilisateur = '$session' ";
+                                //PREPARATION REQUETE
+                                $update_niv1 = $connexion -> prepare($update_gender);
+                                $update_niv1->bindParam(':gender',$gender, PDO::PARAM_STR);
+                                //EXECUTION REQUETE
+                                $update_niv1->execute();
+                            }
+
+                            //SI LE CHAMPS NOM EST REMPLI
+                            if(!empty($lastname))
+                            {
+                                //MISE A JOUR DES DONNEES
+                                $update_lastname = "UPDATE utilisateurs SET nom=:lastname WHERE id_utilisateur = '$session' ";
+                                //PREPARATION REQUETE
+                                $update_niv2 = $connexion -> prepare($update_lastname);
+                                $update_niv2->bindParam(':lastname',$lastname, PDO::PARAM_STR);
+                                //EXECUTION REQUETE
+                                $update_niv2->execute();
+                            }
+
+
+                            //SI LE CHAMPS PRENOM EST REMPLI
+                            if(!empty($firstname))
+                            {
+                                //MISE A JOUR DES DONNEES
+                                $update_firstname = "UPDATE utilisateurs SET prenom=:firstname WHERE id_utilisateur = '$session' ";
+                                //PREPARATION REQUETE
+                                $update_niv3 = $connexion -> prepare($update_firstname);
+                                $update_niv3->bindParam(':firstname',$firstname, PDO::PARAM_STR);
+                                //EXECUTION REQUETE
+                                $update_niv3->execute();
+                            }
+
+                            if(!empty($mail))
+                            {
+                                //MISE A JOUR DES DONNEES
+                                $update_mail = "UPDATE utilisateurs SET email=:mail WHERE id_utilisateur = '$session' ";
+                                //PREPARATION REQUETE
+                                $update_niv4 = $connexion -> prepare($update_mail);
+                                $update_niv4->bindParam(':mail',$mail, PDO::PARAM_STR);
+                                //EXECUTION REQUETE
+                                $update_niv4->execute();
+                            }
+
+                            if(!empty($phone))
+                            {
+                                //MISE A JOUR DES DONNEES
+                                $update_phone = "UPDATE utilisateurs SET num_tel=:phone WHERE id_utilisateur = '$session' ";
+                                //PREPARATION REQUETE
+                                $update_niv5 = $connexion -> prepare($update_phone);
+                                $update_niv5->bindParam(':phone',$phone, PDO::PARAM_STR);
+                                //EXECUTION REQUETE
+                                $update_niv5->execute();
+                            }
+
+
+                             //SI LES CHAMPS MOTS DE PASSE ET CONFIRMATION DE MOT DE PASSE SONT  REMPLIS
+                            if(!empty($password) AND !empty($check_password))
+                            {
+                                if($password == $check_password)
+                                {
+                                    //MISE A JOUR DES DONNEES
+                                    $update_password = "UPDATE utilisateurs SET password=:hash WHERE id_utilisateur = '$session' ";
+                                    //PREPARATION REQUETE
+                                    $update_niv6 = $connexion -> prepare($update_password);
+                                    $update_niv6->bindParam(':hash',$hash, PDO::PARAM_STR);
+                                    //EXECUTION REQUETE
+                                    $update_niv6->execute();
+                                }
+                                else
+                                {
+                                    echo "Vos mots de passe doivent être identiques<br/>";
+                                }
+                            }
+
+
+
+                            header ('location:profil.php');
+                        }
+
+                        if(isset($_POST['delete_account']))
+                        {
+                            $password=htmlentities(trim($_POST['password_delete']));
+                            $check=htmlentities(trim($_POST['password_delete_check']));
+
+                            if(!empty($password) AND !empty($check))
+                            {
+                                if($password == $check);
+                                $user->delete($password);
+                            }
+
                         }
                     } else {
                         echo "Error: Téléchargement du fichier impossible. Veuillez réessayer.";
@@ -233,120 +383,181 @@ $page_selected = 'profil';
     }
 
 
-    ?>
+        <section class="personnal_data">
 
-    <section class="personnal_data">
+            <h1>PROFIL</h1>
 
-        <h1>PROFIL</h1>
+            <form action="" method="post" class="info_user" enctype="multipart/form-data">
 
-        <form action="" method="post" class="info_user" enctype="multipart/form-data">
+                <div class="order_personnal_data">
+                    <div class="avatar">
 
-            <div class="order_personnal_data">
-                <div class="avatar">
-                    <h2>Modifiez votre avatar</h2><br/>
-                    <img src="
+                        <img src="
                              <?php
-                    if ($user_session_data_result[0]['avatar'] == null) {
-                        echo 'css/images/no-image.png';
-                    } else {
-                        echo $user_session_data_result[0]['avatar'];
-                    }
-                    ?>" alt="avatar" width="300" height="300"><br/>
+                              if($user_session_data_result[0]['avatar'] == NULL){
+                                  echo 'css/images/no-image.png';
+                              }else{echo $user_session_data_result[0]['avatar'];}
+                              ?>" alt="avatar" width="300" height="300"><br />
+                        <h2>Modifiez votre avatar</h2><br />
+
+                        <input type="file" name="photo"><br /><br />
+                        <input type="submit" name="send" value="ENVOYER">
+                        <button type="submit" name="delete"><i class="fas fa-trash-alt"></i></button>
+                    </div>
+                    <div>
+                        <h2>Modifiez vos données personnelles</h2><br />
+                        <?php
+
+                        $gender_check = html_entity_decode($user_session_data_result[0]['gender']);
+                        $check = ($gender_check=="Femme")?true:false;
+                        $check2 = ($gender_check=="Homme")?true:false;
+                        $check3 = ($gender_check=="Non genré")?true:false;
+
+                        ?>
+
+                        <input type="radio" name="gender" value="Femme" <?php if($check==true){echo "checked";}else{echo "";}  ?> />
+
+                        <label for="female">Femme</label>
+
+                        <input type="radio" name="gender" value="Homme" <?php if($check2==true){echo "checked";}else{echo "";} ?> />
+                        <label for="male">Homme</label>
+
+                        <input type="radio" name="gender" value="Non genré" <?php if($check3==true){echo "checked";}else{echo "";} ?> />
+                        <label for="no_gender">Non genré</label><br />
+
+                        <div class="name_form">
+                            <label for="name">Nom</label><br />
+                            <input type="text" name="lastname" value="<?php echo $user_session_data_result[0]['nom'] ?>"><br />
+                            <label for="firstname">Prénom</label><br />
+                            <input type="text" name="firstname" value="<?php echo $user_session_data_result[0]['prenom'] ?>"><br />
+                        </div>
 
 
-                    <input type="file" name="photo">
-                    <input type="submit" name="send" value="ENVOYER">
-                    <input type='submit' name="delete" value="SUPPRIMER"><br/><br/>
+                        <label for="mail">Email</label><br />
+                        <input type="mail" name="mail" value="<?php echo $user_session_data_result[0]['email'] ?>"><br />
+                        <label for="phone_number">Numéro de téléphone</label><br />
+                        <input type="text" name="phone_number" value="<?php echo $user_session_data_result[0]['num_tel'] ?>"><br />
+
+                        <label for="password">Mot de passe</label><br />
+                        <input type="password" name="password" placeholder="Entrez votre nouveau mot de passe"><br />
+                        <label for="password">Confirmation de mot de passe</label><br />
+                        <input type="password" name="check_password" placeholder="Confirmez votre nouveau mot de passe"><br /><br />
+
+                        <input type="submit" name="submit" value="VALIDER"><br />
+
+                        <h2>Supprimez définitivement votre compte</h2>
+
+                        <label for="">Entrez votre mot de passe actuel</label><br />
+                        <input type="password" name="password_delete" placeholder="Entrez votre mot de passe actuel"><br />
+                        <label for="password_delete_check">Confirmez votre mot de passe</label><br />
+                        <input type="password" name="password_delete_check" placeholder="Confirmez votre mot de passe actuel"><br /><br />
+                        <input type="submit" name="delete_account" value="SUPPRIMER">
+                    </div>
                 </div>
-                <div>
-                    <h2>Modifiez vos données personnelles</h2><br/>
-                    <?php
-
-                    $gender_check = html_entity_decode($user_session_data_result[0]['gender']);
-                    $check = ($gender_check == "Femme") ? true : false;
-                    $check2 = ($gender_check == "Homme") ? true : false;
-                    $check3 = ($gender_check == "Non genré") ? true : false;
-
-                    ?>
-
-                    <input type="radio" name="gender" value="Femme" <?php
-                    if ($check == true) {
-                        echo "checked";
-                    } else {
-                        echo "";
-                    } ?> />
-
-                    <label for="female">Femme</label>
-
-                    <input type="radio" name="gender" value="Homme" <?php
-                    if ($check2 == true) {
-                        echo "checked";
-                    } else {
-                        echo "";
-                    } ?> />
-                    <label for="male">Homme</label>
-
-                    <input type="radio" name="gender" value="Non genré" <?php
-                    if ($check3 == true) {
-                        echo "checked";
-                    } else {
-                        echo "";
-                    } ?> />
-                    <label for="no_gender">Non genré</label><br/>
-
-                    <label for="name">Nom</label><br/>
-                    <input type="text" name="lastname" value="<?php
-                    echo $user_session_data_result[0]['nom'] ?>"><br/>
-                    <label for="firstname">Prénom</label><br/>
-                    <input type="text" name="firstname" value="<?php
-                    echo $user_session_data_result[0]['prenom'] ?>"><br/>
-
-                    <label for="mail">Email</label><br/>
-                    <input type="mail" name="mail" value="<?php
-                    echo $user_session_data_result[0]['email'] ?>"><br/>
-                    <label for="phone_number">Numéro de téléphone</label><br/>
-                    <input type="text" name="phone_number" value="<?php
-                    echo $user_session_data_result[0]['num_tel'] ?>"><br/>
-
-                    <label for="password">Mot de passe</label><br/>
-                    <input type="password" name="password" placeholder="Entrez votre nouveau mot de passe"><br/>
-                    <label for="password">Confirmation de mot de passe</label><br/>
-                    <input type="password" name="check_password"
-                           placeholder="Confirmez votre nouveau mot de passe"><br/><br/>
-
-                    <input type="submit" name="submit" value="VALIDER"><br/>
-                </div>
-            </div>
 
 
-        </form>
-    </section>
 
 
-    <br/>
 
-    <section class="delete">
-        <h2>Supprimez définitivement votre compte</h2>
-
-        <form action="" method="post">
-            <label for="">Entrez votre mot de passe actuel</label><br/>
-            <input type="password" name="password_delete" placeholder="Entrez votre mot de passe actuel"><br/>
-            <label for="password_delete_check">Confirmez votre mot de passe</label><br/>
-            <input type="password" name="password_delete_check"
-                   placeholder="Confirmez votre mot de passe actuel"><br/><br/>
-            <input type="submit" name="delete_account" value="SUPPRIMER">
-        </form>
-
-    </section>
-
-    <h1>Modifier vos réservations</h1>
+            </form>
+        </section>
 
 
-</main>
-<footer>
-    <?php
-    include('includes/footer.php'); ?>
-</footer>
+        <br />
+
+        <section class="booking_section">
+
+            <?php
+
+             //RECUPERATION DES DONNEES UTILISATEURS
+            $info = $connexion->prepare("SELECT id_reservation FROM reservations WHERE id_utilisateur = $session ");
+            //EXECUTION DE LA REQUETE
+            $info->execute();
+            //RECUPERATION RESULTAT
+            $info_result = $info->rowCount();
+            $info_result1 = $info->fetchAll(PDO::FETCH_ASSOC);
+
+            var_dump($info_result1);
+            //var_dump($info_result1[][]);
+
+            foreach($info_result1 as $id_reservations){
+                echo $id_reservations['id_reservation'][0].'<br/>' ;
+            }
+
+
+            if( $info_result >= 1)
+            {
+                $info2 = $connexion->prepare("
+                SELECT
+                reservations.id_reservation,
+                reservations.date_debut,
+                reservations.date_fin,
+                detail_lieux.nom_lieu,
+                detail_lieux.prix_journalier,
+                detail_types_emplacement.nom_type_emplacement, detail_types_emplacement.nb_emplacements_reserves,
+                detail_options.nom_option,
+                detail_options.prix_option
+                FROM
+                reservations, detail_lieux, detail_types_emplacement,  detail_options
+                WHERE
+                reservations.id_reservation = '1'
+                AND
+                reservations.id_reservation = detail_lieux.id_reservation
+                AND
+                reservations.id_reservation = detail_types_emplacement.id_reservation
+                AND
+                reservations.id_reservation = detail_options.id_reservation
+
+
+
+                ");
+
+                $info2->execute();
+                $info_result2 = $info2->fetchAll(PDO::FETCH_ASSOC);
+                var_dump($info_result2);
+            }
+
+            ?>
+
+
+            <h1>MES RESERVATIONS</h1>
+
+            <table>
+                <thead>
+                    <?php foreach($info_result2 as $i){ ?>
+                    <tr>
+                        <th>Commande n°<?php echo $i['id_reservation'] ?></th>
+                        <th>Date de début <?php echo $i['date_debut'] ?></th>
+                        <th>Date de fin <?php echo $i['date_fin'] ?></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><?php echo $i['nom_lieu'] ?></td>
+                        <td><?php echo $i['prix_journalier'] ?></td>
+                        <td><?php echo $i['nom_type_emplacement'] ?></td>
+                        <td><?php echo $i['nb_emplacements_reserves'] ?></td>
+                        <td><?php echo $i['nom_option'] ?></td>
+                        <td><?php echo $i['prix_option'] ?></td>
+                    </tr>
+                    <?php } ?>
+                </tbody>
+            </table>
+
+            <form action="" method="post">
+                <h2>Modifiez vos réservations</h2>
+            </form>
+
+
+        </section>
+
+
+
+
+    </main>
+    <footer>
+        <?php include('includes/footer.php'); ?>
+    </footer>
 </body>
 
 </html>
