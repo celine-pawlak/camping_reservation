@@ -24,14 +24,11 @@ $page_selected = 'reservation_form';
     require 'class/reservation_form.php';
     $reservation = new reservation($db);
     $connexion = $db->connectDb();
-
     $infos = new camping_properties($db);
     ?>
 </header>
 <main>
     <?php
-    var_dump($_POST);
-
     if (isset($_POST['submit'])) {
         foreach ($_POST as $key => $value) {
             if ($value != 'default') {
