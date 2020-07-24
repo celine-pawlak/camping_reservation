@@ -1,4 +1,5 @@
 <?php
+
 $page_selected = 'profil';
 ?>
 
@@ -8,9 +9,10 @@ $page_selected = 'profil';
 <head>
     <title>camping - profil</title>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, user-scalable=yes" />
+    <meta name="viewport" content="width=device-width, user-scalable=yes"/>
     <link rel="shortcut icon" type="image/x-icon" href="https://i.ibb.co/XzyCCqt/LOGO1.png">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+          integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 
@@ -23,30 +25,30 @@ $page_selected = 'profil';
             //TENTATIVE CONNEXION BDD
             try
                 {
-                    //CONNEXION BDD 
+                    //CONNEXION BDD
                     $connexion = new PDO("mysql:host=localhost;dbname=camping", 'root', '');
                     //DEFINITION MODE ERREUR PDO SUR EXCEPTION
                     $connexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-         
+
                         //DEFINITION DE VARIABLE STOCKANT LA SESSION EN COURS
                         $session=htmlentities(trim($_SESSION['user']['id_user']));
-                        
-                        //RECUPERATION DES DONNEES UTILISATEURS 
+
+                        //RECUPERATION DES DONNEES UTILISATEURS
                         $user_session_data = $connexion->prepare("SELECT * FROM utilisateurs WHERE id_utilisateur = $session ");
                         //EXECUTION DE LA REQUETE
                         $user_session_data->execute();
                         //RECUPERATION RESULTAT
                         $user_session_data_result = $user_session_data->fetchAll(PDO::FETCH_ASSOC);
-                        
+
                          //var_dump($user_session_data_result);
-                        
+
                         //SI ON APPUIS SUR L'ENVOI DE FICHIER
                         if(isset($_POST['send']))
                         {
                                 //DEFINITION DES VARIABLES STOCKANT LA PHOTO ET LE CHEMIN VERS LA PHOTO
                                $file_name=$_FILES["photo"]["name"];
                                 $avatar="uploads/$file_name";
-                                
+
                                 //SI AUCUN AVATAR EXISTE POUR MA SESSION EN COURS
                                 if( $user_session_data_result[0]['avatar'] == "NULL")
                                 {
@@ -57,7 +59,7 @@ $page_selected = 'profil';
                                    $insert1->bindParam(':avatar',$avatar, PDO::PARAM_STR);
                                     //EXECUTION REQUETE
                                    $insert1->execute();
-           
+
                                 }
                             else
                                 {
@@ -67,10 +69,10 @@ $page_selected = 'profil';
                                    $update1= $connexion->prepare($update_avatar);
                                    $update1->bindParam(':avatar',$avatar, PDO::PARAM_STR);
                                     //EXECUTION REQUETE
-                                   $update1->execute(); 
+                                   $update1->execute();
                                 }
 
-                            
+
 
                                 if($_SERVER["REQUEST_METHOD"] == "POST")
                                 {
@@ -100,31 +102,31 @@ $page_selected = 'profil';
                                             {
                                                 echo $_FILES["photo"]["name"] . " existe déjà.";
 
-                                            } 
+                                            }
                                             else
                                             {*/
                                                 move_uploaded_file($_FILES["photo"]["tmp_name"], "uploads/" . $_FILES["photo"]["name"]);
 
                                                 header('location:profil.php');
 
-                                            /*}*/ 
-                                        } 
+                                            /*}*/
+                                        }
                                         else
                                         {
-                                            echo "Error: Téléchargement du fichier impossible. Veuillez réessayer."; 
+                                            echo "Error: Téléchargement du fichier impossible. Veuillez réessayer.";
                                         }
-                                    } 
+                                    }
                                     else
                                     {
                                     echo "Error: " . $_FILES["photo"]["error"];
                                     }
-                                }              
+                                }
 
                         }
-                        
+
                         //SI ON SUPPRIME LA PHOTO
                         if(isset($_POST['delete']))
-                
+
                         {
                             //SI UN AVATAR EXISTE BIEN EN BDD
                             if($user_session_data_result[0]['avatar'] != NULL)
@@ -135,15 +137,15 @@ $page_selected = 'profil';
                                 //PREPARATION REQUETE
                                 $delete1 = $connexion->prepare($delete_avatar);
                                 $delete1->bindParam(':avatar',$avatar_delete, PDO::PARAM_NULL);
-                                //EXECUTION REQUETE 
+                                //EXECUTION REQUETE
                                 $delete1->execute();
                                 header('location:profil.php');
                             }
                         }
-                
-                
-            
-                        
+
+
+
+
                         //MODIFICATION DES DONNEES DE L'UTILISATEUR SI ON APPUIS SUR VALIDER
                         if(isset($_POST['submit']))
                         {
@@ -156,7 +158,7 @@ $page_selected = 'profil';
                             $password=htmlentities(trim($_POST['password']));
                             $check_password=htmlentities(trim($_POST['check_password']));
                             $hash=password_hash($password,PASSWORD_BCRYPT,array('cost'=>10));
-                            
+
                             //SI LE CHAMPS GENRE EST REMPLI
                             if(!empty($gender))
                             {
@@ -168,7 +170,7 @@ $page_selected = 'profil';
                                 //EXECUTION REQUETE
                                 $update_niv1->execute();
                             }
-                           
+
                             //SI LE CHAMPS NOM EST REMPLI
                             if(!empty($lastname))
                             {
@@ -180,8 +182,8 @@ $page_selected = 'profil';
                                 //EXECUTION REQUETE
                                 $update_niv2->execute();
                             }
-                         
-                            
+
+
                             //SI LE CHAMPS PRENOM EST REMPLI
                             if(!empty($firstname))
                             {
@@ -193,7 +195,7 @@ $page_selected = 'profil';
                                 //EXECUTION REQUETE
                                 $update_niv3->execute();
                             }
-                            
+
                             if(!empty($mail))
                             {
                                 //MISE A JOUR DES DONNEES
@@ -204,7 +206,7 @@ $page_selected = 'profil';
                                 //EXECUTION REQUETE
                                 $update_niv4->execute();
                             }
-                            
+
                             if(!empty($phone))
                             {
                                 //MISE A JOUR DES DONNEES
@@ -215,8 +217,8 @@ $page_selected = 'profil';
                                 //EXECUTION REQUETE
                                 $update_niv5->execute();
                             }
-                        
-                            
+
+
                              //SI LES CHAMPS MOTS DE PASSE ET CONFIRMATION DE MOT DE PASSE SONT  REMPLIS
                             if(!empty($password) AND !empty($check_password))
                             {
@@ -235,35 +237,151 @@ $page_selected = 'profil';
                                     echo "Vos mots de passe doivent être identiques<br/>";
                                 }
                             }
-                      
 
-                      
+
+
                             header ('location:profil.php');
                         }
-                
+
                         if(isset($_POST['delete_account']))
                         {
                             $password=htmlentities(trim($_POST['password_delete']));
                             $check=htmlentities(trim($_POST['password_delete_check']));
-                            
+
                             if(!empty($password) AND !empty($check))
                             {
                                 if($password == $check);
-                                $user->delete($password); 
+                                $user->delete($password);
                             }
-                            
+
                         }
-
-
+                    } else {
+                        echo "Error: Téléchargement du fichier impossible. Veuillez réessayer.";
+                    }
+                } else {
+                    echo "Error: " . $_FILES["photo"]["error"];
                 }
+            }
+        }
 
-                catch(PDOException $e)
-                {
-                    echo "Erreur : " . $e->getMessage();
+        //SI ON SUPPRIME LA PHOTO
+        if (isset($_POST['delete'])) {
+            //SI UN AVATAR EXISTE BIEN EN BDD
+            if ($user_session_data_result[0]['avatar'] != null) {
+                $avatar_delete = null;
+                //SUPPRESSION AVATAR EN BDD
+                $delete_avatar = "UPDATE utilisateurs SET avatar=:avatar WHERE id_utilisateur = '$session' ";
+                //PREPARATION REQUETE
+                $delete1 = $connexion->prepare($delete_avatar);
+                $delete1->bindParam(':avatar', $avatar_delete, PDO::PARAM_NULL);
+                //EXECUTION REQUETE
+                $delete1->execute();
+                header('location:profil.php');
+            }
+        }
+
+
+        //MODIFICATION DES DONNEES DE L'UTILISATEUR SI ON APPUIS SUR VALIDER
+        if (isset($_POST['submit'])) {
+            //DEFINITION DES VARIABLES STOCKANT LES DONNEES UTILISATEURS
+            $gender = htmlentities(trim($_POST['gender']));
+            $lastname = htmlentities(trim($_POST['lastname']));
+            $firstname = htmlentities(trim($_POST['firstname']));
+            $mail = htmlentities(trim($_POST['mail']));
+            $phone = htmlentities(trim($_POST['phone_number']));
+            $password = htmlentities(trim($_POST['password']));
+            $check_password = htmlentities(trim($_POST['check_password']));
+            $hash = password_hash($password, PASSWORD_BCRYPT, array('cost' => 10));
+
+            //SI LE CHAMPS GENRE EST REMPLI
+            if ($gender) {
+                //MISE A JOUR DES DONNEES
+                $update_gender = "UPDATE utilisateurs SET gender=:gender WHERE id_utilisateur = '$session' ";
+                //PREPARATION REQUETE
+                $update_niv1 = $connexion->prepare($update_gender);
+                $update_niv1->bindParam(':gender', $gender, PDO::PARAM_STR);
+                //EXECUTION REQUETE
+                $update_niv1->execute();
+            }
+
+            //SI LE CHAMPS NOM EST REMPLI
+            if ($lastname) {
+                //MISE A JOUR DES DONNEES
+                $update_lastname = "UPDATE utilisateurs SET nom=:lastname WHERE id_utilisateur = '$session' ";
+                //PREPARATION REQUETE
+                $update_niv2 = $connexion->prepare($update_lastname);
+                $update_niv2->bindParam(':lastname', $lastname, PDO::PARAM_STR);
+                //EXECUTION REQUETE
+                $update_niv2->execute();
+            }
+
+
+            //SI LE CHAMPS PRENOM EST REMPLI
+            if ($firstname) {
+                //MISE A JOUR DES DONNEES
+                $update_firstname = "UPDATE utilisateurs SET prenom=:firstname WHERE id_utilisateur = '$session' ";
+                //PREPARATION REQUETE
+                $update_niv3 = $connexion->prepare($update_firstname);
+                $update_niv3->bindParam(':firstname', $firstname, PDO::PARAM_STR);
+                //EXECUTION REQUETE
+                $update_niv3->execute();
+            }
+
+            if ($mail) {
+                //MISE A JOUR DES DONNEES
+                $update_mail = "UPDATE utilisateurs SET email=:mail WHERE id_utilisateur = '$session' ";
+                //PREPARATION REQUETE
+                $update_niv4 = $connexion->prepare($update_mail);
+                $update_niv4->bindParam(':mail', $mail, PDO::PARAM_STR);
+                //EXECUTION REQUETE
+                $update_niv4->execute();
+            }
+
+            if ($phone) {
+                //MISE A JOUR DES DONNEES
+                $update_phone = "UPDATE utilisateurs SET num_tel=:phone WHERE id_utilisateur = '$session' ";
+                //PREPARATION REQUETE
+                $update_niv5 = $connexion->prepare($update_phone);
+                $update_niv5->bindParam(':phone', $phone, PDO::PARAM_STR);
+                //EXECUTION REQUETE
+                $update_niv5->execute();
+            }
+
+
+            //SI LES CHAMPS MOTS DE PASSE ET CONFIRMATION DE MOT DE PASSE SONT  REMPLIS
+            if ($password and $check_password) {
+                if ($password == $check_password) {
+                    //MISE A JOUR DES DONNEES
+                    $update_password = "UPDATE utilisateurs SET password=:hash WHERE id_utilisateur = '$session' ";
+                    //PREPARATION REQUETE
+                    $update_niv6 = $connexion->prepare($update_password);
+                    $update_niv6->bindParam(':hash', $hash, PDO::PARAM_STR);
+                    //EXECUTION REQUETE
+                    $update_niv6->execute();
+                } else {
+                    echo "Vos mots de passe doivent être identiques<br/>";
                 }
-    
+            }
 
-?>
+
+            header('location:profil.php');
+        }
+
+        if (isset($_POST['delete_account'])) {
+            $password = htmlentities(trim($_POST['password_delete']));
+            $check = htmlentities(trim($_POST['password_delete_check']));
+
+            if (!empty($password) and !empty($check)) {
+                if ($password == $check) {
+                    ;
+                }
+                $user->delete($password);
+            }
+        }
+    } catch (PDOException $e) {
+        echo "Erreur : " . $e->getMessage();
+    }
+
 
         <section class="personnal_data">
 
@@ -275,7 +393,7 @@ $page_selected = 'profil';
                     <div class="avatar">
 
                         <img src="
-                             <?php 
+                             <?php
                               if($user_session_data_result[0]['avatar'] == NULL){
                                   echo 'css/images/no-image.png';
                               }else{echo $user_session_data_result[0]['avatar'];}
@@ -288,12 +406,12 @@ $page_selected = 'profil';
                     </div>
                     <div>
                         <h2>Modifiez vos données personnelles</h2><br />
-                        <?php 
+                        <?php
 
                         $gender_check = html_entity_decode($user_session_data_result[0]['gender']);
-                        $check = ($gender_check=="Femme")?true:false; 
-                        $check2 = ($gender_check=="Homme")?true:false; 
-                        $check3 = ($gender_check=="Non genré")?true:false; 
+                        $check = ($gender_check=="Femme")?true:false;
+                        $check2 = ($gender_check=="Homme")?true:false;
+                        $check3 = ($gender_check=="Non genré")?true:false;
 
                         ?>
 
@@ -349,56 +467,56 @@ $page_selected = 'profil';
 
         <section class="booking_section">
 
-            <?php 
-            
-             //RECUPERATION DES DONNEES UTILISATEURS 
+            <?php
+
+             //RECUPERATION DES DONNEES UTILISATEURS
             $info = $connexion->prepare("SELECT id_reservation FROM reservations WHERE id_utilisateur = $session ");
             //EXECUTION DE LA REQUETE
             $info->execute();
             //RECUPERATION RESULTAT
             $info_result = $info->rowCount();
             $info_result1 = $info->fetchAll(PDO::FETCH_ASSOC);
-                                   
-            var_dump($info_result1);     
-            //var_dump($info_result1[][]);     
-             
+
+            var_dump($info_result1);
+            //var_dump($info_result1[][]);
+
             foreach($info_result1 as $id_reservations){
                 echo $id_reservations['id_reservation'][0].'<br/>' ;
-            }                       
-                                   
-                                   
+            }
+
+
             if( $info_result >= 1)
             {
                 $info2 = $connexion->prepare("
-                SELECT 
-                reservations.id_reservation, 
-                reservations.date_debut, 
-                reservations.date_fin, 
-                detail_lieux.nom_lieu, 
-                detail_lieux.prix_journalier, 
+                SELECT
+                reservations.id_reservation,
+                reservations.date_debut,
+                reservations.date_fin,
+                detail_lieux.nom_lieu,
+                detail_lieux.prix_journalier,
                 detail_types_emplacement.nom_type_emplacement, detail_types_emplacement.nb_emplacements_reserves,
-                detail_options.nom_option, 
-                detail_options.prix_option 
-                FROM 
+                detail_options.nom_option,
+                detail_options.prix_option
+                FROM
                 reservations, detail_lieux, detail_types_emplacement,  detail_options
                 WHERE
                 reservations.id_reservation = '1'
-                AND 
+                AND
                 reservations.id_reservation = detail_lieux.id_reservation
-                AND 
+                AND
                 reservations.id_reservation = detail_types_emplacement.id_reservation
-                AND 
+                AND
                 reservations.id_reservation = detail_options.id_reservation
-           
-                
-                
+
+
+
                 ");
-                
+
                 $info2->execute();
                 $info_result2 = $info2->fetchAll(PDO::FETCH_ASSOC);
-                var_dump($info_result2);  
+                var_dump($info_result2);
             }
-                                   
+
             ?>
 
 

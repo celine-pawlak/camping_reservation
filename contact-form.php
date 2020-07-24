@@ -1,27 +1,26 @@
 <?php
-$page_selected = 'contact_form';
-?>
-
-<!DOCTYPE html>
-<html>
-<head>
-    <title>camping - contact</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, user-scalable=yes"/>
-    <link rel="shortcut icon" type="image/x-icon" href="https://i.ibb.co/XzyCCqt/LOGO1.png">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="css/style.css">
-</head>
-<body>
-    <header>
-      <?php include("includes/header.php")?>
-    </header>
-    <main> 
-    </main>
-    <footer>
-      <?php include("includes/footer.php")?>
-    </footer>
-</body>
-</html>
-
+$connexion = $db->connectDb();
+if (!empty($_POST['emailnews'])){
+    $email_news = $_POST['emailnews'];
+    $email_required = preg_match("/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/", $email_news);
+    if (!$email_required){
+        $errors[] = "L'email n'est pas conforme.";
+    }
+    $q2 = $connexion->prepare("SELECT email FROM newsletter WHERE email = :email");
+    $q2->bindParam('email', $email_news, PDO::PARAM_STR);
+    $q2->execute();
+    $email_check = $q2->fetch();
+    if (!empty($email_check)){
+        $errors[] = "Vous êtes déjà abonné(e) à notre newsletter.";
+    }
+    if(empty($errors)){
+        $q = $connexion->prepare("INSERT INTO newsletter (email) VALUES (:email)");
+        $q->bindParam(':email',$_POST['emailnews'],PDO::PARAM_STR);
+        $q->execute();
+    }
+    else{
+        $message = new messages($errors);
+        echo $message->renderMessage();
+    }
+}
 

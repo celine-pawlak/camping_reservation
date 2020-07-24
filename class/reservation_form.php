@@ -30,8 +30,7 @@ class reservation
             return self::checkDisponibilite($lieu, $date_debut, $date_fin, $emplacements);
         } else {
             $message = new messages($errors);
-             echo $message->renderMessage();
-
+            echo $message->renderMessage();
         }
     }
 
@@ -55,7 +54,7 @@ class reservation
                 $jours_non_disponible = implode(", ", $jours_non_disponible);
                 $errors[] = "Les jours suivants ne sont pas disponibles avec votre choix de type d'emplacement : $jours_non_disponible";
                 $message = new messages($errors);
-                return $message->renderMessage();
+                echo $message->renderMessage();
             }
         }
     }
@@ -89,7 +88,7 @@ class reservation
         $date_fin = date('d/m/Y', strtotime($date_fin));
         $errors[] = "Il n'y a aucun emplacement disponible entre le $date_debut et le $date_fin à $lieu";
         $message = new messages($errors);
-        return $message->renderMessage();
+        echo $message->renderMessage();
     }
 
     //Donne le nombre d'emplacement disponible pour un jour donné et un lieu donné

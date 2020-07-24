@@ -4,7 +4,6 @@
 class messages
 {
     public $messages;
-    
     public function __construct(array $messages)
     {
         $this->messages = $messages;

@@ -146,7 +146,7 @@
         return $calcul;
       }
       $resultat = facture($nb_jours = $days, $operation = '*', $total_jour = ($price_day + $price_option));
-      echo $resultat;
+      //echo $resultat;
 
 
       //requete pour inséerer les infos de la resa dans la table prix_detail

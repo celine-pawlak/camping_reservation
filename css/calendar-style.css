@@ -1,0 +1,181 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,700;1,700;1,900&display=swap');
+
+
+*{
+ margin: 0;
+ padding: 0;
+ list-style: none;
+ text-decoration: none;
+ font-family: 'Hind Siliguri', sans-serif;
+}
+
+body{
+ width: 100%;
+}
+
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+/*** CALENDAR ***/
+
+.calendar_table{
+
+    width: 90%;
+    height:calc(100vh - 128px);
+
+}
+
+.calendar_table td{
+
+   padding: 10px;
+   border: 1px solid #CCC;
+   vertical-align: top;
+   width: 14.29%;
+   height: 20%;
+
+}
+
+.calendar_table--6weeks td{
+    height: 16.66%;
+
+}
+
+.calendar-weekday{
+    font-weight: bold;
+    color: #000;
+    font-size: 1.2em;
+}
+
+.calendar-day{
+    font-size: 1em;
+}
+
+.calendar-other .calendar-day{
+    opacity:0.3;
+}
+
+.calenda__button{
+  display: block;
+  width: 55px;
+  height: 55px;
+  line-height: 55px;
+  text-align: center;
+  color: #FFF;
+  font-size: 30px;
+  background-color: aquamarine;
+  border-radius: 50%;
+  position: absolute;
+  bottom: 30px;
+  right: 30px;
+  text-decoration: none;
+  transition: transform 0.3s;
+  box-shadow: 0, 6px 10px 0 #000;
+}
+
+.calendar__button:hover{
+    text-decoration: none;
+    color :  #FFF;
+    transform: scale(1.2);
+}
+
+
+/* - - - - - - - add button - - - - - - - */
+
+#box-button{
+    display: flex;
+    margin-top: -25px;
+  }
+  .icon-btn {
+    width: 50px;
+    height: 50px;
+    border: 1px solid #cdcdcd;
+    background: white;
+    border-radius: 25px;
+    overflow: hidden;
+    position: relative;
+    transition: width 0.5s ease-in-out;
+  }
+  .add-btn:hover {
+    width: 200px;
+  }
+  
+  .add-btn::before,
+  .add-btn::after {
+    transition: width 0.2s ease-in-out, border-radius 0.2s ease-in-out;
+    content: "";
+    position: absolute;
+    height: 4px;
+    width: 10px;
+    top: calc(50% - 2px);
+    background: blue;
+  }
+  .add-btn::after {
+    right: 14px;
+    overflow: hidden;
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+  }
+  .add-btn::before {
+    left: 14px;
+    border-top-left-radius: 2px;
+    border-bottom-left-radius: 2px;
+  }
+  .icon-btn:focus {
+    outline: none;
+  }
+  .btn-txt {
+    opacity: 0;
+    background-color: white;
+    transition: opacity 0.2s;
+    border: none;
+    color: #110D57;
+  }
+  
+  .add-btn:hover::before,
+  .add-btn:hover::after {
+    width: 4px;
+    border-radius: 2px;
+  }
+  .add-btn:hover .btn-txt {
+    opacity: 1;
+  }
+  .add-icon::after,
+  .add-icon::before {
+    transition: all 0.2s ease-in-out;
+    content: "";
+    position: absolute;
+    height: 20px;
+    width: 2px;
+    top: calc(50% - 10px);
+    background:blue;
+    overflow: hidden;
+  }
+  .add-icon::before {
+    left: 22px;
+    border-top-left-radius: 2px;
+    border-bottom-left-radius: 2px;
+  }
+  .add-icon::after {
+    right: 22px;
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+  }
+  .add-btn:hover .add-icon::before {
+    left: 15px;
+    height: 4px;
+    top: calc(50% - 2px);
+  }
+  .add-btn:hover .add-icon::after {
+    right: 15px;
+    height: 4px;
+    top: calc(50% - 2px);
+  }
+
+
+
+
+
+
+
+
