@@ -529,7 +529,7 @@ footer nav ul li{
   align-items: center;
 }
 
-#description h1{
+#description h1, #avis_index h1{
   display: inline-block;
   text-transform: uppercase;
   border-bottom: 4px solid #077C62;
@@ -737,6 +737,87 @@ footer nav ul li{
   font-weight: 500;
 }
 
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+/*** AVIS FROM INDEX***/
+
+#avis_index{
+    display: flex;
+    flex-direction: column;
+    background-color: #E1FEF8;
+    align-items: center;
+    font-family: 'Hind Siliguri', sans-serif;
+}
+#last_avis_index{
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+}
+#last_avis_index > div{
+    flex: 1;
+}
+.avis_utilisateur{
+    display: flex;
+    flex-direction: column;
+    margin:0.5rem;
+}
+.avis_texte{
+    padding-left: 0.5rem ;
+    border-left: 1px solid #077C62;
+    flex: 1;
+    margin:0.5rem 0.5rem 0.5rem 0rem;
+    display: flex;
+    flex-direction: column;
+}
+.avis_texte_quote{
+    color:grey;
+}
+.avis, .note_avis{
+    display: flex;
+    flex-direction: row;
+}
+.note_avis{
+    justify-content: space-between;
+    font-weight: bolder;
+    color: #077C62;
+}
+.avis{
+    align-items: center;
+    justify-content: space-evenly;
+    border: 1px solid #077C62;
+    margin: 15px 15px;
+    font-weight: 500;
+    background-color: white;
+}
+.titre_avis{
+    font-weight: bold;
+    text-transform: uppercase;
+}
+#avis_index a{
+    display: flex;
+    background-color: #077C62;
+    justify-content: center;
+    font-size: 15px;
+    padding:0.3rem;
+    margin: 2rem;
+    border: 1px solid whitesmoke;
+    text-transform: uppercase;
+    color: whitesmoke;
+    font-weight: 300;
+}
+#avis_index a:hover{
+    background-color: whitesmoke;
+    border: 1px solid #077C62;
+    color: #077C62;
+    transition: 1.5s;
+}
+.fa-angle-double-left, .fa-angle-double-right{
+    font-size: 50%;
+}
+.date_avis{
+    align-self: flex-end;
+    font-size: 12px;
+}
+
 /*** RESPONSIVE INDEX ***/
 
 
@@ -767,14 +848,14 @@ footer nav ul li{
   width: 80%;
 }
 
-#description h1{
+#description h1, #avis_index h1{
   font-size: 20px;
 }
-#description p{
+#description p, #avis_index p{
   width: 80%;
 }
 
-#description aside{
+#description aside, #avis_index aside{
  font-size: 11px;
  width: 80%;
 }
@@ -824,11 +905,6 @@ footer nav ul li{
   }
  
 }
-
-/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
-/*** AVIS ***/
-
-
 
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 /*** INSCRIPTION ***/

@@ -6,6 +6,15 @@ function addComment($note, $titre, $avis, $id_user, $id_reservation)
     $db = new Database();
     $connexion = $db->connectDb();
 
+    //verification unique
+    $q = $connexion->prepare("SELECT id_reservation FROM avis WHERE id_reservation = :id_reservation");
+    $q->bindParam(':id_reservation', $id_reservation, PDO::PARAM_INT);
+    $q->execute();
+    $avis_existant = $q->fetch();
+    if (!empty($avis_existant)){
+        $errors[] = "Vous avez déjà laissé un avis pour ce séjour !";
+    }
+
     //verification note
     if ($note < 0 or $note > 5) {
         $errors[] = "La note doit être comprise entre 0 et 5";
@@ -62,22 +71,22 @@ function viewComment($id_avis)
     $q2->execute();
     $other_infos_from_reservation = $q2->fetch();
     ?>
-    <div>
-        <div> <!-- utilisateur -->
+    <div class="avis">
+        <div class="avis_utilisateur"> <!-- utilisateur -->
             <img src="<?= $other_infos_from_reservation['avatar'] ?>"
-                 alt="Avatar de <?= $other_infos_from_reservation['nom'] ?>"
+                 alt="Avatar de <?= $other_infos_from_reservation['prenom'] ?>"
                  width='30' height='30'>
-            <p><?= $other_infos_from_reservation['nom'] ?></p>
+            <p><?= $other_infos_from_reservation['prenom'] ?></p>
         </div>
-        <div><!-- avis -->
-            <div>
+        <div class="avis_texte"><!-- avis -->
+            <div class="note_avis">
                 <p><?= $avis['note_sejour'] ?>/5</p>
                 <p>Avis publié le <?= $avis['post_date'] ?></p>
             </div>
-            <p><?= $avis['titre_avis'] ?></p>
-            <p><?= $avis['texte_avis'] ?></p>
-            <p>A séjourné du <?= $other_infos_from_reservation['date_debut'] ?>
-                au <?= $other_infos_from_reservation['date_fin'] ?></p>
+            <p class="titre_avis"><?= $avis['titre_avis'] ?></p>
+            <p class="avis_texte_quote"><i class="fas fa-angle-double-left"></i> <?= $avis['texte_avis'] ?> <i class="fas fa-angle-double-right"></i></p>
+            <p class="date_avis">A séjourné du <?= $other_infos_from_reservation['date_debut'] ?>
+                au <?= $other_infos_from_reservation['date_fin'] ?></pclass>
         </div>
     </div>
     <?php

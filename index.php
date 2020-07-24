@@ -26,7 +26,7 @@ $page_selected = 'index';
         <h1>WELCOME</h1>
         <img id="logo" src="src/wave-white.png" alt="icon-waves">
         <h2>une ambiance conviviale, des activités variées, et un cadre idyllique... bienvenue au Sardine's Camp</h2>
-        <a href="reservation-form.php">Réserver votre séjour</a>
+        <a href="reservation_form.php">Réserver votre séjour</a>
     </section>
 
     <section id="description">
@@ -112,9 +112,9 @@ $page_selected = 'index';
         </section>
     </section>
 
-    <section class="testimonials">
+    <section id="avis_index">
         <h1>LES 3 DERNIERS AVIS</h1>
-        <section>
+        <section id="last_avis_index">
             <?php
             $q = $connexion->prepare("SELECT id_avis FROM avis ORDER BY id_avis DESC LIMIT 3");
             $q->execute();
