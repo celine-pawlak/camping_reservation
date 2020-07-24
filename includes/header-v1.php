@@ -1,7 +1,11 @@
 <?php
+
 require 'class/users.php';
+require 'class/camping_properties.php';
+
 session_start();
-$user = new users;
+$db = new Database();
+$user = new users($db);
 $user->refresh();
 
 if (isset($_POST["deco"])) {
@@ -10,56 +14,45 @@ if (isset($_POST["deco"])) {
 
 ?>
 <header>
-  <section id="top-header1">
-    <a href="newsletter-form.php">RECEVOIR NOTRE BROCHURE</a>
-    <a id="header-title" href="reservation-form.php">RESERVER</a>
-  </section>
-  <section>
-    <nav>
-      <ul id="nav_links1">
-        <li><a href="planning.php">NOS DISPONIBILITÉS</a></li>
-        <li><a href="#">NOS SERVICES</a></li>
-        <li id="title">
-          <a href="index.php">
-            <img id="logo1" src="https://i.ibb.co/hMhFxXF/logotype1.png" alt="logotype1">
-            <h1>camping boheme chic</h1>
-          </a>
-        </li>
-        <?php 
-        if (isset($_SESSION["user"])){
-          if(($_SESSION['user']['is_admin'])==1){
-          ?>
-          <li><a href="admin.php">PANEL BOARD</a></li>
-          
-            <form  action="index.php" method="post">
-              <input id="deco" name="deco" value="DECONNEXION" type="submit"/>
-            </form>
-       
-          <?php 
-          }
-          else{
-          ?>
+    <section id="top-header1">
+        <a href="#newsletter">RECEVOIR NOTRE BROCHURE</a>
+        <?php
+        if (isset($_SESSION['user']['is_admin']) AND  $_SESSION['user']['is_admin'] == 1) {
+            ?>
+            <li><a href="admin.php">PANEL BOARD</a></li>
+            <?php
+        } ?>
+        <a id="header-title" href="reservation_form.php">RESERVER</a>
+    </section>
+    <section>
+        <nav>
+            <ul id="nav_links1">
+                <li><a href="planning.php">NOS DISPONIBILITÉS</a></li>
+                <li><a href="#">NOS SERVICES</a></li>
+                <li id="title">
+                    <a href="index.php">
+                        <img id="logo1" src="https://i.ibb.co/hMhFxXF/logotype1.png" alt="logotype1">
+                        <h1>camping boheme chic</h1>
+                    </a>
+                </li>
+                <?php
+                if (isset($_SESSION["user"])){
+                    ?>
+                    <li><a href="profil.php">MON COMPTE</a></li>
+                    <form action="index.php" method="post">
+                        <input id="deco" name="deco" value="DECONNEXION" type="submit"/>
+                    </form>
+                    <?php
+                }
+                else{
+                ?>
+                <li><a href="contact-form.php">NOUS CONTACTER</a></li>
+                <li><a id="deco" href="connexion.php"> SE CONNECTER</a></li>
+            </ul>
 
-          <li><a href="profil.php">MON COMPTE</a></li>
-        
-          <form  action="index.php" method="post">
-            <input id="deco" name="deco" value="DECONNEXION" type="submit"/>
-          </form>
-       
+            <?php
+            } ?>
 
-      <?php
-          }
-      ?> 
-     
-      <?php
-        }else{
-      ?>
-      <li><a href="contact-form.php">NOUS CONTACTER</a></li>
-      <li><a id="deco" href="connexion.php"> SE CONNECTER</a></li>
-      </ul>
-
-      <?php }?>
-
-    </nav>
-  </section>
+        </nav>
+    </section>
 </header>

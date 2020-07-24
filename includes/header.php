@@ -16,6 +16,12 @@ if (isset($_POST["deco"])) {
 <header>
     <section id="top-header">
         <a href="#newsletter">RECEVOIR NOTRE BROCHURE</a>
+        <?php
+        if (isset($_SESSION['user']['is_admin']) AND  $_SESSION['user']['is_admin'] == 1) {
+            ?>
+            <li><a href="admin.php">PANEL BOARD</a></li>
+            <?php
+        } ?>
         <a id="header-title" href="reservation_form.php">RESERVER</a>
     </section>
     <section>
@@ -26,41 +32,22 @@ if (isset($_POST["deco"])) {
                 <li id="title">
                     <a href="index.php">
                         <img id="logo1" src="https://i.ibb.co/hMhFxXF/logotype1.png" alt="logotype1">
-                        <h1>camping chic</h1>
+                        <h1>camping boheme chic</h1>
                     </a>
                 </li>
                 <?php
                 if (isset($_SESSION['user'])){
-                    if ($_SESSION['user']['is_admin'] == 1) {
-                        ?>
-                        <li><a href="admin.php">PANEL BOARD</a></li>
-
-                        <form action="index.php" method="post">
-                            <input id="deco" name="deco" value="DECONNEXION" type="submit"/>
-                        </form>
-
-                        <?php
-                    } else {
-                        ?>
-
-                        <li><a href="profil.php">MON COMPTE</a></li>
-
-                        <form action="index.php" method="post">
-                            <input id="deco" name="deco" value="DECONNEXION" type="submit"/>
-                        </form>
-
-
-                        <?php
-                    }
                     ?>
-
+                    <li><a href="profil.php">MON COMPTE</a></li>
+                    <form action="index.php" method="post">
+                        <input id="deco" name="deco" value="DECONNEXION" type="submit"/>
+                    </form>
                     <?php
                 }else{
                 ?>
                 <li><a href="contact-form.php">NOUS CONTACTER</a></li>
                 <li><a id="deco" href="connexion.php"> SE CONNECTER</a></li>
             </ul>
-
             <?php
             } ?>
 

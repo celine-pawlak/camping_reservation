@@ -45,7 +45,7 @@ function viewComment($id_avis)
     $q = $connexion->prepare("SELECT * FROM avis WHERE id_avis = :id_avis");
     $q->bindParam(':id_avis', $id_avis, PDO::PARAM_INT);
     $q->execute();
-    var_dump($avis = $q->fetch());
+    $avis = $q->fetch();
     //récupération réservation
     $reservation = $avis['id_reservation'];
     $q2 = $connexion->prepare(
@@ -65,7 +65,8 @@ function viewComment($id_avis)
     <div>
         <div> <!-- utilisateur -->
             <img src="<?= $other_infos_from_reservation['avatar'] ?>"
-                 alt="Avatar de <?= $other_infos_from_reservation['nom'] ?>">
+                 alt="Avatar de <?= $other_infos_from_reservation['nom'] ?>"
+                 width='30' height='30'>
             <p><?= $other_infos_from_reservation['nom'] ?></p>
         </div>
         <div><!-- avis -->
@@ -81,5 +82,3 @@ function viewComment($id_avis)
     </div>
     <?php
 }
-
-viewComment(1);

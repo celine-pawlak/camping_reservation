@@ -15,7 +15,7 @@ $user->redirect($page_selected);
                 die('Erreur : ' . $e->getMessage());
             }
 
-            if (isset($_SESSION['user'])) {
+            if (isset($_SESSION['user']['id_user'])) {
                 if ($_SESSION['user']['is_admin'] == 1) {
                     ?>
 
