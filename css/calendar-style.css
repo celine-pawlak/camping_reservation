@@ -337,6 +337,11 @@ body{
   .calendar-event{
     display: none;
   }
+
+  #next-button a{
+    color: white;
+  }
+
 }
 
 
