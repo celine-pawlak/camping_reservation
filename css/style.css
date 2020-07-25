@@ -939,6 +939,11 @@ footer nav ul li{
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 /*** ADMIN  ***/
 
+.admin_general h1
+{
+    text-align: center;
+}
+
 .users
 {
     display: flex;
@@ -1128,11 +1133,6 @@ border-radius:20%;
     display:flex;
     flex-direction: column;
     width:30%;
-}
-
-.admin_general h1
-{
-    text-align: center;
 }
 
 

@@ -24,12 +24,13 @@ $page_selected = 'admin';
 
 
         <section class="users admin_table">
+        <h1>GESTION DES UTILISATEURS</h1><br/>
         <?php include("tableau_utilisateur.php"); ?>
         </section>
         
         <section class="admin_general">
             <br/>
-            <h1>MODIFICATION DES TARIFS, EMPLACEMENTS ET OPTIONS</h1>
+            <h1>GESTION ADMINISTRATIVE</h1>
             <div class="gestion_admin">
                <?php 
                 include("tableau_gestion_sites.php");
@@ -37,6 +38,10 @@ $page_selected = 'admin';
                 include("tableau_gestion_options.php");
                 ?> 
             </div>
+        </section>
+        <section>
+            <h1>GESTION DES RESERVATIONS</h1><br/>
+            <?php include("tableau_gestion_reservations.php");?>
         </section>
     </main>
     <footer>

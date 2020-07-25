@@ -29,48 +29,7 @@
                 header("location:admin.php");
             }
             
-            //SI ON APPUIS SUR AJOUTER UN LIEU
-            if(isset ($_POST['add_place']))
-            {
-                //DEFINITION DES VARIABLES STOCKANT LES LIEUX, NBR EMPLACEMENT PAR LIEU ET TARIFS
-                $place=htmlentities(trim($_POST['place']));
-                $nbr_place=htmlentities(trim($_POST['number_place']));
-                $tarif=htmlentities(trim($_POST['price_place']));
-                
-                    //SI LES CHAMPS PRECEDENTS SONT RENSEIGNES
-                    if($place AND $nbr_place AND $tarif)
-                    {
-                        // VERIFICATION CORRESPONDANCE BDD
-                        $check_place_match = $connexion->prepare ("SELECT * FROM lieux WHERE nom_lieu = '$place' ");
-                        // EXECUTION REQUETE
-                        $check_place_match->execute();
-                        //RECUPERATION DONNEES
-                        $check_place_match_result = $check_place_match->rowCount();
-
-                            //SI IL EXISTE DEJA DANS LA BDD
-                            if($check_place_match_result>=1)
-                            {
-                                echo'Ce lieu existe déjà';
-                            }
-                            else
-                            {
-                            //INSERTION NOUVEAU LIEU
-                            $insert_place = "INSERT INTO lieux (nom_lieu,emplacements_disponibles,prix_journalier) VALUES (:place,:nbr_place, :tarif)";
-                            //PREPARATION REQUETE
-                            $insert_place1 = $connexion->prepare($insert_place);
-                            $insert_place1->bindParam(':place',$place, PDO::PARAM_STR);
-                            $insert_place1->bindParam(':nbr_place',$nbr_place, PDO::PARAM_INT);
-                            $insert_place1->bindParam(':tarif',$tarif, PDO::PARAM_INT);
-                            //EXECUTION REQUETE
-                            $insert_place1->execute();
-                            header("location:admin.php");
-                            }
-                    }
-                    else
-                    {
-                    echo'Veuillez remplir tous les champs';
-                    }
-            }
+            
             
             
         }
@@ -101,7 +60,7 @@
                 <td><?php echo $place['prix_journalier'] . '€'?></td>
                 <td><a class="user_modify_button" href="admin.php?modifier_lieu=<?php echo $place['nom_lieu'] ?>">EDITER</a></td>
                 <td>
-                    <form method="post" action="">
+                    <form method="post" action="" class="delete_button">
                         <button type="submit" name="delete_place"><i class="fas fa-times"></i></button>
                         <input type="hidden" name="place_id_hidden" value="<?php echo $place['id_lieu'] ?>">
                     </form>
@@ -129,7 +88,6 @@
                         $update_price_place = htmlentities(trim($_POST['update_price_place']));
 
                         //SI LE NOM DU LIEU EST RENSEIGNE
-
                         if (!empty($update_nb_place)) 
                         {
                             //MISE A JOUR NB EMPLACEMENT
@@ -186,8 +144,7 @@
     </form>
 
          <?php } ?>
-
-
+    
     <form class="form_admin" method="post" action="">
         <h3>Ajouter un nouveau lieu</h3><br/>
         <label for="place">Lieux</label>
@@ -196,7 +153,66 @@
         <input type="number" name="number_place">
         <label for="place">Tarif journalier</label>
         <input type="number" step="0.01" name="price_place">
+    <?php
+    //SI ON APPUIS SUR AJOUTER UN LIEU
+            if(isset ($_POST['add_place']))
+            {
+                //DEFINITION DES VARIABLES STOCKANT LES LIEUX, NBR EMPLACEMENT PAR LIEU ET TARIFS
+                $place=htmlentities(trim($_POST['place']));
+                $nbr_place=htmlentities(trim($_POST['number_place']));
+                $tarif=htmlentities(trim($_POST['price_place']));
+                
+                    //SI LES CHAMPS PRECEDENTS SONT RENSEIGNES
+                    if($place AND $nbr_place AND $tarif)
+                    {
+                        // VERIFICATION CORRESPONDANCE BDD
+                        $check_place_match = $connexion->prepare ("SELECT * FROM lieux WHERE nom_lieu = '$place' ");
+                        // EXECUTION REQUETE
+                        $check_place_match->execute();
+                        //RECUPERATION DONNEES
+                        $check_place_match_result = $check_place_match->rowCount();
+
+                            //SI IL EXISTE DEJA DANS LA BDD
+                            if($check_place_match_result>=1)
+                            {
+                                echo'Ce lieu existe déjà';
+                            }
+                            else
+                            {
+                            //INSERTION NOUVEAU LIEU
+                            $insert_place = "INSERT INTO lieux (nom_lieu,emplacements_disponibles,prix_journalier) VALUES (:place,:nbr_place, :tarif)";
+                            //PREPARATION REQUETE
+                            $insert_place1 = $connexion->prepare($insert_place);
+                            $insert_place1->bindParam(':place',$place, PDO::PARAM_STR);
+                            $insert_place1->bindParam(':nbr_place',$nbr_place, PDO::PARAM_INT);
+                            $insert_place1->bindParam(':tarif',$tarif, PDO::PARAM_INT);
+                            //EXECUTION REQUETE
+                            $insert_place1->execute();
+                            header("location:admin.php");
+                            }
+                    }
+                    else
+                    {
+                    echo'Veuillez remplir tous les champs <br/><br/>';
+                    }
+            }
+    
+    ?>
+
         <input type="submit" name="add_place" value="VALIDER">
     </form>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+    
 
 </section>
