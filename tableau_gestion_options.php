@@ -121,8 +121,6 @@
         <input type="text" name="update_option_name">
         <label for="update_price_option">Modification tarifs</label>
         <input type="number" step="0.01" name="update_price_option">
-        <input type="hidden" name="option_id_hidden2" value="<?php
-                        echo $option['id_option'] ?>">
         <input type="submit" name="update_option_submit" value="MODIFIER">
     </form>
 

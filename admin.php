@@ -39,7 +39,7 @@ $page_selected = 'admin';
                 ?> 
             </div>
         </section>
-        <section>
+        <section class="booking">
             <h1>GESTION DES RESERVATIONS</h1><br/>
             <?php include("tableau_gestion_reservations.php");?>
         </section>
