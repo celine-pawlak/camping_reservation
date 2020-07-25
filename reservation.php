@@ -1,5 +1,7 @@
 <?php
 
+require 'class/evenements.php';
+
 $page_selected = 'reservation';
 $events = new Evenements();
 /*if(!isset ($_GET['id'])){
