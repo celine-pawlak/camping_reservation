@@ -71,14 +71,14 @@ $page_selected = 'planning';
             <div class="calendar-weekday"><?= $day ?></div>
             <?php endif; ?>
 
-            <div class="calendar-day"><a href="reservation-form.php"><?= $date->format('d');?></a></div>
+            <div class="calendar-day"><a href="reservation_form.php"><?= $date->format('d');?></a></div>
             <?php if (isset($_SESSION['user'])){ ?>
 
               <?php foreach($eventsForDay as $event): ?>
               <div class="calendar-event">
                 <p id="resa"><?= (new DateTime($event['date_debut']))->format('d-m'); (new DateTime($event['date_fin']))->format('d-m');?></p><a href="reservation.php?id=<?=$event['id_reservation'];?>"><p> -vous avez une réservation à cette date N° <?= $event['id_reservation'];?>-</p>
               </div>
-              <p id="puce">⚪</p>
+              <a href="reservation.php?id=<?=$event['id_reservation'];?>"><p id="puce">⚪</p></a>
               <?php endforeach; ?>
             <?php } ?>
           </td>
