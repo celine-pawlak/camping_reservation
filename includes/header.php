@@ -45,7 +45,7 @@ if (isset($_POST["deco"])) {
                     <?php
                 }else{
                 ?>
-                <li><a href="contact-form.php">NOUS CONTACTER</a></li>
+                <li><a  href="mailto:hello@sardinescamp.com">NOUS CONTACTER</a></li>
                 <li><a id="deco" href="connexion.php"> SE CONNECTER</a></li>
             </ul>
             <?php
