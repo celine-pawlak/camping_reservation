@@ -94,6 +94,10 @@ header nav ul li a:hover{
    letter-spacing: 2px;
 }
 
+#nav_links a{
+  text-decoration: none;
+}
+
 /*** FOOTER ***/
 footer{
     display: flex;
@@ -107,12 +111,14 @@ footer{
    
 footer a{
     color: #CED0D3;
+    text-decoration: none;
    }
    
 footer a:hover{
     color: #D2F7EE;
     transition: 1s;
     border-bottom: 1px solid #D2F7EE;
+    text-decoration: none;
    }
 
 #container-bottom{
@@ -132,6 +138,10 @@ footer nav ul{
 
 footer nav ul li{
    padding-right:5vh;
+}
+
+footer nav ul li a{
+  text-decoration: none;
 }
 
    #footerleft{
