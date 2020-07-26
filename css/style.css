@@ -1269,6 +1269,76 @@ border-radius:20%;
 
 
 
+
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+/*** GESTION RESERVATIONS  ***/
+
+.booking_details
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+   
+    color:white;
+    margin-top:5%;
+    margin-bottom:5%;
+}
+
+.booking_details h1,
+.booking_details h3
+{
+    text-align: center;
+    color:#E1FEF8;
+}
+
+.booking_details dt
+{
+    font-weight:bold;
+    
+}
+
+.color
+{
+     background-color:#333;
+    padding:10%;
+}
+
+#total
+{
+    font-size:50px;
+    text-align: center;
+    color:#E1FEF8;
+}
+
+
+
+/*** RESPONSIVE GESTION RESERVATIONS ***/
+@media (max-width: 980px){
+}
+
+@media screen and (max-width:800px){
+ 
+}
+@media screen and (max-width:500px){
+ 
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 /*** PROFIL  ***/
 
