@@ -1,5 +1,5 @@
 <?php
-
+ob_start();
 $page_selected = 'profil';
 ?>
 
@@ -26,9 +26,8 @@ $page_selected = 'profil';
             try
                 {
                     //CONNEXION BDD
-                    $connexion = new PDO("mysql:host=localhost;dbname=camping", 'root', '');
+                    $connexion = $db->connectDb();
                     //DEFINITION MODE ERREUR PDO SUR EXCEPTION
-                    $connexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
                         //DEFINITION DE VARIABLE STOCKANT LA SESSION EN COURS
                         $session=htmlentities(trim($_SESSION['user']['id_user']));
@@ -425,3 +424,6 @@ $page_selected = 'profil';
 </body>
 
 </html>
+<?php
+ob_end_flush();
+?>

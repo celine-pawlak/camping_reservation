@@ -1,4 +1,5 @@
 <?php
+
 require 'class/users.php';
 require 'class/camping_properties.php';
 
