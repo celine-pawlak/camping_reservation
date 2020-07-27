@@ -131,7 +131,7 @@ class users
             $q2->bindValue(':is_admin', 0, PDO::PARAM_INT);
             $q2->bindParam(':num_tel', $num_tel, PDO::PARAM_STR);
             $q2->bindParam(':gender', $gender, PDO::PARAM_STR);
-            $q2->bindValue(':gender', 'css/images/no-image.png', PDO::PARAM_STR);
+            $q2->bindValue(':avatar', 'css/images/no-image.png', PDO::PARAM_STR);
             $q2->execute();
             header('location:connexion.php');
         } else {
