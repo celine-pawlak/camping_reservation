@@ -19,7 +19,6 @@ $page_selected = 'voir_avis';
 <header>
     <?php
     include 'includes/header.php';
-    include 'class/bdd.php';
     $connexion = $db->connectDb();
     include 'avis.php';
     ?>
