@@ -1907,7 +1907,7 @@ border-radius:20%;
 .profil_case_reservation
 {
     background-color:#CEDCDD;
-    border-radius:20px;
+    border-radius:10px;
     color:white;
     padding:2%;
     max-height:300px;
@@ -1935,7 +1935,7 @@ border-radius:20%;
     flex-direction: column;
     align-items: center;
     background-color:lightgray;
-    border-radius:20px;
+    border-radius:10px;
     color:white;
     margin-bottom:5%;
     padding:2%;
@@ -1946,7 +1946,7 @@ border-radius:20%;
 .profil_case_reglement
 {
     background-color:#CEDCDD;
-    border-radius:20px;
+    border-radius:10px;
     color:white;
     padding:5%;
     min-height:300px;
@@ -1955,6 +1955,36 @@ border-radius:20%;
     text-align: justify;
     max-height:300px;
     overflow-y: auto;
+}
+
+
+.profil_case_reglement::-webkit-scrollbar 
+{
+    width: 12px;
+    height: 10px;
+    
+}
+ 
+
+.profil_case_reglement::-webkit-scrollbar-track 
+{
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+}
+ 
+ 
+.profil_case_reglement::-webkit-scrollbar-thumb 
+{
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    background: white; 
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+}
+
+.profil_case_reservation::-webkit-scrollbar-thumb:window-inactive 
+{
+    background: grey;
 }
 
 .profil_case_reglement h1
@@ -1967,7 +1997,7 @@ border-radius:20%;
     font-size:20px;
 }
 
-
+.profil_case_reglement p {color:#7E8892;}
 
 .profil_case_avis table
 {
@@ -1975,11 +2005,13 @@ border-radius:20%;
     
 }
 
+.profil_case_avis td{color:#7E8892;}
+
 .profil_case_modification, 
 .profil_case_suppression
 {
     background-color:#CEDCDD;
-    border-radius:20px;
+    border-radius:10px;
     color:white;
     margin-right:6%;
     margin-bottom:5%;
@@ -1997,19 +2029,18 @@ border-radius:20%;
     text-decoration: underline;
 }
 
-.profil_case_avatar input[type="file"],
 .profil_case_avatar input[type="submit"]
 {
     color:#7E8892;
     padding:2%;
     background-color:white;
     border:0.1px solid #7E8892;
-    margin-bottom:5%;
 }
 
 .profil_case_avatar input[type="submit"]:hover,
 .profil_case_modification input[type="submit"]:hover,
-.profil_case_suppression input[type="submit"]:hover
+.profil_case_suppression input[type="submit"]:hover,
+.label-file:hover
 {
     transition:1s;
     color:white;
@@ -2027,18 +2058,39 @@ border-radius:20%;
     margin-bottom:5%;
 }
 
-.validation_avatar
+.profil_section2 button
 {
-    display: flex;
-    justify-content: space-between;
+    color:#7E8892;
+    background-color:lightgray;
+    padding:2%;
+    border:none;
+    margin-bottom:5%;
 }
 
-.profil_section1 button:hover
+.profil_section1 button:hover,
+.profil_section2 button:hover
 {
     transition:1s;
     background-color:#7E8892;
     color:white;
 }
+
+.validation_avatar
+{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: baseline;
+}
+
+.label-file {
+    cursor: pointer;
+    color: #7E8892;
+    border:0.1px solid #7E8892;
+    padding:1.5%;
+}
+
+
+.input-file {display: none;}
 
 .profil_case_modification input[type="text"], 
 .profil_case_modification input[type="mail"], 
@@ -2073,7 +2125,11 @@ border-radius:20%;
 }
 
 
-
+.profil_case_modification h2,
+.profil_case_suppression h2
+{
+    margin-top:5%;
+}
 
 .profil_case_suppression img
 {
@@ -2087,10 +2143,16 @@ border-radius:20%;
 }
 
 @media screen and (max-width:800px){
- 
+    .main_profil
+    {
+        flex-direction: column;
+        align-items: center;
+    }
 }
 @media screen and (max-width:500px){
- 
+    .profil_case_avis,.profil_case_introduction{display: none}
+    
+    
 }
 
 

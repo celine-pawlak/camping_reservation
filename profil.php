@@ -252,9 +252,18 @@ $page_selected = 'profil';
                         $commentaire->execute();
                         //RECUPERATION RESULTAT
                         $commentaire_result = $commentaire->fetchAll(PDO::FETCH_ASSOC);
-                        
-
-
+                
+                        //SUPPRESION D'UN COMMENTAIRE
+                        if(isset($_POST['delete_comment']))
+                        {
+                            $id_avis=$_POST['hidden_id_avis'];
+            
+                            $delete_com=$connexion->prepare("DELETE FROM avis WHERE id_avis = $id_avis");
+                            //EXECUTION DE LA REQUETE
+                            $delete_com->execute();
+                            header("location:profil.php");
+                        }
+                
                 }
                 catch(PDOException $e)
                 {
@@ -272,11 +281,12 @@ $page_selected = 'profil';
                               if($user_session_data_result[0]['avatar'] == NULL){
                                   echo 'css/images/no-image.png';
                               }else{echo $user_session_data_result[0]['avatar'];}
-                              ?>" alt="avatar" width="300" height="300"><br />
+                              ?>" alt="avatar" width="300" height="300"><br/>
                 
                 <h2><?php echo $user_session_data_result[0]['prenom'].' '.$user_session_data_result[0]['nom'] ?></h2><br />
                 <div class="validation_avatar">
-                    <input type="file" name="photo">
+                    <label for="file" class="label-file">Choisir une photo</label>
+                    <input id="file" type="file" name="photo" class="input-file">
                     <input type="submit" name="send" value="ENVOYER">
                     <button type="submit" name="delete"><i class="fas fa-trash-alt"></i></button>
                 </div>
@@ -350,7 +360,7 @@ $page_selected = 'profil';
                 </p>
             </div>
             <div class="profil_case_reservation">
-                <h1>MES RESERVATIONS</h1><br/>
+                <h1>Mes réservations</h1><br/>
                 <?php
                 //RECUPERATION DES DONNEES UTILISATEURS
                 $info = $connexion->prepare("SELECT * FROM reservations WHERE id_utilisateur = $session ORDER by date_debut DESC");
@@ -366,7 +376,7 @@ $page_selected = 'profil';
                 <?php }?> 
             </div>
             <div class="profil_case_avis">
-                <h1>MES AVIS</h1><br/>
+                <h1>Mes avis</h1><br/>
                 <table>
                     <thead>
                         <tr>
@@ -386,7 +396,8 @@ $page_selected = 'profil';
                             <td><?php echo $avis_customer['post_date'] ?></td>
                             <td>
                                 <form action="" method="post">
-                                    <button type="submit"><i class="fas fa-trash-alt"></i></button>
+                                    <button type="submit" name="delete_comment"><i class="fas fa-trash-alt"></i></button>
+                                    <input type="hidden" name="hidden_id_avis" value="<?php echo $avis_customer['id_avis'] ?>">
                                 </form>
                             </td>
                         </tr>
