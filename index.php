@@ -17,7 +17,6 @@ $page_selected = 'index';
 <header>
     <?php
     include("includes/header-v1.php");
-    include("class/bdd.php");
     $connexion = $db->connectDb();
     include 'avis.php'; ?>
 </header>
@@ -33,12 +32,15 @@ $page_selected = 'index';
 
         <h1>NOS SITES</h1>
 
-        <p>Nous vous accueillons sur notre site dans des lieux idylliques. Rejoignez-nous et choisissez l'ambiance qui
-            vous correspond!</p>
-
-        <aside>
-            <p>la température actuelle est de ...</p>
-        </aside>
+        <section id="presentation-text">
+            <article>Nous vous accueillons sur notre site dans des lieux idylliques. Ambiance plage, pins ou maquis, vous trouverez forcément le cadre idéal pour passer des vacances 
+            bohêmes au bord de la Méditerranée. Rejoignez-nous dès maintenant et choisissez l'ambiance qui
+            vous correspond!
+             </article>
+            <aside>
+                <script charset='UTF-8' src='http://www.meteofrance.com/mf3-rpc-portlet/rest/vignettepartenaire/130550/type/VILLE_FRANCE/size/PAYSAGE_VIGNETTE' type='text/javascript'></script>
+            </aside>
+        </section>
 
         <section id="sites">
 

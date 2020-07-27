@@ -43,6 +43,7 @@ justify-content: space-between;
   font-weight: 300;
   line-height: 5vh;
   padding: 5px 10px;
+  text-decoration: none;
 }
 
 #top-header a:hover{
@@ -708,6 +709,21 @@ text-decoration: none;
   font-weight: 500;
 }
 
+#presentation-text{
+  display: flex;
+  width: 100%;
+  align-items: center;
+}
+#presentation-text article{
+  display: flex;
+  justify-content: center;
+  width: 70%;
+  font-size: 18px;
+  padding-left: 10px;
+  margin-right: 2.5%;
+  margin-left: 2.55%;
+}
+
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 /*** AVIS FROM INDEX***/
 
@@ -927,6 +943,15 @@ text-decoration: none;
 .service{
   width:50%;
 }
+
+#presentation-text{
+  flex-direction: column;
+}
+
+#presentation-text article{
+  margin-bottom: 2.5%;
+}
+
  
 }
 @media screen and (max-width:500px){
