@@ -12,7 +12,8 @@ $page_selected = 'voir_avis';
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
           integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="css/style.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 </head>
 <body>
 <header>
@@ -27,15 +28,15 @@ $page_selected = 'voir_avis';
     <?php
     //PAGINATION
     // On détermine sur quelle page on se trouve
-    if(isset($_GET['page']) && !empty($_GET['page'])){
-        $currentPage = (int) strip_tags($_GET['page']);
-    }else{
+    if (isset($_GET['page']) && !empty($_GET['page'])) {
+        $currentPage = (int)strip_tags($_GET['page']);
+    } else {
         $currentPage = 1;
     }
     $q4 = $connexion->prepare("SELECT COUNT(*) AS nb_avis FROM avis;");
     $q4->execute();
     $result_q4 = $q4->fetch();
-    $nombre_avis = (int) $result_q4['nb_avis'];
+    $nombre_avis = (int)$result_q4['nb_avis'];
     // On détermine le nombre d'articles par page
     $parPage = 10;
     // On calcule le nombre de pages total
@@ -59,12 +60,14 @@ $page_selected = 'voir_avis';
             <li class="page-item <?= ($currentPage == 1) ? "disabled" : "" ?>">
                 <a href="voir_avis.php?page=<?= $currentPage - 1 ?>" class="page-link">Précédente</a>
             </li>
-            <?php for($page = 1; $page <= $pages; $page++): ?>
+            <?php
+            for ($page = 1; $page <= $pages; $page++): ?>
                 <!-- Lien vers chacune des pages (activé si on se trouve sur la page correspondante) -->
                 <li class="page-item <?= ($currentPage == $page) ? "active" : "" ?>">
                     <a href="voir_avis.php?page=<?= $page ?>" class="page-link"><?= $page ?></a>
                 </li>
-            <?php endfor ?>
+            <?php
+            endfor ?>
             <!-- Lien vers la page suivante (désactivé si on se trouve sur la dernière page) -->
             <li class="page-item <?= ($currentPage == $pages) ? "disabled" : "" ?>">
                 <a href="voir_avis.php?page=<?= $currentPage + 1 ?>" class="page-link">Suivante</a>
@@ -100,48 +103,64 @@ $page_selected = 'voir_avis';
             ];
         }
     }
-    if (isset($_POST['ajouter_avis'])){
-        if (!empty($_POST['note_avis']) AND !empty($_POST['titre_avis']) AND !empty($_POST['texte_avis']) AND !empty($_POST['reservation'])){
+    if (isset($_POST['ajouter_avis'])) {
+        if (!empty($_POST['note_avis']) and !empty($_POST['titre_avis']) and !empty($_POST['texte_avis']) and !empty($_POST['reservation'])) {
             $note_avis = $_POST['note_avis'];
             $titre_avis = htmlspecialchars($_POST['titre_avis']);
             $texte_avis = htmlspecialchars($_POST['texte_avis']);
             $id_reservation = $_POST['reservation'];
             $id_user = $_SESSION['user']['id_user'];
             addComment($note_avis, $titre_avis, $texte_avis, $id_user, $id_reservation);
-        }
-        else{
+        } else {
             $errors[] = "Veuillez remplir tous les champs";
         }
     }
-    if (isset ($_SESSION['user']['id_user']) AND isset($reservation_without_rate)) {
-        ?>
-        <form action="voir_avis.php" method="post">
-            <?php
-            if (isset($reservation_without_rate)) {
+    /*    if (isset ($_SESSION['user']['id_user']) AND isset($reservation_without_rate)) {*/
+    ?>
+    <section id="avis_form">
+        <h1>Commentez votre séjour :</h1>
+        <section id="sub_form_2">
+            <form action="voir_avis.php" method="post">
+                <?php
+                /*            if (isset($reservation_without_rate)) {*/
+
                 ?>
-                <select name="reservation" id="">
-                    <?php
-                    foreach ($reservation_without_rate as $key => $value) { ?>
-                        <option value="<?= $key ?>">Séjour du <?= $value['date_debut'] ?>
-                            au <?= $value['date_fin'] ?></option>
+                <section id="select_lieu">
+                    <h2>Sélectionnez le séjour : </h2>
+                    <select name="reservation" id="">
                         <?php
-                    }
-                    ?>
-                </select>
-                <label for="note_avis">Notez votre séjour</label>
-                <p><input id="note_avis" name="note_avis" type="number" min="0" max="5">/5</p>
-                <label for="titre_avis">Titre</label>
-                <input type="text" name="titre_avis" minlength="3" maxlength="50"
-                       placeholder="Ajoutez un titre à votre commentaire">
-                <textarea name="texte_avis" id="texte_avis" minlength="10" maxlength="500" cols="30" rows="10"
-                          placeholder="Commentez votre séjour..."></textarea>
+                        foreach ($reservation_without_rate as $key => $value) { ?>
+                            <option value="<?= $key ?>">Séjour du <?= $value['date_debut'] ?>
+                                au <?= $value['date_fin'] ?></option>
+                            <?php
+                        }
+                        ?>
+                    </select>
+                </section>
+                <br>
+                <section id="note_sejour">
+                    <label for="note_avis"><h2>Notez votre séjour : <?='&nbsp';?></h2></label>
+                    <p><input id="note_avis" name="note_avis" type="number" min="0" max="5"><?='&nbsp';?>/5</p>
+                </section>
+                <section id="texte_avis">
+                    <label for="titre_avis"><h2>Titre</h2></label>
+                    <input type="text" name="titre_avis" minlength="3" maxlength="50"
+                           placeholder="Ajoutez un titre à votre commentaire">
+                    <br>
+                    <h2>Décrivez votre séjour ...</h2>
+                    <textarea name="texte_avis" id="texte_avis" minlength="10" maxlength="500" cols="30" rows="10"
+                              placeholder="Commentez votre séjour..."></textarea>
+                </section>
                 <button name="ajouter_avis">Envoyer</button>
                 <?php
-            }
-            ?>
-        </form>
-        <?php
-    } ?>
+                /*            }*/
+
+                ?>
+            </form>
+        </section>
+    </section>
+    <?php
+    /*    } */ ?>
 </main>
 <footer>
     <?php

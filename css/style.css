@@ -214,7 +214,7 @@ footer nav ul li{
    #social-list li a:hover{
     color: #D2F7EE;
     box-shadow: 0 0 15px #D2F7EE;
-    text-shadow: 0 0 15p#D2F7EE;
+    text-shadow: 0 0 15px #D2F7EE;
     transform : scale(1.2);
     transition : .5s;
    }
@@ -817,6 +817,43 @@ footer nav ul li{
     align-self: flex-end;
     font-size: 12px;
 }
+#sub_form_2{
+    height:100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: white;
+    width: 50%;
+    box-shadow:0 10px 40px rgba(0,0,0,0.08);
+}
+#sub_form_2 h2{
+    font-size: 15px;
+}
+#note_sejour{
+    display: flex;
+    flex-direction: row;
+
+    align-items: center;
+}
+#texte_avis, #select_lieu{
+    display: flex;
+    flex-direction: column;
+}
+#sub_form_2 > form{
+    width:100%;
+    padding: 1rem;
+}
+#sub_form_2 input{
+    height: 30px;
+    background: transparent;
+    border: 1px solid #077C62;
+    border-radius: 2px;
+    color: #077C62;
+    font-size: 14px;
+    font-weight: 400;
+    padding-left: 2px
+}
+
 
 /*** RESPONSIVE INDEX ***/
 
@@ -1043,7 +1080,7 @@ border-radius:20%;
 {
     background-color:#FFFACD;
     color:#333;
-    border-radius:none;
+    border-radius: none;
     transition:1s;
 }
 
@@ -1295,15 +1332,136 @@ border-radius:20%;
  
 }
 
+#container-resaform, #avis_form{
+  display: flex;
+  flex-direction: column;
+  background-color: whitesmoke;
+  align-items: center;
+  padding-top: 5%;
+  padding-bottom: 5%;
+}
 
+#container-resaform h1, #avis_form h1{
+  display: flex;
+  width: 50%;
+  background-color: #B1C2BE;
+  justify-content: center;
+  text-align: center;
+  font-weight: 200;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: white;
+}
 
+#sub-form{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+  width: 50%;
+  height: 20vh;
+  box-shadow:0 10px 40px rgba(0,0,0,0.08);
+}
 
+#date-section{
+  margin-top: 2.5%;
+  margin-bottom: 2.5%;
+}
 
+ #date-section input[type=date]{
+  width: 200px;
+  height: 30px;
+  background: transparent;
+  border: 1px solid #077C62;
+  border-radius: 2px;
+  color: #077C62;
+  font-size: 16px;
+  font-weight: 400;
+  padding: 4px;
+ }
 
+ #date-section i{
+  color: gray;
+}
 
+#section-lieu, #select_lieu{
+  display: flex;
+  justify-content: space-between;
+}
+#sub-form select, #sub_form_2 select{
+  width: 300px;
+  height: 35px;
+  background: transparent;
+  border: 1px solid #077C62;
+  border-radius: 2px;
+  color: #077C62;
+  font-size: 16px;
+  font-weight: 400;
+ }
 
+ #form_date_lieu button{
+  width: 300px;
+  height: 35px;
+  background: transparent;
+  border: 1px solid white;
+  border-radius: 2px;
+  color: white;
+  background-color: black;
+  font-size: 16px;
+  font-weight: 400;
+ }
 
+ #form_date_lieu button:hover{
+  border: 1px solid #077C62;
+  color: #077C62;
+  background-color: white;
+  transition: 1.5s;
+ }
 
+ #sub-form1{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  width: 50%;
+  padding-top:2.5%;
+  padding-bottom:2.5%;
+  box-shadow:0 10px 40px rgba(0,0,0,0.08);
+}
+
+#sub-form1 h2{
+  font-size: 20px;
+  font-weight: 600;
+}
+
+#sub-form1 form{
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+}
+
+#date-section1{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#date-section1 label{
+  font-size: 13px;
+}
+
+#date-section1 input[type=date]{
+  width: 130px;
+  height: 30px;
+  background: transparent;
+  border: 1px solid #077C62;
+  border-radius: 2px;
+  color: #077C62;
+  font-size: 14px;
+  font-weight: 400;
+  padding-left: 2px;
+ }
 
 
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */

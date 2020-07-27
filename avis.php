@@ -81,12 +81,12 @@ function viewComment($id_avis)
         <div class="avis_texte"><!-- avis -->
             <div class="note_avis">
                 <p><?= $avis['note_sejour'] ?>/5</p>
-                <p>Avis publié le <?= $avis['post_date'] ?></p>
+                <p>Avis publié le <?= date('d-m-Y',strtotime($avis['post_date'])) ?></p>
             </div>
             <p class="titre_avis"><?= $avis['titre_avis'] ?></p>
             <p class="avis_texte_quote"><i class="fas fa-angle-double-left"></i> <?= $avis['texte_avis'] ?> <i class="fas fa-angle-double-right"></i></p>
-            <p class="date_avis">A séjourné du <?= $other_infos_from_reservation['date_debut'] ?>
-                au <?= $other_infos_from_reservation['date_fin'] ?></pclass>
+            <p class="date_avis">A séjourné du <?= date('d-m-Y',strtotime($other_infos_from_reservation['date_debut'])) ?>
+                au <?= date('d-m-Y',strtotime($other_infos_from_reservation['date_fin'])) ?></pclass>
         </div>
     </div>
     <?php
