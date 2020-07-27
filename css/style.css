@@ -919,8 +919,142 @@ footer nav ul li a{
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 /*** INSCRIPTION ***/
 
+#container-register{
+  display: flex;
+  justify-content: center;
+}
+
+#container-register form{
+  display: flex;
+  width: 55%;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+  margin-top: 2.5%;
+  padding: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.65);
+  box-shadow:0 10px 40px rgba(0,0,0,0.08);
+  padding-bottom: 2.5%;
+  margin-bottom: 2.5%;
+}
+
+#container-register form h1{
+  display: flex;
+  border-bottom: 1px solid #B1C2BE;
+  margin-bottom: 2.5%;
+  color: #B1C2BE;
+}
+
+#container-register form input[type=text],
+#container-register form input[type=password]{
+  width: 220px;
+  height: 30px;
+  border: 1px solid #B1C2BE;
+  font-family: 'Exo', sans-serif;
+  border-radius: 2px;
+  color: #B1C2BE;
+  font-size: 13px;
+  font-weight: 400;
+  padding: 3px;
+  margin-left: 10px;
+  margin-bottom: 1.5%;
+ }
+
+#box-gender{
+  display: flex;
+  width: 70%;
+  justify-content: left;
+  align-items: center;
+  margin-bottom: 2.5%;
+}
+
+#box-gender label{
+  font-size: 12px;
+  padding-left: 7px;
+}
+
+#box-gender input[type=radio]{
+  margin-left: 15px;
+}
+
+#box-name{
+  display: flex;
+  width: 45%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2.5%;
+  padding-top: 1.5%;
+  padding-bottom: 1.5%;
+}
+
+#box-name label{
+  font-size: 12px;
+  text-transform: uppercase;
+  margin-top: 1.5%;
+}
+
+#container-register form button{
+  display: flex;
+  justify-content: center;
+  width:85%;
+  border: none;
+  background-color: black;
+  color: white;
+  padding-top: 1.5%;
+  padding-bottom: 1.5%;
+  text-transform: uppercase;
+  font-size: 16px;
+}
+
+#container-register form button:hover{
+  background-color:#B1C2BE;
+  color: black;
+  transition: 1.5s;
+}
+
+#box-form{
+  display: flex;
+  width: 90%;
+  justify-content: space-around;
+}
+
+#box-form img{
+  width: 50%;
+  height: 60%;
+  margin-top: 10%;
+}
+
 /*** RESPONSIVE INSCRIPTION ***/
 @media (max-width: 980px){
+
+  #box-form{
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 5%;
+    margin-bottom: 5%;
+  }
+
+  #box-form img{
+    width: 20%;
+    height: 15%;
+    margin-top: 0;
+  }
+
+  #container-register form{
+    width: 95%;
+    padding-bottom: 5%;
+  }
+
+  #box-gender label{
+  font-size: 8px;
+  }
+
+  #box-name{
+    width: 80%;
+  }
+  
 }
 
 @media screen and (max-width:800px){
@@ -929,7 +1063,6 @@ footer nav ul li a{
 @media screen and (max-width:500px){
  
 }
-
 
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 /*** CONNEXION ***/
