@@ -341,13 +341,13 @@ $page_selected = 'profil';
         
         <section class="profil_section2">
             <div class="profil_case_introduction">
-                <h1>Hello <?php echo $user_session_data_result[0]['prenom'] ?> ! </h1><br/>
+                <h1>Bonjour <?php echo $user_session_data_result[0]['prenom'] ?>, </h1><br/>
                 <h2>Un petit mot sur le fonctionnement du site</h2><br/>
                 <p>
                     Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur
                     <br/>
                     <br/>
-                    Sur ce profitez de votre séjour ! 
+                    Bonne navigation ! 
                 </p>
             </div>
             <div class="profil_case_reservation">
@@ -375,6 +375,7 @@ $page_selected = 'profil';
                             <th>Titre</th>
                             <th>Commentaire</th>
                             <th>Date publication</th>
+                            <th>Suppression</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -384,6 +385,11 @@ $page_selected = 'profil';
                             <td><?php echo $avis_customer['titre_avis'] ?></td>
                             <td><?php echo $avis_customer['texte_avis'] ?></td>
                             <td><?php echo $avis_customer['post_date'] ?></td>
+                            <td>
+                                <form action="" method="post">
+                                    <button type="submit"><i class="fas fa-trash-alt"></i></button>
+                                </form>
+                            </td>
                         </tr>
                     <?php } ?>
                     </tbody>
@@ -392,7 +398,7 @@ $page_selected = 'profil';
             <div class="profil_case_reglement">
                 <h1>Règlement intérieur</h1><br/>
                 <p>
-                   Comme tous les espaces de vie en communauté, Les Sardines n'échappe pas à quelques règles de vie. Consultez les afin de passer un séjour agréable. 
+                   Comme tous les espaces de vie en communauté, Sardine's Camp n'échappe pas à quelques règles de vie. Consultez les afin de passer un séjour agréable. 
                 </p><br/>
                 <h2>Règles n°1</h2>
                 <p>
