@@ -29,18 +29,18 @@ $option = $events->option($_GET['id'] ?? null);
       <section id="container-reservations">
         <h1> <img src="src/wave.png" alt="wave-icon-white"> VOS RÉSERVATIONS EN COURS <img src="src/wave.png" alt="wave-icon-white"></h1>
         <ul id="current-reservations">
-          <li>Votre séjour aura lieu du <?= (new DateTime($event['date_debut']))->format('d/m/Y')?> jusqu'au <?= (new DateTime($event['date_fin']))->format('d/m/Y')?> inclus</li>
+          <li>Votre séjour aura lieu du <i><?= (new DateTime($event['date_debut']))->format('d/m/Y')?></i> jusqu'au <i><?= (new DateTime($event['date_fin']))->format('d/m/Y')?></i> inclus</li>
           <li> </li>
-          <li>Lieu : <?= ($event['nom_lieu'])?></li>
-          <li>vos emplacements : <?=($event['nb_emplacement'])?></li>
+          <li>Lieu : <i><?= ($event['nom_lieu'])?></i></li>
+          <li>vos emplacements : <i><?=($event['nb_emplacement'])?></i></li>
           <li>vos options : 
-           <?php foreach($option as $opt){
+            <i><?php foreach($option as $opt){
                          $val = $opt['nom_option'];
                          echo $val.' &nbsp;';
                          }
-           ?>
+           ?></i>
         </li>
-          <li>prix total de la reservation : <?= ($event['prix_total'])?> Euros</li>
+          <li>prix total de la reservation : <i><?= ($event['prix_total'])?></i> Euros</li>
         </ul>
         <p>pour modifier votre réservation, veuillez <a  href="mailto:hello@sardinescamp.com">nous contacter</a>.</p>
       </section>

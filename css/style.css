@@ -1307,12 +1307,6 @@ border-radius:20%;
     width:30%;
 }
 
-
-
-
-
-
-
 .gender_line
 {
     display: flex;
@@ -1340,13 +1334,6 @@ border-radius:20%;
     align-items: center; 
 }
  
-
-
-
-
-
-
-
 /*** RESPONSIVE ADMIN ***/
 
 
@@ -1825,6 +1812,80 @@ border-radius:20%;
   width: 70px;
   font-size: 12px;
  }
+  
+}
+
+@media screen and (max-width:800px){
+ 
+}
+@media screen and (max-width:500px){
+ 
+}
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+/*** RESERVATIONS EN COURS ***/
+
+#container-reservations{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding-top: 5%;
+  padding-bottom: 5%;
+  border-bottom: 1px solid rgba(105, 183, 252,0.2);
+}
+
+#container-reservations h1{
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-weight: 500;
+  font-size: 28px;
+  height: 10vh;
+}
+
+#container-reservations img{
+  width: 25%;
+}
+
+#container-reservations ul{
+ display: flex;
+ margin-top: 2.5%;
+ flex-direction: column;
+ width: 70%;
+ border: 1px solid black;
+ padding: 20px;
+}
+
+#container-reservations p{
+  font-size: 18px;
+  margin-top: 2.5%;
+ }
+
+ #container-reservations a{
+   color: gray;
+ }
+
+ #container-reservations a:hover{
+  color: #077C62;
+  transition: 1.5s;
+}
+#container-reservations i{
+  color: #077C62;
+  font-size: 17px;
+  text-transform: uppercase;
+}
+
+
+/*** RESPONSIVE RESERVATIONS EN COURS ***/
+@media (max-width: 980px){
+  #container-reservations h1{
+  font-size: 20px;
+  }
+  #container-reservations p{
+    font-size: 14px;
+   }
   
 }
 
