@@ -16,7 +16,10 @@ class Evenements{
         die('Erreur : ' . $e->getMessage());
         }
 
-        $request_all_events = $db->prepare("SELECT * FROM reservations WHERE date_debut BETWEEN '{$start->format('Y-m-d 00:00:00')}' AND '{$end->format('Y-m-d 23:59:59')}'");
+        $id_user = $_SESSION['user']['id_user'];
+        //var_dump($id_user);
+
+        $request_all_events = $db->prepare("SELECT * FROM reservations WHERE id_utilisateur = $id_user AND date_debut BETWEEN '{$start->format('Y-m-d 00:00:00')}' AND '{$end->format('Y-m-d 23:59:59')}'");
         //var_dump( $request_all_events);
         $request_all_events->execute();
         $results_resa = ($request_all_events->fetchAll());
