@@ -53,7 +53,7 @@ $page_selected = 'planning';
       <section id="box-button">
         <button class="icon-btn add-btn">
           <div class="add-icon"></div>
-          <a href="reservation-form.php"><div class="btn-txt">nouvelle réservation</div></a>
+          <a href="reservation_form.php"><div class="btn-txt">nouvelle réservation</div></a>
         </button>
       </section>
    

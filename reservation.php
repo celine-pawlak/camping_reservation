@@ -1,15 +1,15 @@
 <?php
 
-require 'class/evenements.php';
-
 $page_selected = 'reservation';
+require 'class/evenements.php';
 $events = new Evenements();
 /*if(!isset ($_GET['id'])){
   header('location:.php');
 }*/
 $event = $events->find($_GET['id'] ?? null);
-
+$option = $events->option($_GET['id'] ?? null);
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -26,21 +26,25 @@ $event = $events->find($_GET['id'] ?? null);
       <?php include("includes/header.php");?>
     </header>
     <main>
-      <h1> VOS RÉSERVATIONS </h1>
-        <ul>
-          <li>Date d'arrivée : <?= (new DateTime($event['date_debut']))->format('d/m/Y')?></li>
-          <li>Date de départ : <?= (new DateTime($event['date_fin']))->format('d/m/Y')?></li>
-          <li>lieu: <?= ($event['nom_lieu'])?></li>
-          <li>vos emplacements : <?= ($event['nb_emplacement'])?></li>
-          <li>vos options : <?= ($event['nom_option'])?></li>
-          <li>prix total de la reservation : <?= ($event['prix_total'])?> Euros</li>
+      <section id="container-reservations">
+        <h1> <img src="src/wave.png" alt="wave-icon-white"> VOS RÉSERVATIONS EN COURS <img src="src/wave.png" alt="wave-icon-white"></h1>
+        <ul id="current-reservations">
+          <li>Votre séjour aura lieu du <i><?= (new DateTime($event['date_debut']))->format('d/m/Y')?></i> jusqu'au <i><?= (new DateTime($event['date_fin']))->format('d/m/Y')?></i> inclus</li>
+          <li> </li>
+          <li>Lieu : <i><?= ($event['nom_lieu'])?></i></li>
+          <li>vos emplacements : <i><?=($event['nb_emplacement'])?></i></li>
+          <li>vos options : 
+            <i><?php foreach($option as $opt){
+                         $val = $opt['nom_option'];
+                         echo $val.' &nbsp;';
+                         }
+           ?></i>
+        </li>
+          <li>prix total de la reservation : <i><?= ($event['prix_total'])?></i> Euros</li>
         </ul>
+        <p>pour modifier votre réservation, veuillez <a  href="mailto:hello@sardinescamp.com">nous contacter</a>.</p>
+      </section>
     </main>
-    <footer>
-      <?php include("includes/footer.php");?>
-    </footer>
-<main>
-</main>
 <footer>
     <?php
     include("includes/footer.php"); ?>

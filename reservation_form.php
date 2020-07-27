@@ -28,6 +28,7 @@ $page_selected = 'reservation_form';
     ?>
 </header>
 <main>
+    <section id="container-resaform">
     <?php
     if (isset($_POST['submit'])) {
         foreach ($_POST as $key => $value) {
@@ -175,40 +176,44 @@ $page_selected = 'reservation_form';
         }
     }
     ?>
-    <h2 id="hello">Bienvenue @<?php
-        echo $_SESSION['user']['firstname'] ?>!<br>Réservez votre séjour maintenant</h2>
+    <h1 id="hello">Bienvenue @ <?php
+        echo $_SESSION['user']['firstname'] ?>!<br>Réservez votre séjour maintenant</h1>
     <?php
     if (!isset($_POST['Valider_date_lieu']) and empty($_POST)) {
         ?>
-        <form id="form_date_lieu" method="post" action="reservation_form.php">
-            <section id="date-section">
-                <i>* Les réservations correspondent aux nuits</i>
-                <label for="arrival">Date d'arrivée</label>
-                <input type="date" name="arrival">
-                <label for="departure">Date de départ</label>
-                <input type="date" name="departure" id="departure">
-            </section>
-            <select name="lieu" id="" name="">
-                <optgroup label="Choix du lieu">
-                    <option value="default" selected hidden>--Sélectionnez votre lieu--</option>
-                    <?php
-                    foreach ($infos->getLieux() as $lieu) { ?>
-                        <option value="<?= $lieu['nom_lieu'] ?>"><?= $lieu['nom_lieu'] ?></option>
-                        <?php
-                    } ?>
-                </optgroup>
-            </select>
-            <button type="submit" name="Valider_date_lieu">Valider</button>
-        </form>
+        <section id="sub-form">
+            <form id="form_date_lieu" method="post" action="reservation_form.php">
+                <section id="date-section">
+                    <label for="arrival">Date d'arrivée</label>
+                    <input type="date" name="arrival">
+                    <label for="departure">Date de départ</label>
+                    <input type="date" name="departure" id="departure">
+                    </br><i>* Les réservations correspondent aux nuits</i>
+                </section>
+                <section id="section-lieu">
+                    <select name="lieu" id="" name="">
+                        <optgroup label="Choix du lieu">
+                            <option value="default" selected hidden>--Sélectionnez votre lieu--</option>
+                            <?php
+                            foreach ($infos->getLieux() as $lieu) { ?>
+                            <option value="<?= $lieu['nom_lieu'] ?>"><?= $lieu['nom_lieu'] ?></option>
+                            <?php
+                            } ?>
+                        </optgroup>
+                    </select>
+                    <button type="submit" name="Valider_date_lieu">Valider</button>
+                </section>
+            </form>
         <?php
-    } else {
+        } else {
         if (!empty($_POST['arrival']) and !empty($_POST['departure']) and !empty($_POST['lieu'])) {
             $_SESSION['arrival'] = $_POST['arrival'];
             $_SESSION['departure'] = $_POST['departure'];
             $_SESSION['nom_lieu'] = $_POST['lieu'];
-            ?>
-            <form id="form-resa" method="post" action="reservation_form.php">
-                <section>
+        ?>
+        <section id="sub-form1">
+            <form method="post" action="reservation_form.php">
+                <section id="date-section1">
                     <label for="arrival">Date d'arrivée</label>
                     <input id="arrival" type="date" name="arrival" value="<?= $_SESSION['arrival'] ?>" readonly>
                     <label for="departure">Date de départ</label>
@@ -216,7 +221,7 @@ $page_selected = 'reservation_form';
                     <label for="lieu">Lieu</label>
                     <input id="lieu" type="text" name="lieu" value="<?= $_SESSION['nom_lieu'] ?>" readonly>
                 </section>
-                <section>
+                <section id="type-section">
                     <h2>Choisissez votre type d'emplacement</h2>
                     <?php
                     foreach ($infos->getLieux() as $lieu) { ?>
@@ -227,7 +232,7 @@ $page_selected = 'reservation_form';
                     } ?>
                     <?php
                     foreach ($infos->getTypesEmplacement() as $type_emplacement) {
-                        $test2 = $type_emplacement['nb_emplacements'];
+                        $test2 = $type_emplacement['nb_emplacement'];
                         $result = intval($test / $test2);
                         if ($result >= 1) {
                             ?>
@@ -243,7 +248,7 @@ $page_selected = 'reservation_form';
                                     if (!isset($total_emplacement)) {
                                         $total_emplacement = 0;
                                     }
-                                    echo $total_emplacement = $i * (int)$type_emplacement['nb_emplacements'];
+                                    echo $total_emplacement = $i * (int)$type_emplacement['nb_emplacement'];
                                     ?>
                                     <option value="<?= $total_emplacement ?>"><?php
                                         echo "$i $nom_emplacement" ?></option>
@@ -254,20 +259,22 @@ $page_selected = 'reservation_form';
                         }
                     } ?>
                 </section>
-                <section>
+                <section id="option-section">
                     <h2>Choisissez vos options durant votre séjour</h2>
                     <?php
                     foreach ($infos->getOptions() as $option) { ?>
-                        <input type="checkbox" id="<?= $option['id_option'] ?>" name="option[]"
+                        <section><input type="checkbox" id="<?= $option['id_option'] ?>" name="option[]"
                                value="<?= $option['nom_option'] ?>">
                         <label for="<?= $option['id_option'] ?>"><?= $option['nom_option'] ?>
                             à <?= $option['prix_option'] ?>
                             €/jour</label>
+                        </section>
                         <?php
                     } ?>
                 </section>
-                <button class="btn-txt" type="submit" name="submit">Réserver</button>
+                <section id="but-form"><button id="form-button" type="submit" name="submit">Réserver</button></section>
             </form>
+        </section>
             <?php
         } else {
             $errors[] = "Tous les éléments doivent être seléctionnés.";
@@ -275,7 +282,8 @@ $page_selected = 'reservation_form';
             echo $message->renderMessage();
         }
     } ?>
-
+      </section>
+    </section>
 </main>
 <footer>
     <?php

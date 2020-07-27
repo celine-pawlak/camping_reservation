@@ -60,7 +60,7 @@ $user->redirect($page_selected);
 
         <section id="footercenter">
             <section id="bottom-logo">
-                <img id="logo" src="https://i.ibb.co/XzyCCqt/LOGO1.png" alt="logo-sardinescamp"></a>
+                <img id="logo" src="https://i.ibb.co/XzyCCqt/LOGO1.png" alt="logo-sardinescamp">
                 <h1><a href="index.php">SARDINE'S CAMP</a></h1>
             </section>
 
