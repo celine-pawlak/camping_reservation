@@ -73,40 +73,60 @@ class Evenements{
      * recupère un évenement grâce à l'id de la réservation
      */
 
-     public function find (int $id){
+    public function find (int $id){
 
-        try
-        {
-        $db = new PDO('mysql:host=localhost;dbname=camping;charset=utf8', 'root', '');
-        }
-        catch (Exception $e){
-        die('Erreur : ' . $e->getMessage());
-        }
+      try
+      {
+      $db = new PDO('mysql:host=localhost;dbname=camping;charset=utf8', 'root', '');
+      }
+      catch (Exception $e){
+      die('Erreur : ' . $e->getMessage());
+      }
 
-        $request_infos_resa = $db->prepare("SELECT * FROM reservations WHERE id_reservation = $id");
-        //var_dump($request_id);
-        $request_infos_resa->execute();
-        $result_infos_resa = ($request_infos_resa->fetch());
-        var_dump($result_infos_resa);
+      $request_infos_resa = $db->prepare("SELECT * FROM reservations WHERE id_reservation = $id");
+      //var_dump($request_id);
+      $request_infos_resa->execute();
+      $result_infos_resa = ($request_infos_resa->fetch());
+      //var_dump($result_infos_resa);
 
-        $request_infos_total = $db->prepare("SELECT prix_detail.nb_emplacement, prix_detail.nb_jours, prix_detail.prix_total, detail_lieux.nom_lieu, detail_options.nom_option FROM prix_detail JOIN detail_lieux ON prix_detail.id_reservation = detail_lieux.id_reservation JOIN detail_options ON prix_detail.id_reservation = detail_options.id_reservation WHERE prix_detail.id_reservation = $id");
-        //var_dump($request_id);
-        $request_infos_total->execute();
-        $result_infos_total = ($request_infos_total->fetch());
-        var_dump($result_infos_total);
+      $request_infos_total = $db->prepare("SELECT prix_detail.nb_emplacement, prix_detail.nb_jours, prix_detail.prix_total, detail_lieux.nom_lieu FROM prix_detail JOIN detail_lieux ON prix_detail.id_reservation = detail_lieux.id_reservation WHERE prix_detail.id_reservation = $id");
+      $request_infos_total->execute();
+      $result_infos_total = ($request_infos_total->fetch());
+      //var_dump($result_infos_total);
 
-        
+      //if($result_id ===)
 
-        //if($result_id ===)
+      //return $result_infos_resa + $option + $result_infos_total;
 
-        return $result_infos_resa + $result_infos_total;
+      $result =  $result_infos_resa + $result_infos_total;
+      //var_dump($result);
 
-     }
+      return $result;
 
-   
+   }
 
+   public function option(int $id){
+
+    try
+    {
+    $db = new PDO('mysql:host=localhost;dbname=camping;charset=utf8', 'root', '');
+    }
+    catch (Exception $e){
+    die('Erreur : ' . $e->getMessage());
     }
 
+    $request_infos_opt = $db->prepare("SELECT nom_option FROM detail_options WHERE id_reservation = $id");
+    $request_infos_opt->execute();
+    $result_infos_opt = ($request_infos_opt->fetchAll());
+    //var_dump($result_infos_opt);
+
+    return $result_infos_opt;
+
+  }
+
+ 
+
+  }
      
 
 
