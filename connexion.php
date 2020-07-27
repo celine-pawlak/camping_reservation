@@ -27,13 +27,21 @@ $page_selected = 'connexion';
         );
     }
     ?>
-    <form action="connexion.php" method="post">
-        <label for="email">Email</label>
-        <input name="email" type="text" placeholder="email@email.com">
-        <label for="password">Mot de passe</label>
-        <input name="password" type="password" placeholder="Mot de passe">
-        <button type="submit" name="submit">Connexion</button>
-    </form>
+    <section id="connect">
+        <section id="connect-form">
+            <section id="title-connect">
+                <h1>Bienvenue au sardine's camp !</h1>
+            </section>
+            <form id="login" action="connexion.php" method="post">
+                <label for="email">email</label>
+                <input name="email" type="text" placeholder="email@email.com">
+                <label for="password">mot de passe</label>
+                <input name="password" type="password" placeholder="Mot de passe">
+                <button type="submit" name="submit">CONNEXION</button>
+            </form>
+            <a id="linkconnect" href="inscription.php">Pas encore inscrit ? Rejoins-nous maintenant !</a>
+        </section>
+    </section>
 </main>
 <footer>
     <?php

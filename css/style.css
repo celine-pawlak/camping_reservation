@@ -94,6 +94,10 @@ header nav ul li a:hover{
    letter-spacing: 2px;
 }
 
+#nav_links a{
+  text-decoration: none;
+}
+
 /*** FOOTER ***/
 footer{
     display: flex;
@@ -107,12 +111,14 @@ footer{
    
 footer a{
     color: #CED0D3;
+    text-decoration: none;
    }
    
 footer a:hover{
     color: #D2F7EE;
     transition: 1s;
     border-bottom: 1px solid #D2F7EE;
+    text-decoration: none;
    }
 
 #container-bottom{
@@ -132,6 +138,10 @@ footer nav ul{
 
 footer nav ul li{
    padding-right:5vh;
+}
+
+footer nav ul li a{
+  text-decoration: none;
 }
 
    #footerleft{
@@ -946,8 +956,142 @@ footer nav ul li{
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 /*** INSCRIPTION ***/
 
+#container-register{
+  display: flex;
+  justify-content: center;
+}
+
+#container-register form{
+  display: flex;
+  width: 55%;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+  margin-top: 2.5%;
+  padding: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.65);
+  box-shadow:0 10px 40px rgba(0,0,0,0.08);
+  padding-bottom: 2.5%;
+  margin-bottom: 2.5%;
+}
+
+#container-register form h1{
+  display: flex;
+  border-bottom: 1px solid #B1C2BE;
+  margin-bottom: 2.5%;
+  color: #B1C2BE;
+}
+
+#container-register form input[type=text],
+#container-register form input[type=password]{
+  width: 220px;
+  height: 30px;
+  border: 1px solid #B1C2BE;
+  font-family: 'Exo', sans-serif;
+  border-radius: 2px;
+  color: #B1C2BE;
+  font-size: 13px;
+  font-weight: 400;
+  padding: 3px;
+  margin-left: 10px;
+  margin-bottom: 1.5%;
+ }
+
+#box-gender{
+  display: flex;
+  width: 70%;
+  justify-content: left;
+  align-items: center;
+  margin-bottom: 2.5%;
+}
+
+#box-gender label{
+  font-size: 12px;
+  padding-left: 7px;
+}
+
+#box-gender input[type=radio]{
+  margin-left: 15px;
+}
+
+#box-name{
+  display: flex;
+  width: 45%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2.5%;
+  padding-top: 1.5%;
+  padding-bottom: 1.5%;
+}
+
+#box-name label{
+  font-size: 12px;
+  text-transform: uppercase;
+  margin-top: 1.5%;
+}
+
+#container-register form button{
+  display: flex;
+  justify-content: center;
+  width:85%;
+  border: none;
+  background-color: black;
+  color: white;
+  padding-top: 1.5%;
+  padding-bottom: 1.5%;
+  text-transform: uppercase;
+  font-size: 16px;
+}
+
+#container-register form button:hover{
+  background-color:#B1C2BE;
+  color: black;
+  transition: 1.5s;
+}
+
+#box-form{
+  display: flex;
+  width: 90%;
+  justify-content: space-around;
+}
+
+#box-form img{
+  width: 50%;
+  height: 60%;
+  margin-top: 10%;
+}
+
 /*** RESPONSIVE INSCRIPTION ***/
 @media (max-width: 980px){
+
+  #box-form{
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 5%;
+    margin-bottom: 5%;
+  }
+
+  #box-form img{
+    width: 20%;
+    height: 15%;
+    margin-top: 0;
+  }
+
+  #container-register form{
+    width: 95%;
+    padding-bottom: 5%;
+  }
+
+  #box-gender label{
+  font-size: 8px;
+  }
+
+  #box-name{
+    width: 80%;
+  }
+  
 }
 
 @media screen and (max-width:800px){
@@ -957,13 +1101,146 @@ footer nav ul li{
  
 }
 
-
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 /*** CONNEXION ***/
+
+#connect{
+  display: flex;
+  background-image: url(https://images.unsplash.com/photo-1503516459261-40c66117780a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1949&q=80);
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 90vh;
+  justify-content: center;
+  align-items: center;
+}
+
+#connect-form{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  width: 45%;
+  height: 35vh;
+  padding-top: 2.5%;
+  padding-bottom: 2.5%;
+  border : 1px solid #077C62;
+  background-color: rgba(253, 197, 23, 0.1);
+ }
+
+#connect-form h1{
+  font-size: 35px;
+  font-weight: 200;
+  color: white;
+ text-transform: uppercase;
+ }
+
+#connect-form form{
+  display: flex;
+  flex-direction: column;
+}
+
+#connect-form a{
+  display: flex;
+  color: #077C62;
+  padding-top: 10px;
+}
+
+
+#connect-form a:hover{
+  color: #D2F7EE;
+  transition: 1.5s;
+}
+
+#login label{
+  color: #D2F7EE;
+}
+
+#login input[type=text]{
+  width: 250px;
+  height: 30px;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.6);
+  border-radius: 2px;
+  color: #077C62;
+  font-size: 16px;
+  font-weight: 400;
+  padding: 4px;
+  margin-bottom: 5%;
+ }
+ 
+#login input[type=password]{
+  width: 250px;
+  height: 30px;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.6);
+  border-radius: 2px;
+  color: #fff;
+  font-family: 'Exo', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  padding: 4px;
+  margin-bottom: 5%;
+ }
+ 
+#login button[type=submit]{
+  width: 260px;
+  background: #D2F7EE;
+  border: 1px solid #fff;
+  cursor: pointer;
+  border-radius: 2px;
+  color: #077C62;
+  font-family: 'Exo', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  padding: 6px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin-top: 10px;
+ }
+ 
+#login button[type=submit]:hover{
+  opacity: 0.8;
+ }
+ 
+#login button[type=submit]:active{
+  opacity: 0.6;
+ }
+ 
+#login input[type=text]:focus{
+  outline: none;
+  border: 1px solid rgba(255,255,255,0.9);
+ }
+ 
+#login input[type=password]:focus{
+  outline: none;
+  border: 1px solid rgba(255,255,255,0.9);
+ }
+ 
+#login input[type=submit]:focus{
+  outline: none;
+ }
+ 
+::-webkit-input-placeholder{
+   color: rgba(255,255,255,0.6);
+ }
+ 
+::-moz-input-placeholder{
+   color: rgba(255,255,255,0.6);
+ }
 
 
 /*** RESPONSIVE CONNEXION ***/
 @media (max-width: 980px){
+  #connect{
+    height: 80vh;
+  }
+  #connect-form{
+    width: 90%;
+    height: 50vh;
+  }
+  #connect-form h1{
+    font-size: 20px;
+  }
 }
 
 @media screen and (max-width:800px){
@@ -976,13 +1253,19 @@ footer nav ul li{
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 /*** ADMIN  ***/
 
-.users
+.admin_general h1
+{
+    text-align: center;
+}
+
+.users,.gestion-resa
 {
     display: flex;
     flex-direction: column;
     margin-top:5%;
     margin-bottom:5%;
     align-items: center;
+    width:auto;
 }
 
 
@@ -1001,11 +1284,36 @@ footer nav ul li{
     width:100%;
 }
 
-.admin_table th
+
+.gestion-resa table
+{
+    border:0.1px solid lightgray;
+    border-collapse: collapse;
+}
+
+.admin_table th, .gestion-resa th
 {
     color:white;
     background-color:#333;
 }
+
+.gestion-resa td,
+.gestion-resa th
+{
+    border-top:0.1px solid lightgray;
+    border-bottom:0.1px solid lightgray;
+    padding:1%;
+}
+
+.booking
+{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    margin-top:5%;
+}
+
+
 
 .admin_table td,
 .admin_table th
@@ -1025,8 +1333,8 @@ footer nav ul li{
 
 .user_modify_button
 {
-    border:0.1px solid red;
-    color:red;
+    border:0.1px solid #077C62;
+    color:#077C62;
     padding:5%;
     border-radius:5px;
 }
@@ -1034,15 +1342,15 @@ footer nav ul li{
 .user_modify_button:hover
 {
     
-    background-color: pink;
+    background-color: #E1FEF8;
     transition:1s;
 }
 
 .delete_button button
 {
-    color:red;
-    padding:4%;
+    color:#077C62;
     background-color:white;
+    padding:4%;
     font-size:15px;
     border:none;
     border-radius:5px;
@@ -1050,7 +1358,7 @@ footer nav ul li{
 
 .delete_button button:hover
 {
-background-color:pink;
+background-color:#E1FEF8;
 border-radius:20%;
 
 }
@@ -1063,7 +1371,10 @@ border-radius:20%;
     color:white;
     padding:2%;
     text-align: center;
+    
 }
+
+
 
 .form_user button
 {
@@ -1078,7 +1389,7 @@ border-radius:20%;
 
 .form_user button:hover
 {
-    background-color:#FFFACD;
+    background-color:#E1FEF8;
     color:#333;
     border-radius: none;
     transition:1s;
@@ -1116,6 +1427,7 @@ border-radius:20%;
     height:25px;
     padding:2%;
     font-size:15px;
+    border:none;
 }
 
 .form_admin {align-items: center;}
@@ -1123,7 +1435,11 @@ border-radius:20%;
 .form_admin input[type="text"],
 .form_admin  input[type="password"],
 .form_admin  input[type="number"],
-.form_admin  input[type="email"]
+.form_admin  input[type="email"],
+.form_profil input[type="text"],
+.form_profil  input[type="password"],
+.form_profil  input[type="number"],
+.form_profil  input[type="email"]
 {
     width:90%;
     margin-bottom:5%;
@@ -1167,17 +1483,6 @@ border-radius:20%;
     width:30%;
 }
 
-.admin_general h1
-{
-    text-align: center;
-}
-
-
-
-
-
-
-
 .gender_line
 {
     display: flex;
@@ -1205,14 +1510,6 @@ border-radius:20%;
     align-items: center; 
 }
  
-
-
-
-
-
-
-
-
 /*** RESPONSIVE ADMIN ***/
 
 
@@ -1231,7 +1528,7 @@ border-radius:20%;
 {
     .admin_gestion
     {
-        width:70%;
+        width:80%;
     }
     .display_none{display:none;}
     .form_admin_user{flex-direction: column;}
@@ -1260,7 +1557,17 @@ border-radius:20%;
 }
 
 @media screen and (max-width:800px){
- 
+ .admin_gestion
+    {
+        width:80%;
+    }
+}
+
+@media screen and (max-width:700px){
+ .admin_gestion
+    {
+        width:90%;
+    }
 }
 
 @media screen and (max-width:500px){
@@ -1269,59 +1576,61 @@ border-radius:20%;
 
 
 
+
+
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
-/*** PROFIL  ***/
+/*** GESTION RESERVATIONS  ***/
 
 
-.personnal_data,
-.booking_section
+.main_gestion_reservation
 {
-    margin-right:10%;
-    margin-left:10%;
-    margin-top:5%;
-    margin-bottom:5%;
-    text-align: center;
+    background:url(https://i.pinimg.com/originals/9b/b8/9e/9bb89e9aaac89ce6d6d50f7db5a940d9.jpg) center fixed;
+    background-size: contain;
+    
 }
 
-.order_personnal_data
-{
-    display:flex;
-    justify-content:space-between;
-}
-
-.info_user
-{
-    margin-top:2%;
-    padding:5%;
-}
-
-
-.avatar img
-{
-    border-radius:50%;
-}
-
-.delete
-{
-    text-align: center;
-
-}
-
-
-
-.booking_section
+.booking_details
 {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    align-items: center;
+   
+    color:white;
+    padding-top:5%;
+    padding-bottom:5%;
 }
 
 
 
+.booking_details h1,
+.booking_details h3
+{
+    text-align: center;
+    color:#E1FEF8;
+}
+
+.booking_details dt
+{
+    font-weight:bold;
+    
+}
+
+.color
+{
+     background-color:#333;
+    padding:10%;
+}
+
+#total
+{
+    font-size:50px;
+    text-align: center;
+    color:#E1FEF8;
+}
 
 
 
-/*** RESPONSIVE PROFIL ***/
+/*** RESPONSIVE GESTION RESERVATIONS ***/
 @media (max-width: 980px){
 }
 
@@ -1464,10 +1773,224 @@ border-radius:20%;
  }
 
 
-/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
-/*** RESERVATION FORM  ***/
 
-/*** RESPONSIVE RESERVATION-FORM ***/
+
+
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+/*** PROFIL  ***/
+
+.main_profil{
+    display: flex;
+    margin-right:5%;
+    margin-left:5%;
+}
+
+.profil_section1
+{
+    margin-top:5%;
+    display:flex;
+    flex-direction:column;
+    justify-content: space-evenly;
+    text-align:center;
+}
+
+.profil_section2
+{
+    margin-top:5%;
+    margin-left:5%;
+    display:flex;
+    flex-direction:column;
+    text-align:center;
+    width:100%;
+}
+
+.avatar img
+{
+    border-radius:50%;
+}
+
+#avatar_profil img
+{
+    border: 20px double #CEDCDD;
+}
+
+
+.profil_case_reservation
+{
+    background-color:#CEDCDD;
+    border-radius:20px;
+    color:white;
+    padding:2%;
+    min-height:300px;
+    width:auto;
+    margin-bottom:5%;
+}
+
+.profil_case_introduction
+{
+    text-align: justify;
+    padding:2%;
+    margin-bottom:5%;
+}
+
+.profil_case_introduction h1
+{
+    text-align:center;
+    font-size:35px;
+}
+
+.profil_case_avis
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color:lightgray;
+    border-radius:20px;
+    color:white;
+    margin-bottom:5%;
+    padding:2%;
+    min-height:300px;
+}
+
+.profil_case_reglement
+{
+    background-color:#CEDCDD;
+    border-radius:20px;
+    color:white;
+    padding:5%;
+    min-height:300px;
+    width:auto;
+    margin-bottom:5%;
+    text-align: justify;
+}
+
+.profil_case_reglement h1
+{
+    text-align: center;
+}
+
+.profil_case_reglement h2
+{
+    font-size:20px;
+}
+
+
+
+.profil_case_avis table
+{
+    width:90%;
+    
+}
+
+.profil_case_modification, 
+.profil_case_suppression
+{
+    background-color:#CEDCDD;
+    border-radius:20px;
+    color:white;
+    margin-right:6%;
+    margin-bottom:5%;
+    padding:2%;
+    width:100%;
+} 
+
+.profil_case_reservation a
+{
+    color:#7E8892;
+}
+
+.profil_case_reservation a:hover
+{
+    text-decoration: underline;
+}
+
+.profil_case_avatar input[type="file"],
+.profil_case_avatar input[type="submit"]
+{
+    color:#7E8892;
+    padding:2%;
+    background-color:white;
+    border:0.1px solid #7E8892;
+    margin-bottom:5%;
+}
+
+.profil_case_avatar input[type="submit"]:hover,
+.profil_case_modification input[type="submit"]:hover,
+.profil_case_suppression input[type="submit"]:hover
+{
+    transition:1s;
+    color:white;
+    background-color:#7E8892;
+}
+
+.profil_case_avatar input[type="file"]{width:60%;}
+
+.profil_section1 button
+{
+    color:#7E8892;
+    background-color:white;
+    padding:2%;
+    border:none;
+    margin-bottom:5%;
+}
+
+.validation_avatar
+{
+    display: flex;
+    justify-content: space-between;
+}
+
+.profil_section1 button:hover
+{
+    transition:1s;
+    background-color:#7E8892;
+    color:white;
+}
+
+.profil_case_modification input[type="text"], 
+.profil_case_modification input[type="mail"], 
+.profil_case_modification input[type="password"], 
+.profil_case_suppression input[type="text"], 
+.profil_case_suppression input[type="mail"], 
+.profil_case_suppression input[type="password"]
+{
+    border-radius:5px;
+    height:20px;
+    margin-bottom:5%;
+    padding:2%;
+    width:70%;
+    border:none;
+    color:#7E8892;
+    outline-color: #7E8892;
+}
+
+
+.profil_case_modification input[type="radio"]{margin-bottom:5%;}
+
+.profil_case_modification input[type="submit"],
+.profil_case_suppression input[type="submit"]
+{
+    border:0.1px solid #7E8892;
+    padding:2%;
+    margin-bottom:5%;
+    color:#7E8892;
+    background-color:#CEDCDD;
+    border-radius:5px;
+    width:30%;
+}
+
+
+
+
+.profil_case_suppression img
+{
+    margin-top:15%;
+}
+
+
+
+/*** RESPONSIVE PROFIL ***/
 @media (max-width: 980px){
 }
 
@@ -1478,6 +2001,368 @@ border-radius:20%;
  
 }
 
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+/*** RESERVATION FORM  ***/
+
+#container-resaform{
+  display: flex;
+  flex-direction: column;
+  background-color: whitesmoke;
+  align-items: center;
+  padding-top: 5%;
+  padding-bottom: 5%;
+}
+
+#container-resaform h1{
+  display: flex;
+  width: 50%;
+  background-color: #B1C2BE;
+  justify-content: center;
+  text-align: center;
+  font-weight: 200;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: white;
+}
+
+#sub-form{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+  width: 50%;
+  height: 20vh;
+  box-shadow:0 10px 40px rgba(0,0,0,0.08);
+}
+
+#date-section{
+  margin-top: 2.5%;
+  margin-bottom: 2.5%;
+}
+
+ #date-section input[type=date]{
+  width: 200px;
+  height: 30px;
+  background: transparent;
+  border: 1px solid #077C62;
+  border-radius: 2px;
+  color: #077C62;
+  font-size: 16px;
+  font-weight: 400;
+  padding: 4px;
+ }
+
+ #date-section i{
+  color: gray;
+}
+
+#section-lieu{
+  display: flex;
+  justify-content: space-between;
+}
+#sub-form select{
+  width: 300px;
+  height: 35px;
+  background: transparent;
+  border: 1px solid #077C62;
+  border-radius: 2px;
+  color: #077C62;
+  font-size: 16px;
+  font-weight: 400;
+ }
+
+ #form_date_lieu button{
+  width: 300px;
+  height: 35px;
+  background: transparent;
+  border: 1px solid white;
+  border-radius: 2px;
+  color: white;
+  background-color: black;
+  font-size: 16px;
+  font-weight: 400;
+ }
+
+ #form_date_lieu button:hover{
+  border: 1px solid #077C62;
+  color: #077C62;
+  background-color: white;
+  transition: 1.5s;
+ }
+
+ #sub-form1{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  width: 50%;
+  padding-top:2.5%;
+  padding-bottom:2.5%;
+  box-shadow:0 10px 40px rgba(0,0,0,0.08);
+}
+
+#sub-form1 h2{
+  font-size: 20px;
+  font-weight: 600;
+}
+
+#sub-form1 form{
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+}
+
+#date-section1{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#date-section1 label{
+  font-size: 13px;
+}
+
+#date-section1 input[type=date]{
+  width: 130px;
+  height: 30px;
+  background: transparent;
+  border: 1px solid #077C62;
+  border-radius: 2px;
+  color: #077C62;
+  font-size: 14px;
+  font-weight: 400;
+  padding-left: 2px;
+ }
+
+ #date-section1 input[type=text]{
+  width: 130px;
+  height: 30px;
+  background: transparent;
+  border: 1px solid #077C62;
+  border-radius: 2px;
+  color: #077C62;
+  font-size: 14px;
+  font-weight: 400;
+  padding-left: 2px;
+ }
+
+ #type-section{
+   display: flex;
+   margin-top: 5%;
+   justify-content: space-between;
+ }
+
+ #type-section select{
+  width: 140px;
+  height: 30px;
+  background: transparent;
+  border: 1px solid #077C62;
+  border-radius: 2px;
+  color: #077C62;
+  font-size: 14px;
+  font-weight: 400;
+  padding: 4px;
+}
+
+#option-section{
+  display: flex;
+  flex-direction: column;
+  margin-top: 2.5%;
+  margin-bottom: 5%;
+}
+
+#option-section input[type=checkbox]{
+  width: 100px;
+  background: transparent;
+  border: 1px solid #077C62;
+  border-radius: 2px;
+  color: #077C62;
+  font-size: 14px;
+  font-weight: 400;
+ }
+
+#but-form{
+  display: flex;
+  justify-content: center;
+}
+
+ #form-button{
+  width: 300px;
+  height: 35px;
+  background: transparent;
+  border: 1px solid white;
+  border-radius: 2px;
+  color: white;
+  background-color: black;
+  font-size: 16px;
+  font-weight: 400;
+ }
+
+ #form-button:hover{
+  border: 1px solid #077C62;
+  color: #077C62;
+  background-color: white;
+  transition: 1.5s;
+ }
+
+/*** RESPONSIVE RESERVATION-FORM ***/
+@media (max-width: 980px){
+  #container-resaform h1{
+    width: 95%;
+    font-size: 20px;
+  }
+  #sub-form{
+    width: 95%;
+  }
+  #date-section{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 2.5%;
+  }
+  #date-section input[type=date]{
+    width: 250px;
+  }
+  #section-lieu{
+    flex-direction: column;
+  }
+  #form_date_lieu button{
+    width: 300px;
+    margin-top: 5%;
+  }
+
+ #sub-form1{
+  width: 95%;
+  padding-bottom: 5%;
+}
+
+#sub-form1 h2{
+  font-size: 15px;
+}
+
+#sub-form1 form{
+  width: 95%;
+}
+
+#date-section1{
+  flex-direction: column;
+}
+
+#date-section1 label{
+  font-size: 11px;
+}
+
+#date-section1 input[type=date]{
+  width: 200px;
+ }
+
+ #date-section1 input[type=text]{
+  width: 200px;
+ }
+
+ #type-section{
+   flex-direction: column;
+   align-items: center;
+ }
+
+ #type-section select{
+  width: 200px;
+  margin-top: 2.5%;
+}
+
+#option-section h2{
+  margin-left: 10%;
+}
+
+#option-section input[type=checkbox]{
+  width: 70px;
+  font-size: 12px;
+ }
+  
+}
+
+@media screen and (max-width:800px){
+ 
+}
+@media screen and (max-width:500px){
+ 
+}
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+/*** RESERVATIONS EN COURS ***/
+
+#container-reservations{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding-top: 5%;
+  padding-bottom: 5%;
+  border-bottom: 1px solid rgba(105, 183, 252,0.2);
+}
+
+#container-reservations h1{
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-weight: 500;
+  font-size: 28px;
+  height: 10vh;
+}
+
+#container-reservations img{
+  width: 25%;
+}
+
+#container-reservations ul{
+ display: flex;
+ margin-top: 2.5%;
+ flex-direction: column;
+ width: 70%;
+ border: 1px solid black;
+ padding: 20px;
+}
+
+#container-reservations p{
+  font-size: 18px;
+  margin-top: 2.5%;
+ }
+
+ #container-reservations a{
+   color: gray;
+ }
+
+ #container-reservations a:hover{
+  color: #077C62;
+  transition: 1.5s;
+}
+#container-reservations i{
+  color: #077C62;
+  font-size: 17px;
+  text-transform: uppercase;
+}
+
+
+/*** RESPONSIVE RESERVATIONS EN COURS ***/
+@media (max-width: 980px){
+  #container-reservations h1{
+  font-size: 20px;
+  }
+  #container-reservations p{
+    font-size: 14px;
+   }
+  
+}
+
+@media screen and (max-width:800px){
+ 
+}
+@media screen and (max-width:500px){
+ 
+}
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 /*** PLANNING  ***/
 

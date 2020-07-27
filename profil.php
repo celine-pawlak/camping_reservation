@@ -20,7 +20,7 @@ $page_selected = 'profil';
     <header>
         <?php include("includes/header.php"); ?>
     </header>
-    <main>
+    <main class="main_profil">
         <?php
             //TENTATIVE CONNEXION BDD
             try
@@ -72,8 +72,6 @@ $page_selected = 'profil';
                                    $update1->execute();
                                 }
 
-
-
                                 if($_SERVER["REQUEST_METHOD"] == "POST")
                                 {
                                     // Vérifie si le fichier a été uploadé sans erreur.
@@ -83,17 +81,12 @@ $page_selected = 'profil';
                                         $filename = $_FILES["photo"]["name"];
                                         $filetype = $_FILES["photo"]["type"];
                                         $filesize = $_FILES["photo"]["size"];
-
                                         // Vérifie l'extension du fichier
                                         $ext = pathinfo($filename, PATHINFO_EXTENSION);
-
                                         if(!array_key_exists($ext, $allowed)) die("Erreur : Veuillez sélectionner un format de fichier valide.");
-
                                         // Vérifie la taille du fichier - 5Mo maximum
                                         $maxsize = 5 * 1024 * 1024;
-
                                         if($filesize > $maxsize) die("Error: La taille du fichier est supérieure à la limite autorisée.");
-
                                         // Vérifie le type MIME du fichier
                                         if(in_array($filetype, $allowed))
                                         {
@@ -101,18 +94,16 @@ $page_selected = 'profil';
                                             if(file_exists("uploads/".$_FILES["photo"]["name"]))
                                             {
                                                 echo $_FILES["photo"]["name"] . " existe déjà.";
-
                                             }
                                             else
                                             {*/
                                                 move_uploaded_file($_FILES["photo"]["tmp_name"], "uploads/" . $_FILES["photo"]["name"]);
-
                                                 header('location:profil.php');
-
-                                            /*}*/
+                                           /* } */
                                         }
                                         else
                                         {
+                                            echo "Error: Il y a eu un problème de téléchargement de votre fichier. Veuillez réessayer.";
                                             echo "Error: Téléchargement du fichier impossible. Veuillez réessayer.";
                                         }
                                     }
@@ -121,7 +112,6 @@ $page_selected = 'profil';
                                     echo "Error: " . $_FILES["photo"]["error"];
                                     }
                                 }
-
                         }
 
                         //SI ON SUPPRIME LA PHOTO
@@ -146,6 +136,8 @@ $page_selected = 'profil';
 
 
 
+
+
                         //MODIFICATION DES DONNEES DE L'UTILISATEUR SI ON APPUIS SUR VALIDER
                         if(isset($_POST['submit']))
                         {
@@ -160,7 +152,7 @@ $page_selected = 'profil';
                             $hash=password_hash($password,PASSWORD_BCRYPT,array('cost'=>10));
 
                             //SI LE CHAMPS GENRE EST REMPLI
-                            if(!empty($gender))
+                            if($gender)
                             {
                                 //MISE A JOUR DES DONNEES
                                 $update_gender = "UPDATE utilisateurs SET gender=:gender WHERE id_utilisateur = '$session' ";
@@ -172,7 +164,7 @@ $page_selected = 'profil';
                             }
 
                             //SI LE CHAMPS NOM EST REMPLI
-                            if(!empty($lastname))
+                            if($lastname)
                             {
                                 //MISE A JOUR DES DONNEES
                                 $update_lastname = "UPDATE utilisateurs SET nom=:lastname WHERE id_utilisateur = '$session' ";
@@ -185,7 +177,7 @@ $page_selected = 'profil';
 
 
                             //SI LE CHAMPS PRENOM EST REMPLI
-                            if(!empty($firstname))
+                            if($firstname)
                             {
                                 //MISE A JOUR DES DONNEES
                                 $update_firstname = "UPDATE utilisateurs SET prenom=:firstname WHERE id_utilisateur = '$session' ";
@@ -196,7 +188,7 @@ $page_selected = 'profil';
                                 $update_niv3->execute();
                             }
 
-                            if(!empty($mail))
+                            if($mail)
                             {
                                 //MISE A JOUR DES DONNEES
                                 $update_mail = "UPDATE utilisateurs SET email=:mail WHERE id_utilisateur = '$session' ";
@@ -207,7 +199,7 @@ $page_selected = 'profil';
                                 $update_niv4->execute();
                             }
 
-                            if(!empty($phone))
+                            if($phone)
                             {
                                 //MISE A JOUR DES DONNEES
                                 $update_phone = "UPDATE utilisateurs SET num_tel=:phone WHERE id_utilisateur = '$session' ";
@@ -220,7 +212,7 @@ $page_selected = 'profil';
 
 
                              //SI LES CHAMPS MOTS DE PASSE ET CONFIRMATION DE MOT DE PASSE SONT  REMPLIS
-                            if(!empty($password) AND !empty($check_password))
+                            if($password AND $check_password)
                             {
                                 if($password == $check_password)
                                 {
@@ -239,7 +231,6 @@ $page_selected = 'profil';
                             }
 
 
-
                             header ('location:profil.php');
                         }
 
@@ -255,157 +246,45 @@ $page_selected = 'profil';
                             }
 
                         }
-                    } else {
-                        echo "Error: Téléchargement du fichier impossible. Veuillez réessayer.";
-                    }
-                } else {
-                    echo "Error: " . $_FILES["photo"]["error"];
+                
+                        //RECUPERATION DES COMMENTAIRES DE L'UTILISATEUR
+                        $commentaire=$connexion->prepare("SELECT * FROM avis WHERE id_utilisateur = $session ORDER BY post_date DESC");
+                        //EXECUTION DE LA REQUETE
+                        $commentaire->execute();
+                        //RECUPERATION RESULTAT
+                        $commentaire_result = $commentaire->fetchAll(PDO::FETCH_ASSOC);
+                        
+
+
                 }
-            }
-        }
-
-        //SI ON SUPPRIME LA PHOTO
-        if (isset($_POST['delete'])) {
-            //SI UN AVATAR EXISTE BIEN EN BDD
-            if ($user_session_data_result[0]['avatar'] != null) {
-                $avatar_delete = null;
-                //SUPPRESSION AVATAR EN BDD
-                $delete_avatar = "UPDATE utilisateurs SET avatar=:avatar WHERE id_utilisateur = '$session' ";
-                //PREPARATION REQUETE
-                $delete1 = $connexion->prepare($delete_avatar);
-                $delete1->bindParam(':avatar', $avatar_delete, PDO::PARAM_NULL);
-                //EXECUTION REQUETE
-                $delete1->execute();
-                header('location:profil.php');
-            }
-        }
-
-
-        //MODIFICATION DES DONNEES DE L'UTILISATEUR SI ON APPUIS SUR VALIDER
-        if (isset($_POST['submit'])) {
-            //DEFINITION DES VARIABLES STOCKANT LES DONNEES UTILISATEURS
-            $gender = htmlentities(trim($_POST['gender']));
-            $lastname = htmlentities(trim($_POST['lastname']));
-            $firstname = htmlentities(trim($_POST['firstname']));
-            $mail = htmlentities(trim($_POST['mail']));
-            $phone = htmlentities(trim($_POST['phone_number']));
-            $password = htmlentities(trim($_POST['password']));
-            $check_password = htmlentities(trim($_POST['check_password']));
-            $hash = password_hash($password, PASSWORD_BCRYPT, array('cost' => 10));
-
-            //SI LE CHAMPS GENRE EST REMPLI
-            if ($gender) {
-                //MISE A JOUR DES DONNEES
-                $update_gender = "UPDATE utilisateurs SET gender=:gender WHERE id_utilisateur = '$session' ";
-                //PREPARATION REQUETE
-                $update_niv1 = $connexion->prepare($update_gender);
-                $update_niv1->bindParam(':gender', $gender, PDO::PARAM_STR);
-                //EXECUTION REQUETE
-                $update_niv1->execute();
-            }
-
-            //SI LE CHAMPS NOM EST REMPLI
-            if ($lastname) {
-                //MISE A JOUR DES DONNEES
-                $update_lastname = "UPDATE utilisateurs SET nom=:lastname WHERE id_utilisateur = '$session' ";
-                //PREPARATION REQUETE
-                $update_niv2 = $connexion->prepare($update_lastname);
-                $update_niv2->bindParam(':lastname', $lastname, PDO::PARAM_STR);
-                //EXECUTION REQUETE
-                $update_niv2->execute();
-            }
-
-
-            //SI LE CHAMPS PRENOM EST REMPLI
-            if ($firstname) {
-                //MISE A JOUR DES DONNEES
-                $update_firstname = "UPDATE utilisateurs SET prenom=:firstname WHERE id_utilisateur = '$session' ";
-                //PREPARATION REQUETE
-                $update_niv3 = $connexion->prepare($update_firstname);
-                $update_niv3->bindParam(':firstname', $firstname, PDO::PARAM_STR);
-                //EXECUTION REQUETE
-                $update_niv3->execute();
-            }
-
-            if ($mail) {
-                //MISE A JOUR DES DONNEES
-                $update_mail = "UPDATE utilisateurs SET email=:mail WHERE id_utilisateur = '$session' ";
-                //PREPARATION REQUETE
-                $update_niv4 = $connexion->prepare($update_mail);
-                $update_niv4->bindParam(':mail', $mail, PDO::PARAM_STR);
-                //EXECUTION REQUETE
-                $update_niv4->execute();
-            }
-
-            if ($phone) {
-                //MISE A JOUR DES DONNEES
-                $update_phone = "UPDATE utilisateurs SET num_tel=:phone WHERE id_utilisateur = '$session' ";
-                //PREPARATION REQUETE
-                $update_niv5 = $connexion->prepare($update_phone);
-                $update_niv5->bindParam(':phone', $phone, PDO::PARAM_STR);
-                //EXECUTION REQUETE
-                $update_niv5->execute();
-            }
-
-
-            //SI LES CHAMPS MOTS DE PASSE ET CONFIRMATION DE MOT DE PASSE SONT  REMPLIS
-            if ($password and $check_password) {
-                if ($password == $check_password) {
-                    //MISE A JOUR DES DONNEES
-                    $update_password = "UPDATE utilisateurs SET password=:hash WHERE id_utilisateur = '$session' ";
-                    //PREPARATION REQUETE
-                    $update_niv6 = $connexion->prepare($update_password);
-                    $update_niv6->bindParam(':hash', $hash, PDO::PARAM_STR);
-                    //EXECUTION REQUETE
-                    $update_niv6->execute();
-                } else {
-                    echo "Vos mots de passe doivent être identiques<br/>";
+                catch(PDOException $e)
+                {
+                    echo "Erreur : " . $e->getMessage();
                 }
-            }
 
 
-            header('location:profil.php');
-        }
+?>
 
-        if (isset($_POST['delete_account'])) {
-            $password = htmlentities(trim($_POST['password_delete']));
-            $check = htmlentities(trim($_POST['password_delete_check']));
-
-            if (!empty($password) and !empty($check)) {
-                if ($password == $check) {
-                    ;
-                }
-                $user->delete($password);
-            }
-        }
-    } catch (PDOException $e) {
-        echo "Erreur : " . $e->getMessage();
-    }
-
-
-        <section class="personnal_data">
-
-            <h1>PROFIL</h1>
-
-            <form action="" method="post" class="info_user" enctype="multipart/form-data">
-
-                <div class="order_personnal_data">
-                    <div class="avatar">
-
-                        <img src="
+        <section class="profil_section1">
+            
+            <form action="" method="post" enctype="multipart/form-data" class="avatar profil_case_avatar" id="avatar_profil">
+                <img src="
                              <?php
                               if($user_session_data_result[0]['avatar'] == NULL){
                                   echo 'css/images/no-image.png';
                               }else{echo $user_session_data_result[0]['avatar'];}
                               ?>" alt="avatar" width="300" height="300"><br />
-                        <h2>Modifiez votre avatar</h2><br />
-
-                        <input type="file" name="photo"><br /><br />
-                        <input type="submit" name="send" value="ENVOYER">
-                        <button type="submit" name="delete"><i class="fas fa-trash-alt"></i></button>
-                    </div>
-                    <div>
-                        <h2>Modifiez vos données personnelles</h2><br />
+                
+                <h2><?php echo $user_session_data_result[0]['prenom'].' '.$user_session_data_result[0]['nom'] ?></h2><br />
+                <div class="validation_avatar">
+                    <input type="file" name="photo">
+                    <input type="submit" name="send" value="ENVOYER">
+                    <button type="submit" name="delete"><i class="fas fa-trash-alt"></i></button>
+                </div>
+                
+            </form>
+            <form action="" method="post" class="profil_case_modification">
+                <h2>Modifier mes données personnelles</h2><br />
                         <?php
 
                         $gender_check = html_entity_decode($user_session_data_result[0]['gender']);
@@ -424,13 +303,11 @@ $page_selected = 'profil';
 
                         <input type="radio" name="gender" value="Non genré" <?php if($check3==true){echo "checked";}else{echo "";} ?> />
                         <label for="no_gender">Non genré</label><br />
-
-                        <div class="name_form">
-                            <label for="name">Nom</label><br />
-                            <input type="text" name="lastname" value="<?php echo $user_session_data_result[0]['nom'] ?>"><br />
-                            <label for="firstname">Prénom</label><br />
-                            <input type="text" name="firstname" value="<?php echo $user_session_data_result[0]['prenom'] ?>"><br />
-                        </div>
+                        
+                        <label for="name">Nom</label><br />
+                        <input type="text" name="lastname" value="<?php echo $user_session_data_result[0]['nom'] ?>"><br />
+                        <label for="firstname">Prénom</label><br />
+                        <input type="text" name="firstname" value="<?php echo $user_session_data_result[0]['prenom'] ?>"><br />
 
 
                         <label for="mail">Email</label><br />
@@ -445,112 +322,93 @@ $page_selected = 'profil';
 
                         <input type="submit" name="submit" value="VALIDER"><br />
 
-                        <h2>Supprimez définitivement votre compte</h2>
-
-                        <label for="">Entrez votre mot de passe actuel</label><br />
-                        <input type="password" name="password_delete" placeholder="Entrez votre mot de passe actuel"><br />
-                        <label for="password_delete_check">Confirmez votre mot de passe</label><br />
-                        <input type="password" name="password_delete_check" placeholder="Confirmez votre mot de passe actuel"><br /><br />
-                        <input type="submit" name="delete_account" value="SUPPRIMER">
-                    </div>
-                </div>
-
-
-
-
-
+                        
+                  
             </form>
+            
+            <form action="" method="post" class="profil_case_suppression">
+                    <h2>Supprimer définitivement<br /> mon compte</h2><br />
+                    <label for="">Entrez votre mot de passe actuel</label><br />
+                    <input type="password" name="password_delete" placeholder="Entrez votre mot de passe actuel"><br />
+                    <label for="password_delete_check">Confirmez votre mot de passe</label><br />
+                    <input type="password" name="password_delete_check" placeholder="Confirmez votre mot de passe actuel"><br /><br />
+                    <input type="submit" name="delete_account" value="SUPPRIMER">
+            </form>
+            
+            
+            
         </section>
+        
+        <section class="profil_section2">
+            <div class="profil_case_introduction">
+                <h1>Hello <?php echo $user_session_data_result[0]['prenom'] ?> ! </h1><br/>
+                <h2>Un petit mot sur le fonctionnement du site</h2><br/>
+                <p>
+                    Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur
+                    <br/>
+                    <br/>
+                    Sur ce profitez de votre séjour ! 
+                </p>
+            </div>
+            <div class="profil_case_reservation">
+                <h1>MES RESERVATIONS</h1><br/>
+                <?php
+                //RECUPERATION DES DONNEES UTILISATEURS
+                $info = $connexion->prepare("SELECT * FROM reservations WHERE id_utilisateur = $session ORDER by date_debut DESC");
+                //EXECUTION DE LA REQUETE
+                $info->execute();
+                //RECUPERATION RESULTAT
+                $info_result = $info->rowCount();
+                $info_result1 = $info->fetchAll(PDO::FETCH_ASSOC);
 
-
-        <br />
-
-        <section class="booking_section">
-
-            <?php
-
-             //RECUPERATION DES DONNEES UTILISATEURS
-            $info = $connexion->prepare("SELECT id_reservation FROM reservations WHERE id_utilisateur = $session ");
-            //EXECUTION DE LA REQUETE
-            $info->execute();
-            //RECUPERATION RESULTAT
-            $info_result = $info->rowCount();
-            $info_result1 = $info->fetchAll(PDO::FETCH_ASSOC);
-
-            var_dump($info_result1);
-            //var_dump($info_result1[][]);
-
-            foreach($info_result1 as $id_reservations){
-                echo $id_reservations['id_reservation'][0].'<br/>' ;
-            }
-
-
-            if( $info_result >= 1)
-            {
-                $info2 = $connexion->prepare("
-                SELECT
-                reservations.id_reservation,
-                reservations.date_debut,
-                reservations.date_fin,
-                detail_lieux.nom_lieu,
-                detail_lieux.prix_journalier,
-                detail_types_emplacement.nom_type_emplacement, detail_types_emplacement.nb_emplacements_reserves,
-                detail_options.nom_option,
-                detail_options.prix_option
-                FROM
-                reservations, detail_lieux, detail_types_emplacement,  detail_options
-                WHERE
-                reservations.id_reservation = '1'
-                AND
-                reservations.id_reservation = detail_lieux.id_reservation
-                AND
-                reservations.id_reservation = detail_types_emplacement.id_reservation
-                AND
-                reservations.id_reservation = detail_options.id_reservation
-
-
-
-                ");
-
-                $info2->execute();
-                $info_result2 = $info2->fetchAll(PDO::FETCH_ASSOC);
-                var_dump($info_result2);
-            }
-
-            ?>
-
-
-            <h1>MES RESERVATIONS</h1>
-
-            <table>
-                <thead>
-                    <?php foreach($info_result2 as $i){ ?>
-                    <tr>
-                        <th>Commande n°<?php echo $i['id_reservation'] ?></th>
-                        <th>Date de début <?php echo $i['date_debut'] ?></th>
-                        <th>Date de fin <?php echo $i['date_fin'] ?></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><?php echo $i['nom_lieu'] ?></td>
-                        <td><?php echo $i['prix_journalier'] ?></td>
-                        <td><?php echo $i['nom_type_emplacement'] ?></td>
-                        <td><?php echo $i['nb_emplacements_reserves'] ?></td>
-                        <td><?php echo $i['nom_option'] ?></td>
-                        <td><?php echo $i['prix_option'] ?></td>
-                    </tr>
+                foreach($info_result1 as $id_reservations){?>
+                <p>Du <?php echo $id_reservations['date_debut']?> au <?php echo $id_reservations['date_fin']?></p>
+                <a href="gestion_reservation.php?id_reservation=<?php echo $id_reservations['id_reservation'];?>">Réservation n°<?php echo  $id_reservations['id_reservation']?></a><br/>
+                <?php }?> 
+            </div>
+            <div class="profil_case_avis">
+                <h1>MES AVIS</h1><br/>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Note</th>
+                            <th>Titre</th>
+                            <th>Commentaire</th>
+                            <th>Date publication</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach($commentaire_result as $avis_customer){ ?>
+                        <tr>
+                            <td><?php echo $avis_customer['note_sejour'].'/5' ?></td>
+                            <td><?php echo $avis_customer['titre_avis'] ?></td>
+                            <td><?php echo $avis_customer['texte_avis'] ?></td>
+                            <td><?php echo $avis_customer['post_date'] ?></td>
+                        </tr>
                     <?php } ?>
-                </tbody>
-            </table>
-
-            <form action="" method="post">
-                <h2>Modifiez vos réservations</h2>
-            </form>
-
-
+                    </tbody>
+                </table>
+            </div>
+            <div class="profil_case_reglement">
+                <h1>Règlement intérieur</h1><br/>
+                <p>
+                   Comme tous les espaces de vie en communauté, Les Sardines n'échappe pas à quelques règles de vie. Consultez les afin de passer un séjour agréable. 
+                </p><br/>
+                <h2>Règles n°1</h2>
+                <p>
+                    Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+                </p>
+                <h2>Règles n°2</h2>
+                <p>
+                   Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.
+                </p>
+                <h2>Règles n°3</h2>
+                <p>
+                   Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.
+                </p>
+            </div>
+            
         </section>
-
 
 
 

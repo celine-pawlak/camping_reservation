@@ -28,45 +28,7 @@
                 header("location:admin.php");
             }
             
-            //SI ON APPUIS SUR AJOUTER UN TYPE D'EMPLACEMENT 
-                if(isset ($_POST['add_type']))
-                {
-                    //DEFINITION DES VARIABLES STOCKANT LES TYPES D'EMPLACEMENTS ET LEUR TAILLE
-                    $type_place=htmlentities(trim($_POST['type']));
-                    $nbr_place_type=htmlentities(trim($_POST['number_place_type']));
-                    //SI LES CHAMPS PRECEDENTS SONT RENSEIGNES
-                    if( $type_place AND $nbr_place_type)
-                    {
-                        // VERIFICATION CORRESPONDANCE BDD 
-                        $check_type_match = $connexion->prepare ("SELECT * FROM types_emplacement WHERE nom_type_emplacement = '$type_place' ");
-                        // EXECUTION REQUETE
-                        $check_type_match->execute();
-                        //RECUPERATION DONNEES
-                        $check_type_match_result = $check_type_match->rowCount();
-                        
-                        //SI IL EXISTE DEJA DANS LA BDD
-                        if($check_type_match_result>=1)
-                        {
-                           echo'Ce type d\'emplacement existe déjà'; 
-                        }
-                        else
-                        {
-                            //INSERTION NOUVEAU TYPE
-                            $insert_type = "INSERT INTO types_emplacement (nom_type_emplacement,nb_emplacement) VALUES (:type,:nbr_place_type)";
-                            //PREPARATION REQUETE
-                            $insert_type1 = $connexion->prepare($insert_type);
-                            $insert_type1->bindParam(':type',$type_place, PDO::PARAM_STR);
-                            $insert_type1->bindParam(':nbr_place_type',$nbr_place_type, PDO::PARAM_INT);
-                            //EXECUTION REQUETE
-                            $insert_type1->execute(); 
-                            header("location:admin.php");
-                        }
-                    }
-                    else 
-                    {
-                    echo'Veuillez remplir tous les champs';
-                    }
-                }
+            
         }
 
         catch (PDOException $e) 
@@ -93,13 +55,13 @@
                 <td><?php
                                 echo html_entity_decode($type['nom_type_emplacement']) ?></td>
                 <td><?php
-                                echo $type['nb_emplacement'] ?></td>
+                                echo $type['nb_emplacements'] ?></td>
                 <td>
                     <a class="user_modify_button" href="admin.php?modifier_type=<?php
                                 echo $type['id_type_emplacement'] ?>">EDITER</a>
                 </td>
                 <td>
-                    <form method="post" action="">
+                    <form method="post" action="" class="delete_button">
                         <button type="submit" name="delete_type"><i class="fas fa-times"></i></button>
                         <input type="hidden" name="type_id_hidden" value="<?php
                                     echo $type['id_type_emplacement'] ?>">
@@ -141,7 +103,7 @@
                         //SI LA TAILLE DU TYPE D'EMPLACEMENT EST RENSEIGNE
                         if (!empty($update_size_type)) {
                             //MISE A JOUR TAILLE EMPLACEMENT
-                            $update_size = "UPDATE types_emplacement SET nb_emplacement=:nb_size WHERE id_type_emplacement = $type_id2";
+                            $update_size = "UPDATE types_emplacement SET nb_emplacements=:nb_size WHERE id_type_emplacement = $type_id2";
                             //PREPARATION REQUETE
                             $update_size1 = $connexion->prepare($update_size);
                             $update_size1->bindParam(':nb_size', $update_size_type, PDO::PARAM_INT);
@@ -160,14 +122,11 @@
         <input type="text" name="update_type_name">
         <label for="update_size">Modification taille emplacement</label>
         <input type="number" name="update_size">
-        <input type="hidden" name="type_id_hidden2" value="<?php
-                        echo $type['id_type_emplacement'] ?>">
+        <input type="hidden" name="type_id_hidden2" value="<?php echo $type['id_type_emplacement'] ?>">
         <input type="submit" name="update_type_submit" value="MODIFIER">
     </form>
 
-    <?php
-                }
-                ?>
+    <?php } ?>
 
 
     <form class="form_admin" method="post" action="">
@@ -176,6 +135,51 @@
         <input type="text" name="type">
         <label for="number_place_type">Taille emplacement</label>
         <input type="number" name="number_place_type">
+        
+        <?php 
+        
+        //SI ON APPUIS SUR AJOUTER UN TYPE D'EMPLACEMENT 
+                if(isset ($_POST['add_type']))
+                {
+                    //DEFINITION DES VARIABLES STOCKANT LES TYPES D'EMPLACEMENTS ET LEUR TAILLE
+                    $type_place=htmlentities(trim($_POST['type']));
+                    $nbr_place_type=htmlentities(trim($_POST['number_place_type']));
+                    //SI LES CHAMPS PRECEDENTS SONT RENSEIGNES
+                    if( $type_place AND $nbr_place_type)
+                    {
+                        // VERIFICATION CORRESPONDANCE BDD 
+                        $check_type_match = $connexion->prepare ("SELECT * FROM types_emplacement WHERE nom_type_emplacement = '$type_place' ");
+                        // EXECUTION REQUETE
+                        $check_type_match->execute();
+                        //RECUPERATION DONNEES
+                        $check_type_match_result = $check_type_match->rowCount();
+                        
+                        //SI IL EXISTE DEJA DANS LA BDD
+                        if($check_type_match_result>=1)
+                        {
+                           echo'Ce type d\'emplacement existe déjà'; 
+                        }
+                        else
+                        {
+                            //INSERTION NOUVEAU TYPE
+                            $insert_type = "INSERT INTO types_emplacement (nom_type_emplacement,nb_emplacements) VALUES (:type,:nbr_place_type)";
+                            //PREPARATION REQUETE
+                            $insert_type1 = $connexion->prepare($insert_type);
+                            $insert_type1->bindParam(':type',$type_place, PDO::PARAM_STR);
+                            $insert_type1->bindParam(':nbr_place_type',$nbr_place_type, PDO::PARAM_INT);
+                            //EXECUTION REQUETE
+                            $insert_type1->execute(); 
+                            header("location:admin.php");
+                        }
+                    }
+                    else 
+                    {
+                    echo'Veuillez remplir tous les champs <br/><br/>';
+                    }
+                }
+        
+        ?>
+        
         <input type="submit" name="add_type" value="VALIDER">
     </form>
 </section>

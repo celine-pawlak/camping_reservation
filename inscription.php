@@ -34,27 +34,38 @@ $page_selected = 'inscription';
         );
     }
     ?>
-    <form action="inscription.php" method="post">
-        <label for="firstname">Prénom</label>
-        <input type="text" name="firstname" placeholder="Prénom">
-        <label for="lastname">Nom</label>
-        <input type="text" name="lastname" placeholder="Nom">
-        <label for="email">Email</label>
-        <input type="text" name="email" placeholder="email@email.com">
-        <label for="password">Mot de passe</label>
-        <input type="password" name="password" placeholder="Mot de passe">
-        <label for="conf_password">Confirmation mot de passe</label>
-        <input type="password" name="conf_password" placeholder="Confirmer mot de passe">
-        <label for="num_tel">Numéro de téléphone</label>
-        <input type="text" name="num_tel" placeholder="0123456789">
-        <input type="radio" name="gender" id="male" value="Homme">
-        <label for="male">Homme</label>
-        <input type="radio" name="gender" id="female" value="Femme">
-        <label for="female">Femme</label>
-        <input type="radio" name="gender" id="no_gender" value="Non genré">
-        <label for="no_gender">Non genré</label>
-        <button type="submit" name="submit">Enregistrer</button>
-    </form>
+     <section id="container-register">
+        <form action="inscription.php" method="post">
+            <h1>INSCRIPTION</h1>
+            <section id="box-form">
+                <img  src="src/LOGO2.png" alt="logo-sardinescamp"/>
+                <section id="box-name">
+                    <section id="box-gender">
+                        <input type="radio" name="gender" id="male" value="Homme">
+                        <label for="male">Homme</label>
+                        <input type="radio" name="gender" id="female" value="Femme">
+                        <label for="female">Femme</label>
+                        <input type="radio" name="gender" id="no_gender" value="Non genré">
+                        <label for="no_gender">Non genré</label>
+                    </section>
+
+                    <label for="firstname">Prénom</label>
+                    <input type="text" name="firstname" placeholder="Prénom">
+                    <label for="lastname">Nom</label>
+                    <input type="text" name="lastname" placeholder="Nom">
+                    <label for="email">Email</label>
+                    <input type="text" name="email" placeholder="email@email.com">
+                    <label for="num_tel">N° de téléphone</label>
+                    <input type="text" name="num_tel" placeholder="0123456789">
+                    <label for="password">password</label>
+                    <input type="password" name="password" placeholder="Mot de passe">
+                    <label for="conf_password">confirmation password</label>
+                    <input type="password" name="conf_password" placeholder="Confirmer mot de passe">
+                </section>
+            </section>
+            <button type="submit" name="submit">Enregistrer vos informations</button>
+        </form>
+    </section>
 </main>
 <footer>
     <?php

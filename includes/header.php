@@ -28,7 +28,7 @@ if (isset($_POST["deco"])) {
         <nav>
             <ul id="nav_links">
                 <li><a href="planning.php">NOS DISPONIBILITÉS</a></li>
-                <li><a href="#">NOS SERVICES</a></li>
+                <li><a href="index.php">NOS SERVICES</a></li>
                 <li id="title">
                     <a href="index.php">
                         <img id="logo1" src="https://i.ibb.co/hMhFxXF/logotype1.png" alt="logotype1">
@@ -45,7 +45,7 @@ if (isset($_POST["deco"])) {
                     <?php
                 }else{
                 ?>
-                <li><a href="contact-form.php">NOUS CONTACTER</a></li>
+                <li><a  href="mailto:hello@sardinescamp.com">NOUS CONTACTER</a></li>
                 <li><a id="deco" href="connexion.php"> SE CONNECTER</a></li>
             </ul>
             <?php

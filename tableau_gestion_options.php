@@ -28,48 +28,7 @@
                 header("location:admin.php");
             }
 
-            //SI ON APPUIS SUR AJOUTER UNE OPTION
-            if(isset ($_POST['add_option']))
-            {
-                //DEFINITION DES VARIABLES STOCKANT OPTIONS ET TARIFS
-                $option = htmlentities(trim($_POST['option']));
-                $price_option = htmlentities(trim($_POST['price_option']));
-                
-                //SI LES CHAMPS PRECEDENTS SONT RENSEIGNES
-                if($option AND $price_option)
-                {
-                    // VERIFICATION CORRESPONDANCE BDD
-                    $check_option_match = $connexion->prepare ("SELECT * FROM options WHERE nom_option = '$option' ");
-                    // EXECUTION REQUETE
-                    $check_option_match->execute();
-                    //RECUPERATION DONNEES
-                    $check_option_match_result = $check_option_match->rowCount();
-
-                        //SI IL EXISTE DEJA DANS LA BDD
-                        if($check_option_match_result>=1)
-                        {
-                            echo'Cette option existe déjà';
-                        }
-                        else
-                        {
-                        //INSERTION NOUVELLE OPTION
-                        $insert_option = "INSERT INTO options (nom_option,prix_option) VALUES (:option,:prix_option)";
-                        //PREPARATION REQUETE
-                        $insert_option1 = $connexion->prepare($insert_option);
-                        $insert_option1->bindParam(':option',$option, PDO::PARAM_STR);
-                        $insert_option1->bindParam(':prix_option',$price_option, PDO::PARAM_INT);
-                        //EXECUTION REQUETE
-                        $insert_option1->execute();
-                        header("location:admin.php");
-                        }
-                }
-                else
-                {
-                echo'Veuillez remplir tous les champs';
-                }
-
-            }
-
+            
         }
 
         catch (PDOException $e) 
@@ -103,7 +62,7 @@
                                 echo $option['id_option'] ?>">EDITER</a>
                 </td>
                 <td>
-                    <form method="post" action="">
+                    <form method="post" action="" class="delete_button">
                         <button type="submit" name="delete_option"><i class="fas fa-times"></i></button>
                         <input type="hidden" name="option_id_hidden" value="<?php
                                     echo $option['id_option'] ?>">
@@ -162,13 +121,10 @@
         <input type="text" name="update_option_name">
         <label for="update_price_option">Modification tarifs</label>
         <input type="number" step="0.01" name="update_price_option">
-        <input type="hidden" name="option_id_hidden2" value="<?php
-                        echo $option['id_option'] ?>">
         <input type="submit" name="update_option_submit" value="MODIFIER">
     </form>
 
-    <?php
-                } ?>
+    <?php } ?>
 
     <form class="form_admin" method="post" action="">
         <h3>Ajouter une nouvelle option</h3><br/>
@@ -176,6 +132,55 @@
         <input type="text" name="option">
         <label for="place">Tarifs</label>
         <input type="number" step="0.01" name="price_option">
+        
+        <?php 
+        
+        //SI ON APPUIS SUR AJOUTER UNE OPTION
+            if(isset ($_POST['add_option']))
+            {
+                //DEFINITION DES VARIABLES STOCKANT OPTIONS ET TARIFS
+                $option = htmlentities(trim($_POST['option']));
+                $price_option = htmlentities(trim($_POST['price_option']));
+                
+                //SI LES CHAMPS PRECEDENTS SONT RENSEIGNES
+                if($option AND $price_option)
+                {
+                    // VERIFICATION CORRESPONDANCE BDD
+                    $check_option_match = $connexion->prepare ("SELECT * FROM options WHERE nom_option = '$option' ");
+                    // EXECUTION REQUETE
+                    $check_option_match->execute();
+                    //RECUPERATION DONNEES
+                    $check_option_match_result = $check_option_match->rowCount();
+
+                        //SI IL EXISTE DEJA DANS LA BDD
+                        if($check_option_match_result>=1)
+                        {
+                            echo'Cette option existe déjà';
+                        }
+                        else
+                        {
+                        //INSERTION NOUVELLE OPTION
+                        $insert_option = "INSERT INTO options (nom_option,prix_option) VALUES (:option,:prix_option)";
+                        //PREPARATION REQUETE
+                        $insert_option1 = $connexion->prepare($insert_option);
+                        $insert_option1->bindParam(':option',$option, PDO::PARAM_STR);
+                        $insert_option1->bindParam(':prix_option',$price_option, PDO::PARAM_INT);
+                        //EXECUTION REQUETE
+                        $insert_option1->execute();
+                        header("location:admin.php");
+                        }
+                }
+                else
+                {
+                echo'Veuillez remplir tous les champs <br/><br/>';
+                }
+
+            }
+
+        
+        ?>
+        
+        
         <input type="submit" name="add_option" value="VALIDER">
     </form>
 </section>

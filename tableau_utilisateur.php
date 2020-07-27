@@ -124,7 +124,7 @@
             </tbody>
         </table>
         <form method="post" action="" class="form_user">
-            <h2>Ajouter un nouvel utilisateur</h2><br />
+            <h2>Ajouter un nouvel utilisateur</h2><br/>
             <div class="form_admin_user">
                 <div class="section_add_list" id="gender_part">
                     <div class="gender_column">
