@@ -102,7 +102,7 @@ $page_selected = 'gestion_reservation';
         <section class="booking_details">
             <div class="gestion_resa_ticket">
            
-            <h1>Détails réservation n°<?php echo $resultat_info_reservation[0]['id_reservation'] ?></h1><br/>
+            <h1>Facture réservation n°<?php echo $resultat_info_reservation[0]['id_reservation'] ?></h1><br/>
             
             <h3> Informations client </h3><br/>
             <dl>
