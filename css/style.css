@@ -1633,10 +1633,31 @@ border-radius:20%;
     
 }
 
-.color
+.gestion_resa_ticket
 {
-     background-color:#333;
+    
+    background-color:#333;
     padding:10%;
+}
+
+
+.button_print
+{
+    color:#E1FEF8;
+    background-color:#333;
+    font-size:20px;
+    border:none;
+    outline:none;
+    
+}
+
+.gestion_resa_ticket button :hover
+{
+    transition:1s;
+    background-color:rgba(255,255,255,0.6);
+    padding:15%;
+    border-radius:5px;
+    color:white;
 }
 
 #total
@@ -1840,9 +1861,10 @@ border-radius:20%;
     border-radius:20px;
     color:white;
     padding:2%;
-    min-height:300px;
+    max-height:300px;
     width:auto;
     margin-bottom:5%;
+    overflow-y: auto;
 }
 
 .profil_case_introduction
@@ -1868,7 +1890,8 @@ border-radius:20%;
     color:white;
     margin-bottom:5%;
     padding:2%;
-    min-height:300px;
+    max-height:300px;
+    overflow-y: auto;
 }
 
 .profil_case_reglement
@@ -1881,6 +1904,8 @@ border-radius:20%;
     width:auto;
     margin-bottom:5%;
     text-align: justify;
+    max-height:300px;
+    overflow-y: auto;
 }
 
 .profil_case_reglement h1
