@@ -1,5 +1,5 @@
 <?php
-
+ob_start();
 $page_selected = 'voir_avis';
 ?>
 <!DOCTYPE html>
@@ -25,7 +25,42 @@ $page_selected = 'voir_avis';
     ?>
 </header>
 <main>
+
     <?php
+    //AJOUTER AVIS SI DISPO
+
+    //REQUETE infos table reservations
+    $q2 = $connexion->prepare("SELECT * FROM reservations WHERE id_utilisateur = :id_user");
+    $q2->bindParam(':id_user', $_SESSION['user']['id_user'], PDO::PARAM_INT);
+    $q2->execute();
+    $reservations_infos = $q2->fetchAll();
+
+    //REQUETE id_reservation dans avis
+    $q3 = $connexion->prepare("SELECT id_reservation FROM avis WHERE id_utilisateur = :id_user");
+    $q3->bindParam(':id_user', $_SESSION['user']['id_user'], PDO::PARAM_INT);
+    $q3->execute();
+    $reservations_already_rated = $q3->fetchAll();
+    foreach ($reservations_already_rated as $key => $value) {
+        $reservations_already_rated[$key] = $value['id_reservation'];
+    }
+    //TABLEAU reservations pour lesquelles il n'y a pas d'avis
+    foreach ($reservations_infos as $reservation_info) {
+        $result = array_intersect($reservation_info, $reservations_already_rated);
+        if (empty($result)) {
+            $reservation_without_rate[$reservation_info['id_reservation']] = [
+                'date_debut' =>
+                    $reservation_info['date_debut'],
+                'date_fin' =>
+                    $reservation_info['date_fin']
+            ];
+        }
+    }
+    if (isset ($_SESSION['user']['id_user']) and isset($reservation_without_rate)) {
+        ?>
+        <p id="redirection_form_avis">Nous détectons que vous avez séjourné chez nous mais vous n'avez pas encore laissé d'avis, <a href="#avis_form">souhaitez-vous commenter votre séjour ?</a></p>
+        <?php
+    }
+
     //PAGINATION
     // On détermine sur quelle page on se trouve
     if (isset($_GET['page']) && !empty($_GET['page'])) {
@@ -44,7 +79,7 @@ $page_selected = 'voir_avis';
     // Calcul du 1er article de la page
     $premier = ($currentPage * $parPage) - $parPage;
 
-    //AVIS
+    // AFFICHER AVIS
     $q = $connexion->prepare("SELECT id_avis FROM avis ORDER BY id_avis DESC LIMIT :premier, :parpage");
     $q->bindParam(':premier', $premier, PDO::PARAM_INT);
     $q->bindParam(':parpage', $parPage, PDO::PARAM_INT);
@@ -75,34 +110,7 @@ $page_selected = 'voir_avis';
         </ul>
     </nav>
     <?php
-    //AJOUTER AVIS SI DISPO
 
-    //REQUETE infos table reservations
-    $q2 = $connexion->prepare("SELECT * FROM reservations WHERE id_utilisateur = :id_user");
-    $q2->bindParam(':id_user', $_SESSION['user']['id_user'], PDO::PARAM_INT);
-    $q2->execute();
-    $reservations_infos = $q2->fetchAll();
-
-    //REQUETE id_reservation dans avis
-    $q3 = $connexion->prepare("SELECT id_reservation FROM avis WHERE id_utilisateur = :id_user");
-    $q3->bindParam(':id_user', $_SESSION['user']['id_user'], PDO::PARAM_INT);
-    $q3->execute();
-    $reservations_already_rated = $q3->fetchAll();
-    foreach ($reservations_already_rated as $key => $value) {
-        $reservations_already_rated[$key] = $value['id_reservation'];
-    }
-    //TABLEAU reservations pour lesquelles il n'y a pas d'avis
-    foreach ($reservations_infos as $reservation_info) {
-        $result = array_intersect($reservation_info, $reservations_already_rated);
-        if (empty($result)) {
-            $reservation_without_rate[$reservation_info['id_reservation']] = [
-                'date_debut' =>
-                    $reservation_info['date_debut'],
-                'date_fin' =>
-                    $reservation_info['date_fin']
-            ];
-        }
-    }
     if (isset($_POST['ajouter_avis'])) {
         if (!empty($_POST['note_avis']) and !empty($_POST['titre_avis']) and !empty($_POST['texte_avis']) and !empty($_POST['reservation'])) {
             $note_avis = $_POST['note_avis'];
@@ -111,60 +119,64 @@ $page_selected = 'voir_avis';
             $id_reservation = $_POST['reservation'];
             $id_user = $_SESSION['user']['id_user'];
             addComment($note_avis, $titre_avis, $texte_avis, $id_user, $id_reservation);
+            header('location:voir_avis.php');
         } else {
             $errors[] = "Veuillez remplir tous les champs";
         }
     }
-    /*    if (isset ($_SESSION['user']['id_user']) AND isset($reservation_without_rate)) {*/
-    ?>
-    <section id="avis_form">
-        <h1>Commentez votre séjour :</h1>
-        <section id="sub_form_2">
-            <form action="voir_avis.php" method="post">
-                <?php
-                /*            if (isset($reservation_without_rate)) {*/
-
-                ?>
-                <section id="select_lieu">
-                    <h2>Sélectionnez le séjour : </h2>
-                    <select name="reservation" id="">
-                        <?php
-                        foreach ($reservation_without_rate as $key => $value) { ?>
-                            <option value="<?= $key ?>">Séjour du <?= $value['date_debut'] ?>
-                                au <?= $value['date_fin'] ?></option>
-                            <?php
-                        }
+    if (isset ($_SESSION['user']['id_user']) and isset($reservation_without_rate)) {
+        ?>
+        <section id="avis_form">
+            <h1>Commentez votre séjour :</h1>
+            <section id="sub_form_2">
+                <form action="voir_avis.php" method="post">
+                    <?php
+                    if (isset($reservation_without_rate)) {
                         ?>
-                    </select>
-                </section>
-                <br>
-                <section id="note_sejour">
-                    <label for="note_avis"><h2>Notez votre séjour : <?='&nbsp';?></h2></label>
-                    <p><input id="note_avis" name="note_avis" type="number" min="0" max="5"><?='&nbsp';?>/5</p>
-                </section>
-                <section id="texte_avis">
-                    <label for="titre_avis"><h2>Titre</h2></label>
-                    <input type="text" name="titre_avis" minlength="3" maxlength="50"
-                           placeholder="Ajoutez un titre à votre commentaire">
-                    <br>
-                    <h2>Décrivez votre séjour ...</h2>
-                    <textarea name="texte_avis" id="texte_avis" minlength="10" maxlength="500" cols="30" rows="10"
-                              placeholder="Commentez votre séjour..."></textarea>
-                </section>
-                <button name="ajouter_avis">Envoyer</button>
-                <?php
-                /*            }*/
+                        <section id="select_lieu">
+                            <h2>Sélectionnez le séjour : </h2>
+                            <select name="reservation" id="">
+                                <?php
+                                foreach ($reservation_without_rate as $key => $value) { ?>
+                                    <option value="<?= $key ?>">Séjour du <?= $value['date_debut'] ?>
+                                        au <?= $value['date_fin'] ?></option>
+                                    <?php
+                                }
+                                ?>
+                            </select>
+                        </section>
+                        <br>
+                        <section id="note_sejour">
+                            <label for="note_avis"><h2>Notez votre séjour : <?= '&nbsp'; ?></h2></label>
+                            <p><input id="note_avis" name="note_avis" type="number" min="0" max="5"><?= '&nbsp'; ?>/5
+                            </p>
+                        </section>
+                        <section id="texte_avis">
+                            <label for="titre_avis"><h2>Titre</h2></label>
+                            <input type="text" name="titre_avis" minlength="3" maxlength="50"
+                                   placeholder="Ajoutez un titre à votre commentaire">
+                            <br>
+                            <h2>Décrivez votre séjour ...</h2>
+                            <textarea name="texte_avis" id="texte_avis" minlength="10" maxlength="500" cols="30"
+                                      rows="10"
+                                      placeholder="Commentez votre séjour..."></textarea>
+                            <button id="avis_button" name="ajouter_avis">Envoyer</button>
+                        </section>
 
-                ?>
-            </form>
+                        <?php
+                    }
+                    ?>
+                </form>
+            </section>
         </section>
-    </section>
-    <?php
-    /*    } */ ?>
+        <?php
+    } ?>
 </main>
 <footer>
     <?php
-    include("includes/footer.php") ?>
+    include("includes/footer.php");
+    ob_end_flush();
+    ?>
 </footer>
 </body>
 </html>

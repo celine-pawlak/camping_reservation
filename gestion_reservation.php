@@ -100,7 +100,7 @@ $page_selected = 'gestion_reservation';
         ?>
         
         <section class="booking_details">
-            <div class="color">
+            <div class="gestion_resa_ticket">
            
             <h1>Détails réservation n°<?php echo $resultat_info_reservation[0]['id_reservation'] ?></h1><br/>
             
@@ -171,6 +171,15 @@ $page_selected = 'gestion_reservation';
             </dl>
             
             
+            <button onclick="myFunction()"  class="button_print"><i class="fas fa-print"></i></button>
+          
+    
+            <script>
+            function myFunction() {
+                window.print();
+            }
+            </script>
+                
              </div>
         </section>
         

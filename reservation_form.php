@@ -232,7 +232,7 @@ $page_selected = 'reservation_form';
                     } ?>
                     <?php
                     foreach ($infos->getTypesEmplacement() as $type_emplacement) {
-                        $test2 = $type_emplacement['nb_emplacement'];
+                        $test2 = $type_emplacement['nb_emplacements'];
                         $result = intval($test / $test2);
                         if ($result >= 1) {
                             ?>

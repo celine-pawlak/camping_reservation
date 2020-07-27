@@ -810,12 +810,18 @@ text-decoration: none;
     display: flex;
     flex-direction: column;
 }
+#texte_avis{
+    align-items: center;
+    width: 100%;
+}
+#texte_avis input{
+    width: 100%;
+}
 #sub_form_2 > form{
     width:100%;
     padding: 1rem;
 }
-#sub_form_2 input{
-    height: 30px;
+#sub_form_2 input, #sub_form_2 textarea{
     background: transparent;
     border: 1px solid #077C62;
     border-radius: 2px;
@@ -824,7 +830,23 @@ text-decoration: none;
     font-weight: 400;
     padding-left: 2px
 }
-
+#sub_form_2 input{
+    height: 30px;
+}
+#sub_form_2 label{
+    margin: 0;
+}
+#avis_button{
+    align-self: center;
+    margin-top: 1rem;
+}
+#redirection_form_avis{
+    text-align: center;
+    margin: 0.5rem 0;
+}
+#redirection_form_avis a{
+    color:#077C62;
+}
 
 /*** RESPONSIVE INDEX ***/
 
@@ -1576,10 +1598,31 @@ border-radius:20%;
     
 }
 
-.color
+.gestion_resa_ticket
 {
-     background-color:#333;
+    
+    background-color:#333;
     padding:10%;
+}
+
+
+.button_print
+{
+    color:#E1FEF8;
+    background-color:#333;
+    font-size:20px;
+    border:none;
+    outline:none;
+    
+}
+
+.gestion_resa_ticket button :hover
+{
+    transition:1s;
+    background-color:rgba(255,255,255,0.6);
+    padding:15%;
+    border-radius:5px;
+    color:white;
 }
 
 #total
@@ -1783,9 +1826,10 @@ border-radius:20%;
     border-radius:20px;
     color:white;
     padding:2%;
-    min-height:300px;
+    max-height:300px;
     width:auto;
     margin-bottom:5%;
+    overflow-y: auto;
 }
 
 .profil_case_introduction
@@ -1811,7 +1855,8 @@ border-radius:20%;
     color:white;
     margin-bottom:5%;
     padding:2%;
-    min-height:300px;
+    max-height:300px;
+    overflow-y: auto;
 }
 
 .profil_case_reglement
@@ -1824,6 +1869,8 @@ border-radius:20%;
     width:auto;
     margin-bottom:5%;
     text-align: justify;
+    max-height:300px;
+    overflow-y: auto;
 }
 
 .profil_case_reglement h1
@@ -2149,7 +2196,7 @@ border-radius:20%;
   justify-content: center;
 }
 
- #form-button{
+ #form-button, #avis_button{
   width: 300px;
   height: 35px;
   background: transparent;
@@ -2161,7 +2208,7 @@ border-radius:20%;
   font-weight: 400;
  }
 
- #form-button:hover{
+ #form-button:hover, #avis_button:hover{
   border: 1px solid #077C62;
   color: #077C62;
   background-color: white;

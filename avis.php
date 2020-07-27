@@ -29,7 +29,6 @@ function addComment($note, $titre, $avis, $id_user, $id_reservation)
     }
     if (empty($errors)) {
         $date = date('Y-m-d');
-        echo $date;
         $q = $connexion->prepare(
             "INSERT INTO avis (note_sejour, titre_avis, texte_avis, post_date, id_utilisateur, id_reservation) VALUES (:note_sejour, :titre_avis, :texte_avis, :post_date, :id_utilisateur, :id_reservation)"
         );
@@ -86,7 +85,7 @@ function viewComment($id_avis)
             <p class="titre_avis"><?= $avis['titre_avis'] ?></p>
             <p class="avis_texte_quote"><i class="fas fa-angle-double-left"></i> <?= $avis['texte_avis'] ?> <i class="fas fa-angle-double-right"></i></p>
             <p class="date_avis">A séjourné du <?= date('d-m-Y',strtotime($other_infos_from_reservation['date_debut'])) ?>
-                au <?= date('d-m-Y',strtotime($other_infos_from_reservation['date_fin'])) ?></pclass>
+                au <?= date('d-m-Y',strtotime($other_infos_from_reservation['date_fin'])) ?></p>
         </div>
     </div>
     <?php
