@@ -3,6 +3,7 @@
 require 'class/users.php';
 require 'class/camping_properties.php';
 
+
 session_start();
 $db = new Database();
 $user = new users($db);
@@ -28,7 +29,7 @@ if (isset($_POST["deco"])) {
         <nav>
             <ul id="nav_links">
                 <li><a href="planning.php">NOS DISPONIBILITÉS</a></li>
-                <li><a href="index.php">NOS SERVICES</a></li>
+                <li><a href="voir_avis.php">LES AVIS</a></li>
                 
                 <a id="top-logo" href="index.php">
                     <img id="logo1" src="https://i.ibb.co/hMhFxXF/logotype1.png" alt="logotype1">

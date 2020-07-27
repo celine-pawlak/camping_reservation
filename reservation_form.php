@@ -1,5 +1,5 @@
 <?php
-
+ob_start();
 $page_selected = 'reservation_form';
 
 ?>
@@ -30,6 +30,7 @@ $page_selected = 'reservation_form';
 <main>
     <section id="container-resaform">
     <?php
+    var_dump($_POST);
     if (isset($_POST['submit'])) {
         foreach ($_POST as $key => $value) {
             if ($value != 'default') {
@@ -97,6 +98,7 @@ $page_selected = 'reservation_form';
 
                 // INSERTION TABLE detail_types_emplacement
                 foreach ($emplacements_reserves as $type_emplacement => $nombre_emplacement) {
+                    echo $nombre_emplacement;
                     $request3 = $connexion->prepare(
                         "INSERT INTO detail_types_emplacement (nom_type_emplacement, nb_emplacements_reserves, id_reservation) VALUES (:nom_type_emplacement,:nb_emplacements_reserves, :id_reservation)"
                     );
@@ -248,7 +250,7 @@ $page_selected = 'reservation_form';
                                     if (!isset($total_emplacement)) {
                                         $total_emplacement = 0;
                                     }
-                                    echo $total_emplacement = $i * (int)$type_emplacement['nb_emplacement'];
+                                    echo $total_emplacement = $i * (int)$type_emplacement['nb_emplacements'];
                                     ?>
                                     <option value="<?= $total_emplacement ?>"><?php
                                         echo "$i $nom_emplacement" ?></option>
@@ -288,6 +290,7 @@ $page_selected = 'reservation_form';
 <footer>
     <?php
     include("includes/footer.php");
+    ob_end_flush();
     ?>
 </footer>
 </body>

@@ -1,5 +1,4 @@
 <?php
-
 require 'class/users.php';
 require 'class/camping_properties.php';
 
@@ -28,7 +27,7 @@ if (isset($_POST["deco"])) {
         <nav>
             <ul id="nav_links1">
                 <li><a href="planning.php">NOS DISPONIBILITÉS</a></li>
-                <li><a href="#">NOS SERVICES</a></li>
+                <li><a href="voir_avis.php">LES AVIS</a></li>
                 <a id="top-logo" href="index.php">
                     <img id="logo1" src="https://i.ibb.co/hMhFxXF/logotype1.png" alt="logotype1">
                     <h1>camping boheme chic</h1>
