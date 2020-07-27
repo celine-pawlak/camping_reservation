@@ -29,12 +29,12 @@ if (isset($_POST["deco"])) {
             <ul id="nav_links">
                 <li><a href="planning.php">NOS DISPONIBILITÉS</a></li>
                 <li><a href="index.php">NOS SERVICES</a></li>
-                <li id="title">
-                    <a href="index.php">
-                        <img id="logo1" src="https://i.ibb.co/hMhFxXF/logotype1.png" alt="logotype1">
-                        <h1>camping boheme chic</h1>
-                    </a>
-                </li>
+                
+                <a id="top-logo" href="index.php">
+                    <img id="logo1" src="https://i.ibb.co/hMhFxXF/logotype1.png" alt="logotype1">
+                    <h1>camping boheme chic</h1>
+                </a>
+              
                 <?php
                 if (isset($_SESSION['user'])){
                     ?>
@@ -46,7 +46,7 @@ if (isset($_POST["deco"])) {
                 }else{
                 ?>
                 <li><a  href="mailto:hello@sardinescamp.com">NOUS CONTACTER</a></li>
-                <li><a id="deco" href="connexion.php"> SE CONNECTER</a></li>
+                <li><a  href="connexion.php"> SE CONNECTER</a></li>
             </ul>
             <?php
             } ?>

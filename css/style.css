@@ -15,324 +15,320 @@ body{
  width: 100%;
 }
 
-
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 /*** HEADER ***/
 header{
-    background-image: url(background/camping6.jpg);
-    background-repeat: no-repeat;
-    background-size: cover;
-    height: 30vh;
+  background-image: url(background/camping6.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 30vh;
 }
 
 #top-header{
-  display: flex;
-  align-items: center;
-  width: 100%;
-  background-color: rgba(105, 183, 252,0.2);
-  color: white;
-  letter-spacing: 2px;
-  height: 7.5vh;
-  position: sticky;
-  justify-content: space-between;
+display: flex;
+align-items: center;
+width: 100%;
+background-color: rgba(105, 183, 252,0.2);
+color: white;
+letter-spacing: 2px;
+height: 7.5vh;
+position: sticky;
+justify-content: space-between;
 }
 
 #top-header a{
-    color: white;
-    display: flex;
-    font-size: 18px;
-    font-weight: 300;
-    line-height: 5vh;
-    padding: 5px 10px;
+  color: white;
+  display: flex;
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 5vh;
+  padding: 5px 10px;
 }
 
 #top-header a:hover{
-    color: black;
-    transition: 1.5s;
+  color: black;
+  transition: 1.5s;
 }
-header h1{
-  font-size: 15px;
-}
+
 header nav ul{
-    display: flex;
-    width: 100%;
-    text-transform: uppercase;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  width: 100%;
+  text-transform: uppercase;
+  align-items: center;
+  justify-content: center;
 }
 
 header nav ul li a{
-    display: flex;
-    color: black;
-    justify-content: center;
-    padding-left: 15px;
-    padding-right: 5px;
-    letter-spacing: 2px;
-    margin-top: 5%; 
-    font-weight: 600;
+  color: black;
+  padding-left: 15px;
+  padding-right: 5px;
+  letter-spacing: 2px;
+  margin-top: 5%; 
+  font-weight: 600;
 }
 
 header nav ul li a:hover{
-    color: gray;
-    transition: 1s; 
+  color: gray;
+  transition: 1s; 
 }
 
-
-#title a{
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+#top-logo{
+display: flex;
+flex-direction: column;
+align-items: center;
+margin-top: 2.5%;
 }
 
-#title img{
-    width: 60%;
-    height:60%;
+#top-logo img{
+  width: 60%;
+  height:60%;
 }
 
-#title h1{
-   font-weight: 300;
-   letter-spacing: 2px;
+#top-logo h1{
+ font-weight: 300;
+ font-size: 20px;
+ letter-spacing: 2px;
+ color: #B1C2BE;
 }
 
 #nav_links a{
-  text-decoration: none;
+text-decoration: none;
 }
 
 /*** FOOTER ***/
 footer{
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    height: 25%;
-    justify-content: space-around;
-    align-items: center;
-    color: #CED0D3;
-   }
-   
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 25%;
+  justify-content: space-around;
+  align-items: center;
+  color: #CED0D3;
+ }
+ 
 footer a{
-    color: #CED0D3;
-    text-decoration: none;
-   }
-   
+  color: #CED0D3;
+  text-decoration: none;
+ }
+ 
 footer a:hover{
-    color: #D2F7EE;
-    transition: 1s;
-    border-bottom: 1px solid #D2F7EE;
-    text-decoration: none;
-   }
+  color: #D2F7EE;
+  transition: 1s;
+  border-bottom: 1px solid #D2F7EE;
+  text-decoration: none;
+ }
 
 #container-bottom{
-    display: flex;
+  display: flex;
 }
 
 footer nav ul{
-    display: flex;
-    list-style-type: none;
-    justify-content: space-around;
-    margin-top: 5%;
-    width: 100%;
-    padding-left: 5vh;
-    text-transform: uppercase;
-    font-size: 12px;
+  display: flex;
+  list-style-type: none;
+  justify-content: space-around;
+  margin-top: 5%;
+  width: 100%;
+  padding-left: 5vh;
+  text-transform: uppercase;
+  font-size: 12px;
 }
 
 footer nav ul li{
-   padding-right:5vh;
+ padding-right:5vh;
 }
 
 footer nav ul li a{
-  text-decoration: none;
+text-decoration: none;
 }
 
-   #footerleft{
-    display: flex;
-    width: 100%;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-around;
-    height: 50vh;
-    font-size: 13px;
-   }
+ #footerleft{
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  height: 50vh;
+  font-size: 13px;
+ }
 
-   
-   #footercenter{
-    display: flex;
-    width: 100%;
-    height: 50vh;
-    align-items: center;
-    justify-content: space-evenly;
-    flex-direction: column;
-   }
-   
-   #bottom-logo{
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    align-items: center;
-   }
-   
-   #bottom-logo h1{
-    display: flex;
-    font-weight: 500;
-    font-size: 25px;
-    letter-spacing: 1px;
-    margin-top: 2.5%;
-   }
-   
-   #logo{
-    width: 30%;
-   }
-   
-   #social-media{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-   }
-   
-   #social-list{
-    display: flex;
-   }
-   
-   #social-list li a{
-    display: block;
-    position: relative;
-    font-size: 30px;
-    height: 60px;
-    width: 60px;
-    background: #171515;
-    line-height: 60px;
-    border-radius: 50%;
-    margin: 0 15px;
-    text-align: center;
-    cursor: pointer;
-   }
-   
-   #social-list li a:before{
-    position: absolute;
-    content: '';
-    top:0;
-    left: 0;
-    background:#171515;
-    height: 100%;
-    width: 100%;
-    border-radius: 50%;
-    z-index: -1;
-    transform : scale(0.9);
-    transition: .5s;
-   }
-   
-   #social-list li a:hover{
-    color: #D2F7EE;
-    box-shadow: 0 0 15px #D2F7EE;
-    text-shadow: 0 0 15px #D2F7EE;
-    transform : scale(1.2);
-    transition : .5s;
-   }
-   
-   #footerright{
-    display: flex;
-    width: 100%;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    font-size: 11px;
-    text-align: justify;
-   }
-   
-   #footerright h2{
-    font-size: 12px;
-    text-transform: uppercase;
-   }
-   
-   #footerright p{
-    width: 50%;
-    margin-bottom: 5%;
-   }
-
-   #footerright address{
-       display: flex;
-       text-align: center;
-       flex-direction: column;
-       width: 50%;
-       font-size: 12px;
-   }
-
-   .contact:hover{
-     border: none;
-   }
-   
-   #newsletter{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-   }
-   
-   #newsletter h3{
-    padding-bottom: 10px;
-    padding-left: 20px;
-    margin-left: 2.5%;
-   }
-   
-   #btnnews{
-    width: 130%;
-    background: none;
-    border: 2px solid #CED0D3;
-    color: #CED0D3;
-    padding: 2.5px;
-    font-size: 16px;
-    cursor: pointer;
-    margin: 5px 0;
-   }
-   
-   #btnnews:hover{
-    color: #D2F7EE;
-    border: 2px solid#D2F7EE;
-    transition: 1s;
-   }
-   
-   #news{
-    display: flex;
-    padding: 5px;
-    margin-top: 2.5%;
-    width: 120%;
-   }
-   
-   #newsmessage{
-    font-size: 11px;
-    color: #D2F7EE;
-   }
-
-   #deco{
-    display: flex;
-    background: none;
-    border: none;
-    color: black;
-    cursor: pointer;
-    font-size: 16px;
-    margin-top: 5px;
-    padding-left: 2.5vh;
-   }
-   
-   #deco:hover{
-    color: #CED0D3;
-    transition: 1s;
-   }
-
-   #deco1{
-    display: flex;
-    background: none;
-    border: none;
-    color: #CED0D3;
-    cursor: pointer;
-   }
-
-   #deco1:hover{
-    color: #D2F7EE;
-    border-bottom: 1px solid #D2F7EE;
-    transition: 1s;
-   }
  
+ #footercenter{
+  display: flex;
+  width: 100%;
+  height: 50vh;
+  align-items: center;
+  justify-content: space-evenly;
+  flex-direction: column;
+ }
+ 
+ #bottom-logo{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+ }
+ 
+ #bottom-logo h1{
+  display: flex;
+  font-weight: 500;
+  font-size: 25px;
+  letter-spacing: 1px;
+  margin-top: 2.5%;
+ }
+ 
+ #logo{
+  width: 30%;
+ }
+ 
+ #social-media{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+ }
+ 
+ #social-list{
+  display: flex;
+ }
+ 
+ #social-list li a{
+  display: block;
+  position: relative;
+  font-size: 30px;
+  height: 60px;
+  width: 60px;
+  background: #171515;
+  line-height: 60px;
+  border-radius: 50%;
+  margin: 0 15px;
+  text-align: center;
+  cursor: pointer;
+ }
+ 
+ #social-list li a:before{
+  position: absolute;
+  content: '';
+  top:0;
+  left: 0;
+  background:#171515;
+  height: 100%;
+  width: 100%;
+  border-radius: 50%;
+  z-index: -1;
+  transform : scale(0.9);
+  transition: .5s;
+ }
+ 
+ #social-list li a:hover{
+  color: #D2F7EE;
+  box-shadow: 0 0 15px #D2F7EE;
+  text-shadow: 0 0 15p#D2F7EE;
+  transform : scale(1.2);
+  transition : .5s;
+ }
+ 
+ #footerright{
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  font-size: 11px;
+  text-align: justify;
+ }
+ 
+ #footerright h2{
+  font-size: 12px;
+  text-transform: uppercase;
+ }
+ 
+ #footerright p{
+  width: 50%;
+  margin-bottom: 5%;
+ }
+
+ #footerright address{
+     display: flex;
+     text-align: center;
+     flex-direction: column;
+     width: 50%;
+     font-size: 12px;
+ }
+
+ .contact:hover{
+   border: none;
+ }
+ 
+ #newsletter{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+ }
+ 
+ #newsletter h3{
+  padding-bottom: 10px;
+  padding-left: 20px;
+  margin-left: 2.5%;
+ }
+ 
+ #btnnews{
+  width: 130%;
+  background: none;
+  border: 2px solid #CED0D3;
+  color: #CED0D3;
+  padding: 2.5px;
+  font-size: 16px;
+  cursor: pointer;
+  margin: 5px 0;
+ }
+ 
+ #btnnews:hover{
+  color: #D2F7EE;
+  border: 2px solid#D2F7EE;
+  transition: 1s;
+ }
+ 
+ #news{
+  display: flex;
+  padding: 5px;
+  margin-top: 2.5%;
+  width: 120%;
+ }
+ 
+ #newsmessage{
+  font-size: 11px;
+  color: #D2F7EE;
+ }
+
+ #deco{
+  display: flex;
+  background: none;
+  border: none;
+  color: black;
+  cursor: pointer;
+  font-size: 16px;
+  padding-left: 2.5vh;
+ }
+ 
+ #deco:hover{
+  color: #CED0D3;
+  transition: 1s;
+ }
+
+ #deco1{
+  display: flex;
+  background: none;
+  border: none;
+  color: #CED0D3;
+  cursor: pointer;
+ }
+
+ #deco1:hover{
+  color: #D2F7EE;
+  border-bottom: 1px solid #D2F7EE;
+  transition: 1s;
+ }
+
 /***RESPONSIVE HEADER + FOOTER***/
 @media (max-width: 780px) {
 
@@ -340,83 +336,83 @@ footer nav ul li a{
 }
 
 @media (max-width: 980px){
-    header{
-        height: 40vh;
+  header{
+      height: 40vh;
+  }
+
+  #top-header a{
+      font-size: 13px;
+  }
+
+  #title{
+      width: 50%;
+  }
+
+  header nav ul{
+      flex-direction: column;
+      font-size: 13px;
+  }
+  
+  footer nav ul{
+     font-size: 10px;
+     padding-left: 2vh;
+  }
+  footer nav ul li{
+    padding-right:2vh;
+ }
+  #container-bottom{
+      flex-direction: column-reverse;
+      margin-top: 2.5%;
+  }
+
+  #footercenter{
+      margin-top: -5%;
+  }
+
+  #footerright{
+    margin-top: 1.5%;
     }
 
-    #top-header a{
-        font-size: 13px;
-    }
+  #footerright h2{
+    display: none;
+  }
 
-    #title{
-        width: 50%;
-    }
-
-    header nav ul{
-        flex-direction: column;
-        font-size: 13px;
-    }
-    
-    footer nav ul{
-       font-size: 10px;
-       padding-left: 2vh;
-    }
-    footer nav ul li{
-      padding-right:2vh;
-   }
-    #container-bottom{
-        flex-direction: column-reverse;
-        margin-top: 2.5%;
-    }
-
-    #footercenter{
-        margin-top: -5%;
-    }
-
-    #footerright{
-      margin-top: 1.5%;
-      }
-
-    #footerright h2{
+  #footerright p{
       display: none;
     }
 
-    #footerright p{
-        display: none;
-      }
-
-    #newsletter{
-        margin-left: -7.5%;
-    }
+  #newsletter{
+      margin-left: -7.5%;
+  }
 
 
-    #newsletter h3{
-        margin-left: 0;
-    }
+  #newsletter h3{
+      margin-left: 0;
+  }
 
-    #title {
-        margin-bottom: 1.5%;
-    }
-
-    #title h1{
-      font-size: 13px;
-      width: 100%;
+  #title {
       margin-bottom: 1.5%;
   }
 
-    #title img{
-        width: 110%;
-        height:110%;
-    }
+  #title h1{
+    font-size: 13px;
+    width: 100%;
+    margin-bottom: 1.5%;
+}
 
-    #deco{
-      font-size: 13px;
-      padding-left: 0;
-    }
+  #title img{
+      width: 110%;
+      height:110%;
+  }
 
-    #deco1{
-      font-size: 10px;
-    }
+  #deco{
+    font-size: 13px;
+    padding-left: 0;
+  }
+
+  #deco1{
+    font-size: 10px;
+  }
 
 }
 
