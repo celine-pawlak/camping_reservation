@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  jeu. 23 juil. 2020 à 13:25
+-- Généré le :  lun. 27 juil. 2020 à 14:04
 -- Version du serveur :  10.4.10-MariaDB
 -- Version de PHP :  7.3.12
 
@@ -38,14 +38,16 @@ CREATE TABLE IF NOT EXISTS `avis` (
   `id_utilisateur` int(11) NOT NULL,
   `id_reservation` int(11) NOT NULL,
   PRIMARY KEY (`id_avis`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `avis`
 --
 
 INSERT INTO `avis` (`id_avis`, `note_sejour`, `titre_avis`, `texte_avis`, `post_date`, `id_utilisateur`, `id_reservation`) VALUES
-(1, 4, 'Titre', 'Ceci est mon avis.', '2020-07-23', 10, 8);
+(16, 3, 'Ça va', 'Le séjour était sympa. Le cadre est joli. ', '2020-07-27', 13, 15),
+(14, 5, 'AU TOP', 'Ce camping est une nouvelle pépite, je reviendrais !', '2020-07-13', 12, 14),
+(15, 4, 'Génial', 'Ce séjour était génial, ce camping reste mon favori. A l\'année prochaine !', '2020-07-25', 12, 13);
 
 -- --------------------------------------------------------
 
@@ -60,18 +62,16 @@ CREATE TABLE IF NOT EXISTS `detail_lieux` (
   `prix_journalier` decimal(10,0) NOT NULL,
   `id_reservation` int(11) NOT NULL,
   PRIMARY KEY (`id_detail_lieu`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `detail_lieux`
 --
 
 INSERT INTO `detail_lieux` (`id_detail_lieu`, `nom_lieu`, `prix_journalier`, `id_reservation`) VALUES
-(1, 'Les Pins', '10', 1),
-(2, 'Les Pins', '10', 2),
-(4, 'Les Pins', '10', 6),
-(5, 'Les Pins', '10', 7),
-(6, 'La Plage', '10', 8);
+(12, 'Le Maquis', '10', 15),
+(11, 'Les Pins', '10', 14),
+(10, 'La Plage', '10', 13);
 
 -- --------------------------------------------------------
 
@@ -86,17 +86,7 @@ CREATE TABLE IF NOT EXISTS `detail_options` (
   `prix_option` decimal(10,0) NOT NULL,
   `id_reservation` int(11) NOT NULL,
   PRIMARY KEY (`id_detail_option`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
-
---
--- Déchargement des données de la table `detail_options`
---
-
-INSERT INTO `detail_options` (`id_detail_option`, `nom_option`, `prix_option`, `id_reservation`) VALUES
-(4, 'Accès Disco-Club “Les girelles dansantes”', '17', 6),
-(3, 'Accès borne électrique', '2', 6),
-(5, 'Accès borne électrique', '2', 7),
-(6, 'Accès borne électrique', '2', 8);
+) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -111,20 +101,17 @@ CREATE TABLE IF NOT EXISTS `detail_types_emplacement` (
   `nb_emplacements_reserves` int(11) NOT NULL,
   `id_reservation` int(11) NOT NULL,
   UNIQUE KEY `id_detail_type_emplacement` (`id_detail_type_emplacement`)
-) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `detail_types_emplacement`
 --
 
 INSERT INTO `detail_types_emplacement` (`id_detail_type_emplacement`, `nom_type_emplacement`, `nb_emplacements_reserves`, `id_reservation`) VALUES
-(1, 'Tente', 1, 1),
-(2, 'Camping', 2, 1),
-(3, 'Tente', 1, 2),
-(5, 'Tente', 2, 6),
-(6, 'Camping', 2, 6),
-(7, 'Tente', 1, 7),
-(8, 'Tente', 1, 8);
+(15, 'CampingCar', 2, 15),
+(14, 'Tente', 1, 15),
+(13, 'Tente', 2, 14),
+(12, 'CampingCar', 2, 13);
 
 -- --------------------------------------------------------
 
@@ -147,8 +134,8 @@ CREATE TABLE IF NOT EXISTS `lieux` (
 
 INSERT INTO `lieux` (`id_lieu`, `nom_lieu`, `emplacements_disponibles`, `prix_journalier`) VALUES
 (1, 'La Plage', 4, '10'),
-(2, 'Les Pins', 8, '10'),
-(3, 'Le Maquis', 1, '10');
+(2, 'Les Pins', 4, '10'),
+(3, 'Le Maquis', 4, '10');
 
 -- --------------------------------------------------------
 
@@ -163,14 +150,6 @@ CREATE TABLE IF NOT EXISTS `newsletter` (
   PRIMARY KEY (`id_newsletter`)
 ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
---
--- Déchargement des données de la table `newsletter`
---
-
-INSERT INTO `newsletter` (`id_newsletter`, `email`) VALUES
-(1, 'test@test.com'),
-(2, 'test3@test.com');
-
 -- --------------------------------------------------------
 
 --
@@ -183,15 +162,16 @@ CREATE TABLE IF NOT EXISTS `options` (
   `nom_option` varchar(100) NOT NULL,
   `prix_option` decimal(10,0) NOT NULL,
   PRIMARY KEY (`id_option`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `options`
 --
 
 INSERT INTO `options` (`id_option`, `nom_option`, `prix_option`) VALUES
-(1, 'Accès borne électrique', '2'),
-(2, 'Accès Disco-Club “Les girelles dansantes”', '17');
+(1, 'Acc&egrave;s borne &eacute;lectrique', '2'),
+(2, 'Acc&egrave;s Disco-Club &ldquo;Les girelles dansantes&rdquo;', '17'),
+(3, 'Yoga, Frisbee et Ski Nautique', '30');
 
 -- --------------------------------------------------------
 
@@ -209,16 +189,14 @@ CREATE TABLE IF NOT EXISTS `prix_detail` (
   `prix_total` decimal(10,0) NOT NULL,
   `id_reservation` int(11) NOT NULL,
   PRIMARY KEY (`id_prix_detail`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `prix_detail`
 --
 
 INSERT INTO `prix_detail` (`id_prix_detail`, `nb_emplacement`, `prix_journalier`, `prix_options`, `nb_jours`, `prix_total`, `id_reservation`) VALUES
-(1, 4, '40', '19', 3, '177', 6),
-(2, 1, '10', '2', 2, '24', 7),
-(3, 1, '10', '2', 2, '24', 8);
+(5, 0, '0', '30', 2, '60', 11);
 
 -- --------------------------------------------------------
 
@@ -233,18 +211,16 @@ CREATE TABLE IF NOT EXISTS `reservations` (
   `date_fin` date NOT NULL,
   `id_utilisateur` int(11) NOT NULL,
   PRIMARY KEY (`id_reservation`)
-) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `reservations`
 --
 
 INSERT INTO `reservations` (`id_reservation`, `date_debut`, `date_fin`, `id_utilisateur`) VALUES
-(1, '2020-07-14', '2020-07-25', 10),
-(2, '2020-07-24', '2020-07-27', 10),
-(7, '2020-07-22', '2020-07-23', 10),
-(6, '2020-07-23', '2020-07-25', 10),
-(8, '2020-07-22', '2020-07-23', 10);
+(14, '2020-07-06', '2020-07-11', 12),
+(13, '2020-07-20', '2020-07-23', 12),
+(15, '2020-07-20', '2020-07-25', 13);
 
 -- --------------------------------------------------------
 
@@ -266,7 +242,7 @@ CREATE TABLE IF NOT EXISTS `types_emplacement` (
 
 INSERT INTO `types_emplacement` (`id_type_emplacement`, `nom_type_emplacement`, `nb_emplacements`) VALUES
 (1, 'Tente', 1),
-(2, 'Camping', 2);
+(2, 'CampingCar', 2);
 
 -- --------------------------------------------------------
 
@@ -287,17 +263,16 @@ CREATE TABLE IF NOT EXISTS `utilisateurs` (
   `gender` varchar(50) NOT NULL,
   `avatar` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id_utilisateur`)
-) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `utilisateurs`
 --
 
 INSERT INTO `utilisateurs` (`id_utilisateur`, `nom`, `prenom`, `email`, `register_date`, `password`, `is_admin`, `num_tel`, `gender`, `avatar`) VALUES
-(8, 'test', 'test', 'test2@test.com', '2020-07-10 20:47:41', '$2y$10$AOxEmREeoGH38DKNLUXvBuPOZ21iGYR22RIQlHolcRBFtHcrt0ewq', 0, '1234567891', '', ''),
-(7, 'test', 'test', 'test@test.com', '2020-07-10 20:11:46', '$2y$10$EdGvotOOiUWZdfxNsJbm2uXbFm8ZAUArvtpo8dhpPWPGmokaVpNPi', 0, '123', '', ''),
-(9, 'Test', 'Test', 'test5@test.com', '2020-07-14 17:14:41', '$2y$10$8QoUBp9QCXysNbXnzzhTV.jbCYODXL2evjTENe5Ek06QbXp1wcjcS', 0, '0000000000', '', ''),
-(10, 'Test', 'Test', 'test3@test.com', '2020-07-15 13:05:30', '$2y$10$5jXUMjgkWYl4NpWLO1KOZuagn/54owqmfqtcGRXtwM4Kbgan.dCR2', 1, '0000000000', '', 'css/images/no-image.png');
+(15, 'admin', 'admin', 'admin@admin.com', '2020-07-27 15:22:15', '$2y$10$/ExrdKu5fH9wiGXpgKkiHOpbp.5psBDbB82BUKPTlulgPuHX7MC0i', 1, '0000000000', 'Non genré', 'css/images/no-image.png'),
+(13, 'Doe', 'Jane', 'jane.doe@gmail.com', '2020-07-27 15:20:15', '$2y$10$uJV1ZyL16RcnwPI4gRtk.u90.NN9ok76zZUgJRY5pef7kFwUHRaXq', 0, '0704030201', 'Femme', 'css/images/no-image.png'),
+(12, 'Doe', 'John', 'john.doe@gmail.com', '2020-07-27 15:19:34', '$2y$10$B6e9RnnkT1kA6pvhVWIKAuNJ2DEULyYSBQ/AbBE668WwbKm5vc8ka', 0, '0601020304', 'Homme', 'css/images/no-image.png');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

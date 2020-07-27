@@ -83,13 +83,13 @@ class Evenements{
       die('Erreur : ' . $e->getMessage());
       }
 
-      $request_infos_resa = $db->prepare("SELECT * FROM reservations WHERE id_reservation = $id");
+      $request_infos_resa = $db->prepare("SELECT * FROM reservations WHERE id_reservation = '$id'");
       //var_dump($request_id);
       $request_infos_resa->execute();
       $result_infos_resa = ($request_infos_resa->fetch());
       //var_dump($result_infos_resa);
 
-      $request_infos_total = $db->prepare("SELECT prix_detail.nb_emplacement, prix_detail.nb_jours, prix_detail.prix_total, detail_lieux.nom_lieu FROM prix_detail JOIN detail_lieux ON prix_detail.id_reservation = detail_lieux.id_reservation WHERE prix_detail.id_reservation = $id");
+      $request_infos_total = $db->prepare("SELECT prix_detail.nb_emplacement, prix_detail.nb_jours, prix_detail.prix_total, detail_lieux.nom_lieu FROM prix_detail JOIN detail_lieux ON prix_detail.id_reservation = detail_lieux.id_reservation WHERE prix_detail.id_reservation = '$id'");
       $request_infos_total->execute();
       $result_infos_total = ($request_infos_total->fetch());
       //var_dump($result_infos_total);
