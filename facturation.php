@@ -100,10 +100,19 @@ $page_selected = 'gestion_reservation';
         ?>
         
         <section class="booking_details">
-            <div class="gestion_resa_ticket">
+            <div class="reservation_facture">
            
             <h1>Facture réservation n°<?php echo $resultat_info_reservation[0]['id_reservation'] ?></h1><br/>
             
+            <h3>Sardine's Camp</h3><br/>
+            <address>
+                <p>1 avenue de la Madrague 13008 Marseille</p>
+                <a class="contact" href="tel:+330491919191">"tel:+330491919191"</a><br/>
+                <a class="contact" href="mailto:hello@sardinescamp.com">hello@sardinescamp.com</a>
+            </address>
+
+            <br/>
+                
             <h3> Informations client </h3><br/>
             <dl>
                 <dt>Id utilisateur</dt>
@@ -126,7 +135,7 @@ $page_selected = 'gestion_reservation';
                 <dt>Date de séjour</dt>
                 <dd>Arrivée le : <?php echo $resultat_info_reservation[0]['date_debut'] ?> _ Départ le : <?php echo $resultat_info_reservation[0]['date_fin'] ?></dd><br/>
                 
-                <dt>Site(s) réservé(s) et tarif journalier</dt>
+                <dt>Site réservé et tarif journalier</dt>
                 <dd>
                     <?php foreach($resultat_info_lieu as $info_lieu){echo html_entity_decode($info_lieu['nom_lieu']).' _ '. $info_lieu['prix_journalier'].'€/j (1 emplacement)';}?>
                 </dd><br/>

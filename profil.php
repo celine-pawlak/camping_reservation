@@ -372,13 +372,14 @@ $page_selected = 'profil';
 
                 foreach($info_result1 as $id_reservations){?>
                 <p>Du <?php echo $id_reservations['date_debut']?> au <?php echo $id_reservations['date_fin']?></p>
-                <a href="gestion_reservation.php?id_reservation=<?php echo $id_reservations['id_reservation'];?>">Réservation n°<?php echo  $id_reservations['id_reservation']?></a><br/>
+                <a href="facturation.php?id_reservation=<?php echo $id_reservations['id_reservation'];?>">Facture réservation n°<?php echo  $id_reservations['id_reservation']?></a><br/>
                 <?php }?> 
             </div>
             <div class="profil_case_avis">
                 <h1>Mes avis</h1><br/>
                 <table>
                     <thead>
+                        <?php foreach($commentaire_result as $avis_customer){ ?>
                         <tr>
                             <th>Note</th>
                             <th>Titre</th>
@@ -388,7 +389,7 @@ $page_selected = 'profil';
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach($commentaire_result as $avis_customer){ ?>
+                        
                         <tr>
                             <td><?php echo $avis_customer['note_sejour'].'/5' ?></td>
                             <td><?php echo $avis_customer['titre_avis'] ?></td>
