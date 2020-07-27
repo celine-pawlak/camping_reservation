@@ -19,7 +19,7 @@ $page_selected = 'gestion_reservation';
     <header>
         <?php include("includes/header.php"); ?>
     </header>
-    <main>
+    <main class="main_gestion_reservation">
         <?php
         try
         {
