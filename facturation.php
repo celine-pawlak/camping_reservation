@@ -196,6 +196,13 @@ $page_selected = 'gestion_reservation';
             </script>
             
             <?php 
+                                    /*$id_reservation = $resultat_info_reservation[0]['id_reservation'];
+    
+                                     $select_type_place = $connexion->prepare("SELECT nom_type_emplacement FROM detail_types_emplacement WHERE id_reservation=$id_reservation"); 
+                                    $select_type_place ->execute();
+                                    $selection_emplacement = $select_type_place->fetchAll();
+                   
+                                    var_dump($selection_emplacement);*/
                 
                 if($_SESSION['user']['is_admin'])
                 {
@@ -245,7 +252,7 @@ $page_selected = 'gestion_reservation';
                                 $arrival = $_POST['arrival'];
                                 $departure = $_POST['departure'];
                                 $lieu = $_POST['lieu'];
-
+  
                                 // MISE A JOUR TABLE reservation
                                 $request1 = $connexion->prepare(
                                     "UPDATE reservations SET date_debut=:date_debut, date_fin=:date_fin WHERE id_reservation = $id_reservation"
@@ -273,16 +280,37 @@ $page_selected = 'gestion_reservation';
                                 $request2->bindParam(':id_reservation', $idresa, PDO::PARAM_INT);
                                 $request2->execute();
                                 
+                                
                                 // MISE A JOUR TABLE detail_types_emplacement
                                 foreach ($emplacements_reserves as $type_emplacement => $nombre_emplacement) {
-                                    echo $nombre_emplacement;
-                                    $request3 = $connexion->prepare(
+                                    $select_type_place = $connexion->prepare("SELECT * FROM detail_types_emplacement WHERE id_reservation=$idresa"); 
+                                    $select_type_place ->execute();
+                                    $selection_emplacement = $select_type_place->fetchAll();
+                                    
+                                    
+                                    
+                                    if(in_array($selection_emplacement,$_POST['lieu']))
+                                    {
+                                        $request3 = $connexion->prepare(
                                         "UPDATE detail_types_emplacement SET nom_type_emplacement=:nom_type_emplacement, nb_emplacements_reserves =:nb_emplacements_reserves, id_reservation=:id_reservation WHERE id_reservation = $id_reservation"
                                     );
                                     $request3->bindParam(':nom_type_emplacement', $type_emplacement, PDO::PARAM_STR);
                                     $request3->bindParam(':nb_emplacements_reserves', $nombre_emplacement, PDO::PARAM_INT);
                                     $request3->bindParam(':id_reservation', $idresa, PDO::PARAM_INT);
                                     $request3->execute();
+                                    }
+                                    else
+                                    {
+                                        $request4 = $connexion->prepare(
+                                        "INSERT INTO detail_types_emplacement (nom_type_emplacement, nb_emplacements_reserves, id_reservation) VALUES (:nom_type_emplacement,:nb_emplacements_reserves, :id_reservation)"
+                                        );
+                                        $request4->bindParam(':nom_type_emplacement', $type_emplacement, PDO::PARAM_STR);
+                                        $request4->bindParam(':nb_emplacements_reserves', $nombre_emplacement, PDO::PARAM_INT);
+                                        $request4->bindParam(':id_reservation', $idresa, PDO::PARAM_INT);
+                                        $request4->execute();
+                                    }
+                                        
+                                    
                                 }
 
                                 foreach ($_POST['option'] as $name_option) {
@@ -341,12 +369,8 @@ $page_selected = 'gestion_reservation';
 
                                 //INSERTION finale
                                 $request_total = $connexion->prepare(
-                                    "UPDATE prix_detail SET nb_emplacement=:nb_emplacement,prix_journalier=:prix_journalier,prix_options=:prix_options, nb_jours=:nb_jours, prix_total=:prix_total, id_reservation=:id_reservation WHERE id_reservation=$id_reservation )"
+                                    "UPDATE prix_detail SET nb_jours=:nb_jours, prix_total=:prix_total, id_reservation=:id_reservation WHERE id_reservation=$id_reservation )"
                                 );
-                                $request_total->bindParam(':nb_emplacement', $nb_emp, PDO::PARAM_INT);
-                                $request_total->bindParam(':prix_journalier', $price_day, PDO::PARAM_STR);
-                                $request_total->bindParam(':prix_options', $price_option, PDO::PARAM_STR);
-                                $request_total->bindParam(':nb_jours', $days, PDO::PARAM_INT);
                                 $request_total->bindParam(':prix_total', $resultat, PDO::PARAM_STR);
                                 $request_total->bindParam(':id_reservation', $idresa, PDO::PARAM_INT);
                                 $request_total->execute();
