@@ -98,7 +98,7 @@
                 <td><?php echo 'Réservation n°'.$booking['id_reservation'] ?></td>
                 <td><?php echo $booking['date_debut'] ?></td>
                 <td><?php echo $booking['date_fin'] ?></td>
-                <td><a class="user_modify_button" href="gestion_reservation.php?id_reservation=<?php echo $booking['id_reservation']?>">DETAILS</a></td>
+                <td><a class="user_modify_button" href="facturation.php?id_reservation=<?php echo $booking['id_reservation']?>">FACTURE</a></td>
                 <td>
                     <form method="post" action="" class="delete_button">
                         <button type="submit" name="delete_booking"><i class="fas fa-trash-alt"></i></button>
