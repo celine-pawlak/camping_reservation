@@ -207,6 +207,7 @@ $page_selected = 'gestion_reservation';
                     <?php
                     //var_dump($_POST);
                     $id_reservation = $resultat_info_reservation[0]['id_reservation'];
+                    $id_utilisateur = $resultat_info_customer[0]['id_utilisateur'];
                     if (isset($_POST['submit'])) {
                         foreach ($_POST as $key => $value) {
                             if ($value != 'default') {
@@ -252,6 +253,8 @@ $page_selected = 'gestion_reservation';
                                 $request1->bindParam(':date_debut', $arrival, PDO::PARAM_STR);
                                 $request1->bindParam(':date_fin', $departure, PDO::PARAM_STR);
                                 $request1->execute();
+                                $idresa = $id_reservation;
+
 
                                 // MISE A JOUR TABLE detail_lieux
                                 foreach ($infos->getLieux() as $value) {
@@ -263,20 +266,22 @@ $page_selected = 'gestion_reservation';
                                     }
                                 }
                                 $request2 = $connexion->prepare(
-                                    "UPDATE detail_lieux SET nom_lieu=:nom_lieu, prix_journalier=:prix_journalier WHERE id_reservation = $id_reservation "
+                                    "UPDATE detail_lieux SET nom_lieu=:nom_lieu, prix_journalier=:prix_journalier, id_reservation=:id_reservation WHERE id_reservation = $id_reservation "
                                 );
                                 $request2->bindParam(':nom_lieu', $lieu, PDO::PARAM_STR);
                                 $request2->bindParam(':prix_journalier', $prix_journalier['prix_journalier'], PDO::PARAM_STR);
+                                $request2->bindParam(':id_reservation', $idresa, PDO::PARAM_INT);
                                 $request2->execute();
                                 
                                 // MISE A JOUR TABLE detail_types_emplacement
                                 foreach ($emplacements_reserves as $type_emplacement => $nombre_emplacement) {
                                     echo $nombre_emplacement;
                                     $request3 = $connexion->prepare(
-                                        "UPDATE detail_types_emplacement SET nom_type_emplacement=:nom_type_emplacement, nb_emplacements_reserves =:nb_emplacements_reserves WHERE id_reservation = $id_reservation"
+                                        "UPDATE detail_types_emplacement SET nom_type_emplacement=:nom_type_emplacement, nb_emplacements_reserves =:nb_emplacements_reserves, id_reservation=:id_reservation WHERE id_reservation = $id_reservation"
                                     );
                                     $request3->bindParam(':nom_type_emplacement', $type_emplacement, PDO::PARAM_STR);
                                     $request3->bindParam(':nb_emplacements_reserves', $nombre_emplacement, PDO::PARAM_INT);
+                                    $request3->bindParam(':id_reservation', $idresa, PDO::PARAM_INT);
                                     $request3->execute();
                                 }
 
@@ -286,10 +291,11 @@ $page_selected = 'gestion_reservation';
                                     $q3->execute();
                                     $options = $q3->fetch();
                                     $request5 = $connexion->prepare(
-                                        "UPDATE detail_options SET nom_option=:nom_option, prix_option=:prix_option WHERE id_reservation = $id_reservation"
+                                        "UPDATE detail_options SET nom_option=:nom_option, prix_option=:prix_option, id_reservation=:id_reservation WHERE id_reservation = $id_reservation"
                                     );
                                     $request5->bindParam(':nom_option', $name_option, PDO::PARAM_STR);
                                     $request5->bindParam(':prix_option', $options['prix_option'], PDO::PARAM_INT);
+                                    $request5->bindParam(':id_reservation', $idresa, PDO::PARAM_INT);
                                     $request5->execute();
                                 }
                                 // MISE A JOUR TABLE prix_detail
@@ -335,13 +341,14 @@ $page_selected = 'gestion_reservation';
 
                                 //INSERTION finale
                                 $request_total = $connexion->prepare(
-                                    "UPDATE prix_detail SET nb_emplacement=:nb_emplacement,prix_journalier=:prix_journalier,prix_options=:prix_options, nb_jours=:nb_jours, prix_total=:prix_total WHERE id_reservation=$id_reservation )"
+                                    "UPDATE prix_detail SET nb_emplacement=:nb_emplacement,prix_journalier=:prix_journalier,prix_options=:prix_options, nb_jours=:nb_jours, prix_total=:prix_total, id_reservation=:id_reservation WHERE id_reservation=$id_reservation )"
                                 );
                                 $request_total->bindParam(':nb_emplacement', $nb_emp, PDO::PARAM_INT);
                                 $request_total->bindParam(':prix_journalier', $price_day, PDO::PARAM_STR);
                                 $request_total->bindParam(':prix_options', $price_option, PDO::PARAM_STR);
                                 $request_total->bindParam(':nb_jours', $days, PDO::PARAM_INT);
                                 $request_total->bindParam(':prix_total', $resultat, PDO::PARAM_STR);
+                                $request_total->bindParam(':id_reservation', $idresa, PDO::PARAM_INT);
                                 $request_total->execute();
                                 header('location:facturation.php?id_reservation=' . $id_reservation . '');
                             }
