@@ -1614,6 +1614,7 @@ border-radius:20%;
     {
         width:90%;
     }
+    
     .form_user button
     {
         padding:2%;
@@ -1727,6 +1728,8 @@ border-radius:20%;
 
 
 
+
+
 /*** RESPONSIVE FACTURATION ***/
 @media (max-width: 980px){
 }
@@ -1738,6 +1741,10 @@ border-radius:20%;
  
 }
 
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+/*** RESERVATION FORM  ***/
+
+
 #container-resaform, #avis_form{
   display: flex;
   flex-direction: column;
@@ -1745,6 +1752,27 @@ border-radius:20%;
   align-items: center;
   padding-top: 5%;
   padding-bottom: 5%;
+}
+
+#facture-container-resaform
+{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 5%;
+  padding-bottom: 5%;
+}
+
+#facture-container-resaform h1
+{
+ display: flex;
+  width: 50%;
+  justify-content: center;
+  text-align: center;
+  font-weight: 200;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: white;
 }
 
 #container-resaform h1{
@@ -1769,12 +1797,24 @@ border-radius:20%;
   box-shadow:0 10px 40px rgba(0,0,0,0.08);
 }
 
-#date-section{
+#facture-sub-form
+{
+    display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 50%;
+  height: 20vh;
+  box-shadow:0 10px 40px rgba(0,0,0,0.08);
+}
+
+#date-section, #facture-date-section{
   margin-top: 2.5%;
   margin-bottom: 2.5%;
 }
 
- #date-section input[type=date]{
+ #date-section input[type=date], 
+ #facture-date-section input[type=date], 
+{
   width: 200px;
   height: 30px;
   background: transparent;
@@ -1790,10 +1830,13 @@ border-radius:20%;
   color: gray;
 }
 
+#facture-date-section i{color:white}
+
 #section-lieu, #select_lieu{
   display: flex;
   justify-content: space-between;
 }
+
 #sub-form select{
   width: 300px;
   height: 35px;
@@ -1830,6 +1873,17 @@ border-radius:20%;
   align-items: center;
   justify-content: center;
   background-color: white;
+  width: 50%;
+  padding-top:2.5%;
+  padding-bottom:2.5%;
+  box-shadow:0 10px 40px rgba(0,0,0,0.08);
+}
+
+#facture-sub-form1{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   width: 50%;
   padding-top:2.5%;
   padding-bottom:2.5%;
