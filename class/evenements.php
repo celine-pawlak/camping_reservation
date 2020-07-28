@@ -86,7 +86,7 @@ class Evenements{
       die('Erreur : ' . $e->getMessage());
       }
 
-      $request_infos_resa = $db->prepare("SELECT * FROM reservations WHERE id_reservation = '$id'");
+      $request_infos_resa = $db->prepare("SELECT * FROM reservations WHERE id_reservation = $id");
       //var_dump($request_id);
       $request_infos_resa->execute();
       $result_infos_resa = ($request_infos_resa->fetch());
