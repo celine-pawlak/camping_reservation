@@ -10,7 +10,7 @@ class Evenements{
     {
        try
         {
-        $db = new PDO('mysql:host=localhost;dbname=camping;charset=utf8', 'root', '');
+        $db = new PDO('mysql:host=localhost;dbname=camping;', 'root', '');
         }
         catch (Exception $e){
         die('Erreur : ' . $e->getMessage());
@@ -80,7 +80,7 @@ class Evenements{
 
       try
       {
-      $db = new PDO('mysql:host=localhost;dbname=camping;charset=utf8', 'root', '');
+      $db = new PDO('mysql:host=localhost;dbname=camping;', 'root', '');
       }
       catch (Exception $e){
       die('Erreur : ' . $e->getMessage());
@@ -112,7 +112,7 @@ class Evenements{
 
     try
     {
-    $db = new PDO('mysql:host=localhost;dbname=camping;charset=utf8', 'root', '');
+    $db = new PDO('mysql:host=localhost;dbname=camping;', 'root', '');
     }
     catch (Exception $e){
     die('Erreur : ' . $e->getMessage());
