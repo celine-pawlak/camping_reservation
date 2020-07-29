@@ -57,7 +57,7 @@
 
 
 
-    <div>
+    <div class="taille_table_users">
         <h2>Tableau utilisateurs</h2><br/>
         <table>
             <thead>

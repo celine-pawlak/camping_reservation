@@ -1332,12 +1332,11 @@ text-decoration: none;
     margin-top:5%;
     margin-bottom:5%;
     align-items: center;
-    width:auto;
 }
 
 
 
-.admin_table{margin-top:5%;}
+.admin_table{}
 
 .admin_table h2
 {
@@ -1351,6 +1350,25 @@ text-decoration: none;
     width:100%;
 }
 
+.admin_table th, .gestion-resa th
+{
+    color:white;
+    background-color:#333;
+}
+
+.admin_table td,
+.admin_table th
+{
+    border-top:0.1px solid lightgray;
+    border-bottom:0.1px solid lightgray;
+    text-align: center;
+    padding:1%;
+}
+
+.taille_table_users
+{
+    width:80%;
+}
 
 .gestion-resa table
 {
@@ -1358,11 +1376,7 @@ text-decoration: none;
     border-collapse: collapse;
 }
 
-.admin_table th, .gestion-resa th
-{
-    color:white;
-    background-color:#333;
-}
+
 
 .gestion-resa td,
 .gestion-resa th
@@ -1382,14 +1396,7 @@ text-decoration: none;
 
 
 
-.admin_table td,
-.admin_table th
-{
-    border-top:0.1px solid lightgray;
-    border-bottom:0.1px solid lightgray;
-    text-align: center;
-    padding:1%;
-}
+
  
 .admin_gestion th,
 .admin_gestion td
