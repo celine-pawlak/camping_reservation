@@ -23,22 +23,23 @@ $page_selected = 'planning';
     require 'class/month.php';
     require 'class/evenements.php';
   
-    $events = new Evenements();
+    
     $month = new Month($_GET['month'] ?? null, $GET['year'] ?? null);
     $start  = $month->getStartingDay();
     $start = $start->format('N') === '1' ? $start : $month->getStartingDay()->modify('last monday');
     $weeks = $month->getWeeks();
     $end = (clone $start)->modify('+'. (6 + 7 * ($weeks -1)) .'days');
     //var_dump($end);
-    $events =  $events->getEventsBetweenByDay($start,$end);
-    //echo '<pre>';
-    //var_dump($events);
-    //echo '</pre>';
     ?>
     
     <section id="planning-nav">
       <p><?= $month->toString();?></p>
-      <?php if (isset($_SESSION['user'])){ ?>
+      <?php if (isset($_SESSION['user'])){ 
+      $events = new Evenements();
+      $events =  $events->getEventsBetweenByDay($start,$end);
+      //echo '<pre>';
+      //var_dump($events);
+       //echo '</pre>';?>
       <h1>vos réservations</h1>
       <?php } else {?>
       <h1>réservez votre séjour maintenant</h1>
