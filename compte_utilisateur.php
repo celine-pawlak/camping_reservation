@@ -51,26 +51,28 @@ $page_selected = 'compte_utilisateur';//dire a celine d'ajouter cette page
                 $delete1->bindParam(':avatar', $avatar_delete, PDO::PARAM_NULL);
                 //EXECUTION REQUETE
                 $delete1->execute();
+                header('location:compte_utilisateur.php?id='.$id_user.'');
             }
         }
 
 
         //MODIFICATION DES DONNEES DE L'UTILISATEUR SI ON APPUIS SUR VALIDER
-        if (isset($_POST['submit'])) {
+        if (isset($_POST['submit'])) 
+        {
             //DEFINITION DES VARIABLES STOCKANT LES DONNEES UTILISATEURS
 
-            $mail = htmlentities(trim($_POST['mail']));
-            $phone = htmlentities(trim($_POST['phone_number']));
+            $mail = $_POST['mail'];
+            $phone = $_POST['phone_number'];
             /*
                                         $login=htmlentities(trim($_POST['login']));
             */
-            $password = htmlentities(trim($_POST['password']));
-            $check_password = htmlentities(trim($_POST['check_password']));
+            $password = $_POST['password'];
+            $check_password = $_POST['check_password'];
             $hash = password_hash($password, PASSWORD_BCRYPT, array('cost' => 10));
 
             if ($mail) {
                 //MISE A JOUR DES DONNEES
-                $update_mail = "UPDATE utilisateurs SET email=:mail WHERE id_utilisateur = '$id_user' ";
+                $update_mail = "UPDATE utilisateurs SET email=:mail WHERE id_utilisateur = $id_user ";
                 //PREPARATION REQUETE
                 $update_niv4 = $connexion->prepare($update_mail);
                 $update_niv4->bindParam(':mail', $mail, PDO::PARAM_STR);
@@ -80,7 +82,7 @@ $page_selected = 'compte_utilisateur';//dire a celine d'ajouter cette page
 
             if ($phone) {
                 //MISE A JOUR DES DONNEES
-                $update_phone = "UPDATE utilisateurs SET num_tel=:phone WHERE id_utilisateur = '$id_user' ";
+                $update_phone = "UPDATE utilisateurs SET num_tel=:phone WHERE id_utilisateur = $id_user ";
                 //PREPARATION REQUETE
                 $update_niv5 = $connexion->prepare($update_phone);
                 $update_niv5->bindParam(':phone', $phone, PDO::PARAM_STR);
@@ -88,27 +90,11 @@ $page_selected = 'compte_utilisateur';//dire a celine d'ajouter cette page
                 $update_niv5->execute();
             }
 
-            /* //SI LE CHAMPS DATE DE NAISSANCE EST REMPLI
-            if($birth)
-            {
-                //MISE A JOUR DES DONNEES
-                $update_birth = "UPDATE utilisateurs SET birthday_day=:birth WHERE id_utilisateur = '$id_user' ";
-                //PREPARATION REQUETE
-                $update_niv4 = $connexion -> prepare($update_birth);
-                $update_niv4->bindParam(':birth',$birth, PDO::PARAM_STR);
-                //EXECUTION REQUETE
-                $update_niv4->execute();
-            }
-            else
-            {
-                echo "Veuillez remplir le champs date de naissance<br/>";
-            }*/
-
-            //SI LE CHAMPS DATE DE NAISSANCE EST REMPLI
+            //SI LE CHAMPS MOT DE PASSE EST REMPLI
             if ($password and $check_password) {
                 if ($password == $check_password) {
                     //MISE A JOUR DES DONNEES
-                    $update_password = "UPDATE utilisateurs SET password=:hash WHERE id_utilisateur = '$id_user' ";
+                    $update_password = "UPDATE utilisateurs SET password=:hash WHERE id_utilisateur = $id_user ";
                     //PREPARATION REQUETE
                     $update_niv5 = $connexion->prepare($update_data_user);
                     $update_niv5->bindParam(':hash', $hash, PDO::PARAM_STR);
@@ -118,122 +104,145 @@ $page_selected = 'compte_utilisateur';//dire a celine d'ajouter cette page
                     echo "Vos mots de passe doivent être identiques<br/>";
                 }
             }
-
-
-            /*//SI LE CHAMPS LOGIN EST REMPLI
-            if($login)
-            {
-                //VERIFICATION CORRESPONDANCE LOGIN EN BDD ET NOUVEAU LOGIN
-                $login_users = $connexion->prepare("SELECT * FROM utilisateurs WHERE login = '$login'");
-                //EXECUTION REQUETE
-                $login_users->execute();
-                //RECUPERATION RESULTAT
-                $login_users_result =  $login_users->rowCount();
-
-                if($login_users_result >= 1)
-                {
-                    echo " Ce login existe déjà ! ";
-                }
-                else
-                {
-                    //MISE A JOUR DES DONNEES
-                    $update_login_user = "UPDATE utilisateurs SET login=:login WHERE id = '$id_user' ";
-                    //PREPARATION REQUETE
-                    $update_niv6 = $connexion -> prepare($update_login_user);
-                    $update_niv6->bindParam(':login',$login, PDO::PARAM_STR);
-                    //EXECUTION REQUETE
-                    $update_niv6->execute();
-
-                }
-            }
-            else
-            {
-                echo "Veuillez remplir le champs login <br/>";
-            }
-            */
-
-            header('location:admin.php');
+            
+            
+             header('location:admin.php');
         }
+        
+         //RECUPERATION DES COMMENTAIRES DE L'UTILISATEUR
+             $commentaire=$connexion->prepare("SELECT * FROM avis WHERE id_utilisateur = $id_user ORDER BY post_date DESC");
+             //EXECUTION DE LA REQUETE
+             $commentaire->execute();
+             //RECUPERATION RESULTAT
+             $commentaire_result = $commentaire->fetchAll(PDO::FETCH_ASSOC);
+
+             //SUPPRESION D'UN COMMENTAIRE
+             if(isset($_POST['delete_comment']))
+             {
+             $id_avis=$_POST['hidden_id_avis'];
+
+             $delete_com=$connexion->prepare("DELETE FROM avis WHERE id_avis = $id_avis");
+             //EXECUTION DE LA REQUETE
+             $delete_com->execute();
+             header('location:compte_utilisateur.php?id='.$id_user.'');
+             }
+
+        
     } catch (PDOException $e) {
         echo "Erreur : " . $e->getMessage();
     }
 
 
     ?>
+    
 
-    <h1>MODIFICATION DONNEES PERSONNELLES</h1>
-    <form action="" method="post" enctype="multipart/form-data">
-        <img src="
-                     <?php
-        if ($user_profil_result[0]['avatar'] == null) {
-            echo 'css/images/no-image.png';
-        } else {
-            echo $user_profil_result[0]['avatar'];
-        }
-        ?>" alt="avatar" width="100"><br/>
-        <input type="submit" name="delete" value="SUPPRIMER"><br/>
-    </form>
+    <section class="profil_section1">     
+            <form action="" method="post" enctype="multipart/form-data" class="avatar profil_case_avatar" id="avatar_profil">
+                <img src="
+                             <?php
+                              if($user_profil_result[0]['avatar'] == NULL){
+                                  echo 'css/images/no-image.png';
+                              }else{echo $user_profil_result[0]['avatar'];}
+                              ?>" alt="avatar" width="300" height="300"><br/>
+                
+                <h2><?php echo $user_profil_result[0]['prenom'].' '.$user_profil_result[0]['nom'] ?></h2><br />
+                <div class="validation_avatar">
+                    <button type="submit" name="delete"><i class="fas fa-trash-alt"></i></button>
+                </div>
+                
+            </form>
+        </section>
+    
+        
+        <section class="profil_section2">
+            <section class="profil_modif">
+                <form action="" method="post" class="profil_case_modification">
+                    <h2>Modification des données de l'utilisateur</h2><br />
+                    <?php
 
+                        $gender_check = $user_profil_result[0]['gender'];
+                        $check = ($gender_check=="Femme")?true:false;
+                        $check2 = ($gender_check=="Homme")?true:false;
+                        $check3 = ($gender_check=="Non genré")?true:false;
+                        ?>
 
-    <form action="" method="post">
+                    <input type="radio" name="gender" value="Femme" <?php if($check==true){echo "checked";}else{echo "";}  ?> disabled/>
 
-        <?php
-        $check = ($user_profil_result[0]['gender'] == "Femme") ? true : false;
-        $check2 = ($user_profil_result[0]['gender'] == "Homme") ? true : false;
-        $check3 = ($user_profil_result[0]['gender'] == "Non genré") ? true : false;
+                    <label for="female">Femme</label>
 
-        ?>
+                    <input type="radio" name="gender" value="Homme" <?php if($check2==true){echo "checked";}else{echo "";} ?> disabled/>
+                    <label for="male">Homme</label>
 
-        <input type="radio" name="gender" value="Femme" <?php
-        if ($check == true) {
-            echo "checked";
-        } else {
-            echo "";
-        } ?> disabled/>
-        <label for="female">Femme</label>
-        <input type="radio" name="gender" value="Homme" <?php
-        if ($check2 == true) {
-            echo "checked";
-        } else {
-            echo "";
-        } ?> disabled/>
-        <label for="male">Homme</label>
-        <input type="radio" name="gender" value="Non genré" <?php
-        if ($check3 == true) {
-            echo "checked";
-        } else {
-            echo "";
-        } ?> disabled/>
-        <label for="no_gender">Non genré</label><br/>
+                    <input type="radio" name="gender" value="Non genré" <?php if($check3==true){echo "checked";}else{echo "";} ?> disabled/>
+                    <label for="no_gender">Non genré</label><br />
 
-        <label for="name">Nom</label><br/>
-        <input type="text" name="lastname" value="<?php
-        echo $user_profil_result[0]['nom'] ?>" disabled><br/>
-        <label for="firstname">Prénom</label><br/>
-        <input type="text" name="firstname" value="<?php
-        echo $user_profil_result[0]['prenom'] ?>" disabled><br/>
-        <!--<label for="birthday_day">Date de naissance</label><br />
-            <input type="date" name="birthday_day" value="<?php
-        /* echo $user_profil_result[0]['birthday_day'] */ ?>" disabled><br />-->
+                    <label for="name">Nom</label><br />
+                    <input type="text" name="lastname" value="<?php echo $user_profil_result[0]['nom'] ?>" disabled><br />
+                    <label for="firstname">Prénom</label><br />
+                    <input type="text" name="firstname" value="<?php echo $user_profil_result[0]['prenom'] ?>" disabled><br />
 
-        <label for="mail">Email</label><br/>
-        <input type="mail" name="mail" value="<?php
-        echo $user_profil_result[0]['email'] ?>"><br/>
-        <label for="phone_number">Numéro de téléphone</label><br/>
-        <input type="tel" name="phone_number" value="<?php
-        echo $user_profil_result[0]['num_tel'] ?>"><br/>
+                    <label for="mail">Email</label><br />
+                    <input type="mail" name="mail" value="<?php echo $user_profil_result[0]['email'] ?>"><br />
+                    <label for="phone_number">Numéro de téléphone</label><br />
+                    <input type="text" name="phone_number" value="<?php echo $user_profil_result[0]['num_tel'] ?>"><br />
 
-        <!-- <label for="login">Login</label><br />
-            <input type="text" name="login" value="<?php
-        /* echo $user_profil_result[0]['login']*/ ?>" disabled><br />-->
-        <label for="password">Mot de passe</label><br/>
-        <input type="password" name="password" placeholder="Entrez votre nouveau mot de passe"><br/>
-        <label for="password">Confirmation de mot de passe</label><br/>
-        <input type="password" name="check_password" placeholder="Confirmez votre nouveau mot de passe"><br/>
+                    <label for="password">Mot de passe</label><br />
+                    <input type="password" name="password" placeholder="Entrez votre nouveau mot de passe"><br />
+                    <label for="password">Confirmation de mot de passe</label><br />
+                    <input type="password" name="check_password" placeholder="Confirmez votre nouveau mot de passe"><br /><br />
 
-        <input type="submit" name="submit" value="VALIDER">
+                    <input type="submit" name="submit" value="VALIDER"><br />
+                </form>
+                <div class="profil_case_reservation ">
+                    <h1>Réservations</h1><br/>
+                    <?php
+                    //RECUPERATION DES DONNEES UTILISATEURS
+                    $info = $connexion->prepare("SELECT * FROM reservations WHERE id_utilisateur = $id_user ORDER by date_debut DESC");
+                    //EXECUTION DE LA REQUETE
+                    $info->execute();
+                    //RECUPERATION RESULTAT
+                    $info_result = $info->rowCount();
+                    $info_result1 = $info->fetchAll(PDO::FETCH_ASSOC);
 
-    </form>
+                    foreach($info_result1 as $id_reservations){?>
+                    <p>Du <?php echo $id_reservations['date_debut']?> au <?php echo $id_reservations['date_fin']?></p>
+                    <a href="facturation.php?id_reservation=<?php echo $id_reservations['id_reservation'];?>">Facture réservation n°<?php echo  $id_reservations['id_reservation']?></a><br/>
+                    <?php }?> 
+                </div>
+                <div class="profil_case_avis ">
+                    <h1>Commentaires de l'utilisateur</h1><br/>
+                    <table>
+                        <thead>
+                            <?php foreach($commentaire_result as $avis_customer){ ?>
+                            <tr>
+                                <th>Note</th>
+                                <th>Titre</th>
+                                <th>Commentaire</th>
+                                <th>Date publication</th>
+                                <th>Suppression</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><?php echo $avis_customer['note_sejour'].'/5' ?></td>
+                                <td><?php echo $avis_customer['titre_avis'] ?></td>
+                                <td><?php echo $avis_customer['texte_avis'] ?></td>
+                                <td><?php echo $avis_customer['post_date'] ?></td>
+                                <td>
+                                    <form action="" method="post">
+                                        <button type="submit" name="delete_comment"><i class="fas fa-trash-alt"></i></button>
+                                        <input type="hidden" name="hidden_id_avis" value="<?php echo $avis_customer['id_avis'] ?>">
+                                    </form>
+                                </td>
+                            </tr>
+                        <?php } ?>
+                        </tbody>
+                    </table>
+                </div>
+            
+            </section>
+        </section>
+    
 </main>
 <footer>
     <?php
@@ -244,17 +253,4 @@ $page_selected = 'compte_utilisateur';//dire a celine d'ajouter cette page
 </html>
 
 
-<!--
 
- //SELECTION AVATAR DE L'UTILISATEUR
-                        $user_avatar = $connexion->prepare("SELECT * FROM avatars WHERE id_utilisateur = '$id_user' ");
-                        //EXECUTION REQUETE
-                        $user_avatar->execute();
-                        //RECUPERATION RESULTAT
-                        $user_avatar_result = $user_avatar->rowCount();
-                        $user_avatar_pic = $user_avatar->fetchAll(PDO::FETCH_ASSOC);
-                        //var_dump($user_avatar_result);
-                        //var_dump($user_avatar_pic);
-
-
--->

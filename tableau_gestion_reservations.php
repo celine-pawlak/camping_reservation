@@ -74,7 +74,7 @@
 
 ?>
 
-<div class="gestion-resa">
+<div class="taille_table_admin">
     <h2>Tableau des réservations </h2><br/>
     <table>
         <thead>

@@ -1325,7 +1325,7 @@ text-decoration: none;
     text-align: center;
 }
 
-.users,.gestion-resa
+.admin_tableaux
 {
     display: flex;
     flex-direction: column;
@@ -1333,10 +1333,6 @@ text-decoration: none;
     margin-bottom:5%;
     align-items: center;
 }
-
-
-
-.admin_table{}
 
 .admin_table h2
 {
@@ -1350,7 +1346,7 @@ text-decoration: none;
     width:100%;
 }
 
-.admin_table th, .gestion-resa th
+.admin_table th, .booking th
 {
     color:white;
     background-color:#333;
@@ -1365,10 +1361,7 @@ text-decoration: none;
     padding:1%;
 }
 
-.taille_table_users
-{
-    width:80%;
-}
+.taille_table_admin{width:80%;}
 
 .gestion-resa table
 {
@@ -1385,17 +1378,6 @@ text-decoration: none;
     border-bottom:0.1px solid lightgray;
     padding:1%;
 }
-
-.booking
-{
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    margin-top:5%;
-}
-
-
-
 
  
 .admin_gestion th,
@@ -1970,7 +1952,8 @@ border-radius:20%;
 }
 
 .profil_gauche,
-.profil_droite
+.profil_droite, 
+.profil_modif
 {
     display: flex;
     flex-direction: column;
@@ -2004,7 +1987,7 @@ border-radius:20%;
     color:white;
     padding:2%;
     max-height:265px;
-    width:auto;
+    width:100%;
     margin-bottom:7%;
     overflow-y: auto;
 }
@@ -2032,6 +2015,7 @@ border-radius:20%;
     color:white;
     margin-bottom:7%;
     padding:2%;
+    width:100%;
     max-height:265px;
     overflow-y: auto;
 }
@@ -2041,32 +2025,35 @@ border-radius:20%;
     background-color:#CEDCDD;
     border-radius:10px;
     color:white;
-    padding:5%;
-    width:auto;
+    padding:2%;
     margin-bottom:7%;
     text-align: justify;
     max-height:265px;
     overflow-y: auto;
+    width:100%;
 }
 
 
-.profil_case_reglement::-webkit-scrollbar 
+.profil_case_reglement::-webkit-scrollbar, 
+.profil_case_avis::-webkit-scrollbar, 
+.profil_case_reservation::-webkit-scrollbar 
 {
     width: 12px;
     height: 10px;
-    
 }
- 
 
-.profil_case_reglement::-webkit-scrollbar-track 
+.profil_case_reglement::-webkit-scrollbar-track, 
+.profil_case_avis::-webkit-scrollbar-track, 
+.profil_case_reservation::-webkit-scrollbar-track 
 {
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
     -webkit-border-radius: 10px;
     border-radius: 10px;
 }
  
- 
-.profil_case_reglement::-webkit-scrollbar-thumb 
+.profil_case_reglement::-webkit-scrollbar-thumb,
+.profil_case_avis::-webkit-scrollbar-thumb,
+.profil_case_reservation::-webkit-scrollbar-thumb
 {
     -webkit-border-radius: 10px;
     border-radius: 10px;
@@ -2074,7 +2061,9 @@ border-radius:20%;
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
 }
 
-.profil_case_reservation::-webkit-scrollbar-thumb:window-inactive 
+.profil_case_reglement::-webkit-scrollbar-thumb:window-inactive,
+.profil_case_avis::-webkit-scrollbar-thumb:window-inactive,
+.profil_case_reservation::-webkit-scrollbar-thumb:window-inactive
 {
     background: grey;
 }
@@ -2223,6 +2212,8 @@ border-radius:20%;
 }
 
 
+.profil_modif{width:50%;}
+
 
 
 
@@ -2232,6 +2223,7 @@ border-radius:20%;
   .profil_gauche
     {
         width:60%;
+        
     }
 }
 
@@ -2240,9 +2232,13 @@ border-radius:20%;
     {
         width:70%;
     }
+    
 }
 
 @media (max-width: 980px){
+    
+    .case_spe{width:auto;}
+    
      .main_profil
     {
         margin:0%;
@@ -2271,7 +2267,6 @@ border-radius:20%;
     .profil_case_suppression
     {
         width:auto;
-        padding:;
     }
     
     .profil_case_introduction,
@@ -2279,13 +2274,22 @@ border-radius:20%;
     {
         padding-left:0%;
     }
+    
+    .profil_case_reservation,
+    .profil_case_avis,
+    .profil_case_reglement
+    {
+        width:auto;
+    }
+    
+    .profil_modif{width:60%;}
 
 }
 
 @media screen and (max-width:900px)
 {
    
-  
+  .profil_modif{width:70%;}
 }
 @media screen and (max-width:700px){
    
@@ -2297,6 +2301,8 @@ border-radius:20%;
         width:80%;
     }
     .profil_case_avis,.profil_case_introduction{display: none}
+    
+    .profil_modif{width:80%;}
     
     
 }

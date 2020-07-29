@@ -30,7 +30,7 @@ $page_selected = 'profil';
                     //DEFINITION MODE ERREUR PDO SUR EXCEPTION
 
                         //DEFINITION DE VARIABLE STOCKANT LA SESSION EN COURS
-                        $session=htmlentities(trim($_SESSION['user']['id_user']));
+                        $session=$_SESSION['user']['id_user'];
 
                         //RECUPERATION DES DONNEES UTILISATEURS
                         $user_session_data = $connexion->prepare("SELECT * FROM utilisateurs WHERE id_utilisateur = $session ");
@@ -141,13 +141,13 @@ $page_selected = 'profil';
                         if(isset($_POST['submit']))
                         {
                             //DEFINITION DES VARIABLES STOCKANT LES DONNEES UTILISATEURS
-                            $gender=htmlentities(trim($_POST['gender']));
-                            $lastname=htmlentities(trim($_POST['lastname']));
-                            $firstname=htmlentities(trim($_POST['firstname']));
-                            $mail=htmlentities(trim($_POST['mail']));
-                            $phone=htmlentities(trim($_POST['phone_number']));
-                            $password=htmlentities(trim($_POST['password']));
-                            $check_password=htmlentities(trim($_POST['check_password']));
+                            $gender=$_POST['gender'];
+                            $lastname=$_POST['lastname'];
+                            $firstname=$_POST['firstname'];
+                            $mail=$_POST['mail'];
+                            $phone=$_POST['phone_number'];
+                            $password=$_POST['password'];
+                            $check_password=$_POST['check_password'];
                             $hash=password_hash($password,PASSWORD_BCRYPT,array('cost'=>10));
 
                             //SI LE CHAMPS GENRE EST REMPLI
@@ -235,8 +235,8 @@ $page_selected = 'profil';
 
                         if(isset($_POST['delete_account']))
                         {
-                            $password=htmlentities(trim($_POST['password_delete']));
-                            $check=htmlentities(trim($_POST['password_delete_check']));
+                            $password=$_POST['password_delete'];
+                            $check=$_POST['password_delete_check'];
 
                             if(!empty($password) AND !empty($check))
                             {
@@ -418,6 +418,14 @@ $page_selected = 'profil';
                     <h2>Règles n°3</h2>
                     <p>
                        Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.
+                    </p>
+                    <h2>Règles n°4</h2>
+                    <p>
+                       Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+                    </p>
+                    <h2>Règles n°5</h2>
+                    <p>
+                       Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.
                     </p>
                 </div>
             </section>

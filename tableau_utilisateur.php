@@ -57,7 +57,7 @@
 
 
 
-    <div class="taille_table_users">
+    <div class="taille_table_admin">
         <h2>Tableau utilisateurs</h2><br/>
         <table>
             <thead>
