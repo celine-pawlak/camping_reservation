@@ -30,7 +30,6 @@ $page_selected = 'reservation_form';
 <main>
     <section id="container-resaform">
     <?php
-    var_dump($_POST);
     if (isset($_POST['submit'])) {
         foreach ($_POST as $key => $value) {
             if ($value != 'default') {
