@@ -18,7 +18,7 @@ class Database{
 
     public function connectDb(){
         try {
-            $this->PDO = new PDO("mysql:dbname=$this->db_name;host=$this->db_host;charset=utf8;", $this->db_login, $this->db_password);
+            $this->PDO = new PDO("mysql:dbname=$this->db_name;host=$this->db_host;", $this->db_login, $this->db_password);
             return $this->PDO;
         } catch (PDOException $e) {
             echo 'Connexion échouée : ' . $e->getMessage();
