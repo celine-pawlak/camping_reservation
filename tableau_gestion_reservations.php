@@ -27,7 +27,7 @@
                     if (isset($_POST['delete_booking'])) 
                     {
                         //DEFINITION VARIABLE ID_HIDDEN
-                        $booking_id = htmlentities(trim($_POST['booking_id_hidden']));
+                        $booking_id = $_POST['booking_id_hidden'];
 
                         //SUPPRESSION DANS RESERVATIONS 
                         $booking_delete1 = $connexion->prepare("DELETE FROM reservations WHERE id_reservation = $booking_id
