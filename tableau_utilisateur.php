@@ -34,7 +34,7 @@
                     if (isset($_POST['delete_user'])) 
                     {
                         //DEFINITION VARIABLE ID_HIDDEN
-                        $user_id = htmlentities(trim($_POST['id_hidden']));
+                        $user_id = $_POST['id_hidden'];
 
                         //SUPPRESSION DES DONNEES UTILISATEUR EN BDD
                         $user_delete = $connexion->prepare("DELETE FROM utilisateurs WHERE id_utilisateur = $user_id ");
@@ -84,12 +84,12 @@
                                                         }
                                                         else
                                                         {
-                                                            echo $info_users['avatar'] ;
+                                                            echo html_entity_decode($info_users['avatar']) ;
                                                         }?>" alt="avatar" width='30' height='30'>
                     </td>
                     <td><?php echo $info_users ['id_utilisateur']?></td>
-                    <td><?php echo $info_users ['nom'] ?></td>
-                    <td><?php echo $info_users ['prenom'] ?></td>
+                    <td><?php echo html_entity_decode($info_users['nom']) ?></td>
+                    <td><?php echo html_entity_decode($info_users['prenom']) ?></td>
 
                     <td class="display_none">
                         <?php

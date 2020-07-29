@@ -19,7 +19,7 @@
             if (isset($_POST['delete_place']))
             {
                 //DEFINITION VARIABLE ID_HIDDEN
-                $place_id = htmlentities(trim($_POST['place_id_hidden']));
+                $place_id = $_POST['place_id_hidden'];
                 //SUPPRESSION DES DONNEES UTILISATEUR EN BDD
                 $place_delete = $connexion->prepare("DELETE FROM lieux WHERE id_lieu = $place_id");
                 //EXECUTION REQUETE
@@ -79,15 +79,15 @@
                         //var_dump($_POST);
 
                         //DEFINITION VARIABLE NAME_HIDDEN
-                        $place_name = htmlentities(trim($_GET['modifier_lieu']));
+                        $place_name = $_GET['modifier_lieu'];
 
                         //SI ON APPUIS SUR MODIFIER LIEUX
                         if (isset($_POST['update_place_submit'])) 
                         {
                             //DEFINITION DES VARIABLES STOCKANT LES LIEUX, NBR EMPLACEMENT PAR LIEU ET TARIFS
-                            $update_place = htmlentities(trim($_POST['update_place_name']));
-                            $update_nb_place = htmlentities(trim($_POST['update_nb_place']));
-                            $update_price_place = htmlentities(trim($_POST['update_price_place']));
+                            $update_place = $_POST['update_place_name'];
+                            $update_nb_place = $_POST['update_nb_place'];
+                            $update_price_place = $_POST['update_price_place'];
 
                             //SI LE NOM DU LIEU EST RENSEIGNE
                             if (!empty($update_nb_place)) 
@@ -159,9 +159,9 @@
                 if(isset ($_POST['add_place']))
                 {
                     //DEFINITION DES VARIABLES STOCKANT LES LIEUX, NBR EMPLACEMENT PAR LIEU ET TARIFS
-                    $place=htmlentities(trim($_POST['place']));
-                    $nbr_place=htmlentities(trim($_POST['number_place']));
-                    $tarif=htmlentities(trim($_POST['price_place']));
+                    $place=$_POST['place'];
+                    $nbr_place=$_POST['number_place'];
+                    $tarif=$_POST['price_place'];
 
                         //SI LES CHAMPS PRECEDENTS SONT RENSEIGNES
                         if($place AND $nbr_place AND $tarif)

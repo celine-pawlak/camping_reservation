@@ -18,7 +18,7 @@
             if (isset($_POST['delete_type'])) 
             {
                 //DEFINITION VARIABLE ID_HIDDEN
-                $type_id = htmlentities(trim($_POST['type_id_hidden']));
+                $type_id = $_POST['type_id_hidden'];
                 //SUPPRESSION DES DONNEES UTILISATEUR EN BDD
                 $type_delete = $connexion->prepare("DELETE FROM types_emplacement WHERE id_type_emplacement = $type_id ");
                 //EXECUTION REQUETE
@@ -52,19 +52,15 @@
             <?php
                     foreach ($data_place_type_result as $type) { ?>
             <tr>
-                <td><?php
-                                echo html_entity_decode($type['nom_type_emplacement']) ?></td>
-                <td><?php
-                                echo $type['nb_emplacements'] ?></td>
+                <td><?php echo html_entity_decode($type['nom_type_emplacement']) ?></td>
+                <td><?php echo $type['nb_emplacements'] ?></td>
                 <td>
-                    <a class="user_modify_button" href="admin.php?modifier_type=<?php
-                                echo $type['id_type_emplacement'] ?>">EDITER</a>
+                    <a class="user_modify_button" href="admin.php?modifier_type=<?php echo $type['id_type_emplacement'] ?>">EDITER</a>
                 </td>
                 <td>
                     <form method="post" action="" class="delete_button">
                         <button type="submit" name="delete_type"><i class="fas fa-times"></i></button>
-                        <input type="hidden" name="type_id_hidden" value="<?php
-                                    echo $type['id_type_emplacement'] ?>">
+                        <input type="hidden" name="type_id_hidden" value="<?php echo $type['id_type_emplacement'] ?>">
                     </form>
                 </td>
             </tr>
@@ -76,16 +72,16 @@
     <?php
                 if (isset($_GET['modifier_type'])) {
                     //DEFINITION VARIABLE TYPE_HIDDEN
-                    $type_name = htmlentities(trim($_GET['modifier_type']));
+                    $type_name = $_GET['modifier_type'];
 
                     //SI ON APPUIS SUR MODIFIER TYPE D'EMPLACEMENT
                     if (isset($_POST['update_type_submit'])) {
                         //DEFINITION DES VARIABLES STOCKANT LES TYPES D'EMPLACEMENT ET LEUR TAILLE
-                        $update_type_name = htmlentities(trim($_POST['update_type_name']));
-                        $update_size_type = htmlentities(trim($_POST['update_size']));
+                        $update_type_name = $_POST['update_type_name'];
+                        $update_size_type = $_POST['update_size'];
 
                         //DEFINITION VARIABLE ID_HIDDEN
-                        $type_id2 = htmlentities(trim($_POST['type_id_hidden2']));
+                        $type_id2 = $_POST['type_id_hidden2'];
 
                         //SI LE TYPE D'EMPLACEMENT EST RENSEIGNE
                         if (!empty($update_type_name)) {
@@ -142,8 +138,8 @@
                 if(isset ($_POST['add_type']))
                 {
                     //DEFINITION DES VARIABLES STOCKANT LES TYPES D'EMPLACEMENTS ET LEUR TAILLE
-                    $type_place=htmlentities(trim($_POST['type']));
-                    $nbr_place_type=htmlentities(trim($_POST['number_place_type']));
+                    $type_place=$_POST['type'];
+                    $nbr_place_type=$_POST['number_place_type'];
                     //SI LES CHAMPS PRECEDENTS SONT RENSEIGNES
                     if( $type_place AND $nbr_place_type)
                     {

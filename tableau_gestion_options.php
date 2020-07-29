@@ -19,7 +19,7 @@
             if(isset($_POST['delete_option'])) 
             {
                 //DEFINITION VARIABLE ID_HIDDEN
-                $option_id = htmlentities(trim($_POST['option_id_hidden']));
+                $option_id = $_POST['option_id_hidden'];
                 //SUPPRESSION DES DONNEES UTILISATEUR EN BDD
                 $option_delete = $connexion->prepare("DELETE FROM options WHERE id_option = $option_id");
                 //EXECUTION REQUETE
@@ -53,13 +53,10 @@
             <?php
                     foreach ($data_option_price_result as $option) { ?>
             <tr>
-                <td><?php
-                                echo html_entity_decode($option['nom_option']) ?></td>
-                <td><?php
-                                echo $option['prix_option'] . '€' ?></td>
+                <td><?php echo ($option['nom_option']) ?></td>
+                <td><?php echo $option['prix_option'] . '€' ?></td>
                 <td>
-                    <a class="user_modify_button" href="admin.php?modifier_option=<?php
-                                echo $option['id_option'] ?>">EDITER</a>
+                    <a class="user_modify_button" href="admin.php?modifier_option=<?php echo $option['id_option'] ?>">EDITER</a>
                 </td>
                 <td>
                     <form method="post" action="" class="delete_button">
@@ -77,13 +74,13 @@
 
                 if (isset($_GET['modifier_option'])) {
                     //DEFINITION VARIABLE ID_HIDDEN
-                    $option_id2 = htmlentities(trim($_GET['modifier_option']));
+                    $option_id2 = $_GET['modifier_option'];
 
                     //SI ON APPUIS SUR MODIFIER OPTION
                     if (isset($_POST['update_option_submit'])) {
                         //DEFINITION DES VARIABLES STOCKANT LES TYPES D'EMPLACEMENT ET LEUR TAILLE
-                        $update_option_name = htmlentities(trim($_POST['update_option_name']));
-                        $update_option_price = htmlentities(trim($_POST['update_price_option']));
+                        $update_option_name = $_POST['update_option_name'];
+                        $update_option_price = $_POST['update_price_option'];
 
 
                         //var_dump($POST);
@@ -139,8 +136,8 @@
             if(isset ($_POST['add_option']))
             {
                 //DEFINITION DES VARIABLES STOCKANT OPTIONS ET TARIFS
-                $option = htmlentities(trim($_POST['option']));
-                $price_option = htmlentities(trim($_POST['price_option']));
+                $option =$_POST['option'];
+                $price_option = $_POST['price_option'];
                 
                 //SI LES CHAMPS PRECEDENTS SONT RENSEIGNES
                 if($option AND $price_option)
