@@ -93,16 +93,16 @@ $page_selected = 'profil';
                                         // Vérifie le type MIME du fichier
                                         if(in_array($filetype, $allowed))
                                         {
-                                            /*// Vérifie si le fichier existe avant de le télécharger.
+                                            // Vérifie si le fichier existe avant de le télécharger.
                                             if(file_exists("uploads/".$_FILES["photo"]["name"]))
                                             {
                                                 echo $_FILES["photo"]["name"] . " existe déjà.";
                                             }
                                             else
-                                            {*/
+                                            {
                                                 move_uploaded_file($_FILES["photo"]["tmp_name"], "uploads/" . $_FILES["photo"]["name"]);
                                                 header('location:profil.php');
-                                           /* } */
+                                            } 
                                         }
                                         else
                                         {
@@ -217,6 +217,8 @@ $page_selected = 'profil';
                                 
                                 } 
                             }
+                            
+                            
 
                             if(!empty($mail))
                             {
@@ -226,15 +228,20 @@ $page_selected = 'profil';
                                 $result_mail= $recup_mail_bdd->rowCount();
                                 
                                 
-                                    if($result_mail >= 1)
+                                    if($mail != $_SESSION['user']['email'] AND $result_mail>=1)
                                     {
-                                        $email_required = preg_match("/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/", $mail);
-                                    if (!$email_required) 
+                                      $errors[] = "Cet email existe déjà.";  
+                                    }
+                                
+                                    
+                                    $email_required = preg_match("/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/", $mail);
+
+                                    if (!$email_required)
                                     {
-                                        $errors[] = "L'email n'est pas conforme.";
+                                    $errors[] = "L'email n'est pas conforme.";
                                     }
 
-                                    if (empty($errors)) 
+                                    if (empty($errors))
                                     {
 
                                     //MISE A JOUR DES DONNEES
@@ -244,9 +251,9 @@ $page_selected = 'profil';
                                     $update_niv4->bindParam(':mail',$mail, PDO::PARAM_STR);
                                     //EXECUTION REQUETE
                                     $update_niv4->execute();
-                                    } 
-                                        
-                                    }else{$errors[] = "Cet email existe déjà.";}
+                                    }
+
+                                    
                                
                             }
                             
