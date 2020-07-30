@@ -170,7 +170,7 @@
                     }
                     else 
                     {
-                    echo'Veuillez remplir tous les champs <br/><br/>';
+                    $errors[] ='Veuillez remplir tous les champs <br/><br/>';
                     }
                 }
         

@@ -80,7 +80,7 @@
         <thead>
             <?php foreach($resultat_data_user_booking as $booking){ ?>
             <tr>
-                <th>Id utilisateur</th>
+                <th class="display_none">Id utilisateur</th>
                 <th class="display_none">Nom</th>
                 <th class="display_none">Prénom</th>
                 <th>Id réservation</th>
@@ -92,7 +92,7 @@
         </thead>
         <tbody>
             <tr>
-                <td><?php echo $booking['id_utilisateur'] ?></td>
+                <td class="display_none"><?php echo $booking['id_utilisateur'] ?></td>
                 <td class="display_none"><?php echo $booking['nom'] ?></td>
                 <td class="display_none"><?php echo $booking['prenom'] ?></td>
                 <td><?php echo 'Réservation n°'.$booking['id_reservation'] ?></td>

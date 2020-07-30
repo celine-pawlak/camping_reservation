@@ -18,10 +18,14 @@ $page_selected = 'profil';
 
 <body>
     <header>
-        <?php include("includes/header.php"); ?>
+        <?php 
+        include("includes/header.php"); 
+        $errors = [];
+        ?>
     </header>
     <main class="main_profil">
         <?php
+        
             //TENTATIVE CONNEXION BDD
             try
                 {
@@ -102,13 +106,13 @@ $page_selected = 'profil';
                                         }
                                         else
                                         {
-                                            echo "Error: Il y a eu un problème de téléchargement de votre fichier. Veuillez réessayer.";
-                                            echo "Error: Téléchargement du fichier impossible. Veuillez réessayer.";
+                                             $errors[] = "Error: Il y a eu un problème de téléchargement de votre fichier. Veuillez réessayer.";
+                                            $errors[] = "Error: Téléchargement du fichier impossible. Veuillez réessayer.";
                                         }
                                     }
                                     else
                                     {
-                                    echo "Error: " . $_FILES["photo"]["error"];
+                                    $errors[] = "Error: " . $_FILES["photo"]["error"];
                                     }
                                 }
                         }
@@ -149,7 +153,13 @@ $page_selected = 'profil';
                             $password=$_POST['password'];
                             $check_password=$_POST['check_password'];
                             $hash=password_hash($password,PASSWORD_BCRYPT,array('cost'=>10));
-
+                            
+                            $firstname_required = preg_match("/^(?=.*[A-Za-z]$)[A-Za-z][A-Za-z\-]{2,19}$/", $firstname);
+                                if (!$firstname_required) {
+                                    $errors[] = "Le prénom doit :<br>- Comporter entre 3 et 19 caractères.<br>- Commencer et finir par une lettre.<br>- Ne contenir aucun caractère spécial (excepté -).";
+                                }
+                            
+                            
                             //SI LE CHAMPS GENRE EST REMPLI
                             if($gender)
                             {
@@ -178,6 +188,8 @@ $page_selected = 'profil';
                             //SI LE CHAMPS PRENOM EST REMPLI
                             if($firstname)
                             {
+                                
+                                
                                 //MISE A JOUR DES DONNEES
                                 $update_firstname = "UPDATE utilisateurs SET prenom=:firstname WHERE id_utilisateur = '$session' ";
                                 //PREPARATION REQUETE
@@ -225,7 +237,7 @@ $page_selected = 'profil';
                                 }
                                 else
                                 {
-                                    echo "Vos mots de passe doivent être identiques<br/>";
+                                    $errors[] = "Vos mots de passe doivent être identiques<br/>";
                                 }
                             }
 
@@ -273,7 +285,7 @@ $page_selected = 'profil';
 
 ?>
 
-        <section class="profil_section1">     
+        <section class="profil_section1">  
             <form action="" method="post" enctype="multipart/form-data" class="avatar profil_case_avatar" id="avatar_profil">
                 <img src="
                              <?php

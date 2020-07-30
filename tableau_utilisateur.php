@@ -84,7 +84,7 @@
                                                         }
                                                         else
                                                         {
-                                                            echo html_entity_decode($info_users['avatar']) ;
+                                                            echo $info_users['avatar'] ;
                                                         }?>" alt="avatar" width='30' height='30'>
                     </td>
                     <td><?php echo $info_users ['id_utilisateur']?></td>
