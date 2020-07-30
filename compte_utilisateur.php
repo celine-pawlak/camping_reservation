@@ -101,7 +101,7 @@ $page_selected = 'compte_utilisateur';//dire a celine d'ajouter cette page
                     //EXECUTION REQUETE
                     $update_niv5->execute();
                 } else {
-                    echo "Vos mots de passe doivent être identiques<br/>";
+                    $errors[] = "Les mots de passe doivent être identiques<br/>";
                 }
             }
             

@@ -59,7 +59,7 @@
                     <td><?php echo html_entity_decode($place['nom_lieu'])?></td>
                     <td><?php echo $place['emplacements_disponibles']?></td>
                     <td><?php echo $place['prix_journalier'] . '€'?></td>
-                    <td><a class="user_modify_button" href="admin.php?modifier_lieu=<?php echo $place['nom_lieu'] ?>">EDITER</a></td>
+                    <td><a class="user_modify_button" href="admin.php?modifier_lieu=<?php echo $place['nom_lieu'] ?>#modif_sites">EDITER</a></td>
                     <td>
                         <form method="post" action="" class="delete_button">
                             <button type="submit" name="delete_place"><i class="fas fa-times"></i></button>
@@ -134,7 +134,7 @@
 
                         ?>
         <form class="form_admin" action='' method='post'>
-            <h3>Modifier un lieu</h3><br />
+            <h3 id="modif_sites">Modifier un lieu</h3><br />
             <label for='update_place_name'>Modification nom lieu</label>
             <input type='text' name='update_place_name'>
             <label for='update_nb_place'>Modification du nbr d'emplacement</label>
@@ -146,8 +146,8 @@
 
         <?php } ?>
 
-        <form class="form_admin" method="post" action="">
-            <h3>Ajouter un nouveau lieu</h3><br />
+        <form class="form_admin" method="post" action="admin.php#gestion_sites">
+            <h3 id="gestion_sites">Ajouter un nouveau lieu</h3><br />
             <label for="place">Lieux</label>
             <input type="text" name="place">
             <label for="place">Nbr d'emplacement(s) par lieu</label>
@@ -195,6 +195,8 @@
                         else
                         {
                         $errors[] ='Veuillez remplir tous les champs <br/><br/>';
+                        $message = new messages($errors);
+                        echo $message->renderMessage();
                         }
                 }
 

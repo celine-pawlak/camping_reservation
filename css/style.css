@@ -1513,6 +1513,7 @@ border-radius:20%;
     border:none;
     border-radius:5px;
     font-size:15px;
+    width:40%;
 }
 
 .form_admin input[type="submit"]:hover

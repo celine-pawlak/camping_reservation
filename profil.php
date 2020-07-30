@@ -154,14 +154,11 @@ $page_selected = 'profil';
                             $check_password=$_POST['check_password'];
                             $hash=password_hash($password,PASSWORD_BCRYPT,array('cost'=>10));
                             
-                            $firstname_required = preg_match("/^(?=.*[A-Za-z]$)[A-Za-z][A-Za-z\-]{2,19}$/", $firstname);
-                                if (!$firstname_required) {
-                                    $errors[] = "Le prénom doit :<br>- Comporter entre 3 et 19 caractères.<br>- Commencer et finir par une lettre.<br>- Ne contenir aucun caractère spécial (excepté -).";
-                                }
+                            
                             
                             
                             //SI LE CHAMPS GENRE EST REMPLI
-                            if($gender)
+                            if(!empty($gender))
                             {
                                 //MISE A JOUR DES DONNEES
                                 $update_gender = "UPDATE utilisateurs SET gender=:gender WHERE id_utilisateur = '$session' ";
@@ -173,23 +170,43 @@ $page_selected = 'profil';
                             }
 
                             //SI LE CHAMPS NOM EST REMPLI
-                            if($lastname)
+                            if(!empty($lastname))
                             {
-                                //MISE A JOUR DES DONNEES
+                                $lastname_required = preg_match("/^(?=.*[A-Za-z]$)([A-Za-z]{2,25}[\s]?[A-Za-z]{1,25})$/", $lastname);
+                                if (!$lastname_required) 
+                                {
+                                    $errors[] = "Le nom doit:<br>- Comporter entre 3 et 50 caractètres.<br>- Commencer et finir par une lettre.<br>- Ne contenir aucun caractère spécial (excepté un espace).";
+                                }
+                                
+                                if (empty($errors)) 
+                                {
+                                    
+                               //MISE A JOUR DES DONNEES
                                 $update_lastname = "UPDATE utilisateurs SET nom=:lastname WHERE id_utilisateur = '$session' ";
                                 //PREPARATION REQUETE
                                 $update_niv2 = $connexion -> prepare($update_lastname);
                                 $update_niv2->bindParam(':lastname',$lastname, PDO::PARAM_STR);
                                 //EXECUTION REQUETE
                                 $update_niv2->execute();
+                                } 
+                                
+                                
+                                
                             }
 
 
                             //SI LE CHAMPS PRENOM EST REMPLI
-                            if($firstname)
+                            if(!empty($firstname))
                             {
+                                $firstname_required = preg_match("/^(?=.*[A-Za-z]$)[A-Za-z][A-Za-z\-]{2,19}$/", $firstname);
                                 
+                                if (!$firstname_required) 
+                                {
+                                    $errors[] = "Le prénom doit :<br>- Comporter entre 3 et 19 caractères.<br>- Commencer et finir par une lettre.<br>- Ne contenir aucun caractère spécial (excepté -).";
+                                }
                                 
+                                if (empty($errors)) {
+                                    
                                 //MISE A JOUR DES DONNEES
                                 $update_firstname = "UPDATE utilisateurs SET prenom=:firstname WHERE id_utilisateur = '$session' ";
                                 //PREPARATION REQUETE
@@ -197,21 +214,54 @@ $page_selected = 'profil';
                                 $update_niv3->bindParam(':firstname',$firstname, PDO::PARAM_STR);
                                 //EXECUTION REQUETE
                                 $update_niv3->execute();
+                                
+                                } 
                             }
 
-                            if($mail)
+                            if(!empty($mail))
                             {
-                                //MISE A JOUR DES DONNEES
-                                $update_mail = "UPDATE utilisateurs SET email=:mail WHERE id_utilisateur = '$session' ";
-                                //PREPARATION REQUETE
-                                $update_niv4 = $connexion -> prepare($update_mail);
-                                $update_niv4->bindParam(':mail',$mail, PDO::PARAM_STR);
-                                //EXECUTION REQUETE
-                                $update_niv4->execute();
-                            }
+                                
+                                $recup_mail_bdd= $connexion->prepare("SELECT * FROM utilisateurs WHERE email='$mail'");
+                                $recup_mail_bdd ->execute();
+                                $result_mail= $recup_mail_bdd->rowCount();
+                                
+                                
+                                    if($result_mail >= 1)
+                                    {
+                                        $email_required = preg_match("/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/", $mail);
+                                    if (!$email_required) 
+                                    {
+                                        $errors[] = "L'email n'est pas conforme.";
+                                    }
 
-                            if($phone)
+                                    if (empty($errors)) 
+                                    {
+
+                                    //MISE A JOUR DES DONNEES
+                                    $update_mail = "UPDATE utilisateurs SET email=:mail WHERE id_utilisateur = '$session' ";
+                                    //PREPARATION REQUETE
+                                    $update_niv4 = $connexion -> prepare($update_mail);
+                                    $update_niv4->bindParam(':mail',$mail, PDO::PARAM_STR);
+                                    //EXECUTION REQUETE
+                                    $update_niv4->execute();
+                                    } 
+                                        
+                                    }else{$errors[] = "Cet email existe déjà.";}
+                               
+                            }
+                            
+
+                            if(!empty($phone))
                             {
+                                $num_tel_required = preg_match("/^[0-9]{10}$/", $phone);
+                                if (!$num_tel_required) 
+                                {
+                                    $errors[] = "Le numéro de téléphone doit contenir exactement 10 chiffres.";
+                                }
+                                
+                                if (empty($errors)) 
+                                {
+                                    
                                 //MISE A JOUR DES DONNEES
                                 $update_phone = "UPDATE utilisateurs SET num_tel=:phone WHERE id_utilisateur = '$session' ";
                                 //PREPARATION REQUETE
@@ -219,31 +269,56 @@ $page_selected = 'profil';
                                 $update_niv5->bindParam(':phone',$phone, PDO::PARAM_STR);
                                 //EXECUTION REQUETE
                                 $update_niv5->execute();
+                                } 
+                                
                             }
 
 
                              //SI LES CHAMPS MOTS DE PASSE ET CONFIRMATION DE MOT DE PASSE SONT  REMPLIS
-                            if($password AND $check_password)
+                            if(!empty($password) OR !empty($check_password))
                             {
-                                if($password == $check_password)
+                                if($password != $check_password)
                                 {
-                                    //MISE A JOUR DES DONNEES
-                                    $update_password = "UPDATE utilisateurs SET password=:hash WHERE id_utilisateur = '$session' ";
-                                    //PREPARATION REQUETE
-                                    $update_niv6 = $connexion -> prepare($update_password);
-                                    $update_niv6->bindParam(':hash',$hash, PDO::PARAM_STR);
-                                    //EXECUTION REQUETE
-                                    $update_niv6->execute();
+                                $errors[] = "Les champs mots de passe et confirmation de mot de passe doivent être identiques<br />";
                                 }
-                                else
+
+                                $password_required = preg_match(
+                                "/^(?=.*?[A-Z]{1,})(?=.*?[a-z]{1,})(?=.*?[0-9]{1,})(?=.*?[\W]{1,}).{8,20}$/",
+                                $password
+                                );
+                                if (!$password_required)
                                 {
-                                    $errors[] = "Vos mots de passe doivent être identiques<br/>";
+
+                                $errors[] = "Le mot de passe doit contenir:<br>- Entre 8 et 20 caractères<br>- Au moins 1 caractère spécial<br>- Au moins 1 majuscule et 1 minuscule<br>- Au moins un chiffre.";
+                                }
+
+                                if (empty($errors))
+                                {
+                                //MISE A JOUR DES DONNEES
+                                $update_password = "UPDATE utilisateurs SET password=:hash WHERE id_utilisateur = '$session' ";
+                                //PREPARATION REQUETE
+                                $update_niv6 = $connexion -> prepare($update_password);
+                                $update_niv6->bindParam(':hash',$hash, PDO::PARAM_STR);
+                                //EXECUTION REQUETE
+                                $update_niv6->execute();
+
                                 }
                             }
-
-
-                            header ('location:profil.php');
+                           
+                            
+                            if (!empty($errors))
+                            {
+                                $message = new messages($errors);
+                                echo $message->renderMessage();
+                            }
+                            else 
+                            {
+                                header ('location:profil.php');
+                            }
+                            
+                            
                         }
+                
 
                         if(isset($_POST['delete_account']))
                         {

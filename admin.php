@@ -32,9 +32,9 @@ $page_selected = 'admin';
             <h1>GESTION ADMINISTRATIVE</h1><br/>
             <div class="gestion_admin">
                <?php 
-                include("tableau_gestion_sites.php");
                 include("tableau_gestion_emplacements.php");
                 include("tableau_gestion_options.php");
+                include("tableau_gestion_sites.php");
                 ?> 
             </div>
         </section>

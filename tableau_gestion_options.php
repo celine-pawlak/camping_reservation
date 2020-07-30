@@ -56,7 +56,7 @@
                 <td><?php echo ($option['nom_option']) ?></td>
                 <td><?php echo $option['prix_option'] . '€' ?></td>
                 <td>
-                    <a class="user_modify_button" href="admin.php?modifier_option=<?php echo $option['id_option'] ?>">EDITER</a>
+                    <a class="user_modify_button" href="admin.php?modifier_option=<?php echo $option['id_option'] ?>#modif_options">EDITER</a>
                 </td>
                 <td>
                     <form method="post" action="" class="delete_button">
@@ -113,7 +113,7 @@
                     ?>
 
     <form class="form_admin" method="post" action="">
-        <h3>Modifier une option</h3><br/>
+        <h3 id="modif_options">Modifier une option</h3><br/>
         <label for="update_option_name">Modification option</label>
         <input type="text" name="update_option_name">
         <label for="update_price_option">Modification tarifs</label>
@@ -123,8 +123,8 @@
 
     <?php } ?>
 
-    <form class="form_admin" method="post" action="">
-        <h3>Ajouter une nouvelle option</h3><br/>
+    <form class="form_admin" method="post" action="admin.php#gestion_options">
+        <h3 id="gestion_options">Ajouter une nouvelle option</h3><br/>
         <label for="option">Options</label>
         <input type="text" name="option">
         <label for="place">Tarifs</label>
@@ -169,7 +169,9 @@
                 }
                 else
                 {
-                echo'Veuillez remplir tous les champs <br/><br/>';
+                $errors[] ='Veuillez remplir tous les champs <br/><br/>';
+                $message = new messages($errors);
+                echo $message->renderMessage();
                 }
 
             }

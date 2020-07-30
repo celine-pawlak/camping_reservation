@@ -55,7 +55,7 @@
                 <td><?php echo html_entity_decode($type['nom_type_emplacement']) ?></td>
                 <td><?php echo $type['nb_emplacements'] ?></td>
                 <td>
-                    <a class="user_modify_button" href="admin.php?modifier_type=<?php echo $type['id_type_emplacement'] ?>">EDITER</a>
+                    <a class="user_modify_button" href="admin.php?modifier_type=<?php echo $type['id_type_emplacement'] ?>#modif_emplacement">EDITER</a>
                 </td>
                 <td>
                     <form method="post" action="" class="delete_button">
@@ -113,7 +113,7 @@
                     ?>
 
     <form class="form_admin" method="post" action="">
-        <h3>Modifier un type d'emplacement</h3><br/>
+        <h3 id="modif_emplacement">Modifier un type d'emplacement</h3><br/>
         <label for="update_type_name">Modification type d'emplacement</label>
         <input type="text" name="update_type_name">
         <label for="update_size">Modification taille emplacement</label>
@@ -125,8 +125,8 @@
     <?php } ?>
 
 
-    <form class="form_admin" method="post" action="">
-        <h3>Ajouter un nouveau type d'emplacement</h3><br/>
+    <form class="form_admin" method="post" action="admin.php#gestion_emplacement">
+        <h3 id="gestion_emplacement">Ajouter un nouveau type d'emplacement</h3><br/>
         <label for="type">Type d'emplacement</label>
         <input type="text" name="type">
         <label for="number_place_type">Taille emplacement</label>
@@ -171,8 +171,11 @@
                     else 
                     {
                     $errors[] ='Veuillez remplir tous les champs <br/><br/>';
+                    $message = new messages($errors);
+                    echo $message->renderMessage();
+        }
                     }
-                }
+                
         
         ?>
         
