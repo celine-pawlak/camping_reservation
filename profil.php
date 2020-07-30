@@ -205,7 +205,8 @@ $page_selected = 'profil';
                                     $errors[] = "Le prénom doit :<br>- Comporter entre 3 et 19 caractères.<br>- Commencer et finir par une lettre.<br>- Ne contenir aucun caractère spécial (excepté -).";
                                 }
                                 
-                                if (empty($errors)) {
+                                if (empty($errors)) 
+                                {
                                     
                                 //MISE A JOUR DES DONNEES
                                 $update_firstname = "UPDATE utilisateurs SET prenom=:firstname WHERE id_utilisateur = '$session' ";
@@ -276,6 +277,7 @@ $page_selected = 'profil';
                                 $update_niv5->bindParam(':phone',$phone, PDO::PARAM_STR);
                                 //EXECUTION REQUETE
                                 $update_niv5->execute();
+                                
                                 } 
                                 
                             }

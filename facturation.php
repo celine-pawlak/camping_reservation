@@ -194,8 +194,7 @@ $page_selected = 'gestion_reservation';
                 window.print();
             }
             </script>
-                
-            
+           
              
             
              </div>

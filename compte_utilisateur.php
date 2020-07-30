@@ -63,50 +63,122 @@ $page_selected = 'compte_utilisateur';//dire a celine d'ajouter cette page
 
             $mail = $_POST['mail'];
             $phone = $_POST['phone_number'];
-            /*
-                                        $login=htmlentities(trim($_POST['login']));
-            */
             $password = $_POST['password'];
             $check_password = $_POST['check_password'];
             $hash = password_hash($password, PASSWORD_BCRYPT, array('cost' => 10));
 
-            if ($mail) {
-                //MISE A JOUR DES DONNEES
-                $update_mail = "UPDATE utilisateurs SET email=:mail WHERE id_utilisateur = $id_user ";
-                //PREPARATION REQUETE
-                $update_niv4 = $connexion->prepare($update_mail);
-                $update_niv4->bindParam(':mail', $mail, PDO::PARAM_STR);
-                //EXECUTION REQUETE
-                $update_niv4->execute();
-            }
+       
+            
+            if(!empty($mail))
+                            {
+                                
+                                $recup_mail_bdd= $connexion->prepare("SELECT * FROM utilisateurs WHERE email='$mail'");
+                                $recup_mail_bdd ->execute();
+                                $result_mail= $recup_mail_bdd->rowCount();
+                                
+                                
+                                    if($mail != $user_profil_result[0]['email'] AND $result_mail>=1)
+                                    {
+                                      $errors[] = "Cet email existe déjà.";  
+                                    }
+                                
+                                    
+                                    $email_required = preg_match("/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/", $mail);
 
-            if ($phone) {
-                //MISE A JOUR DES DONNEES
-                $update_phone = "UPDATE utilisateurs SET num_tel=:phone WHERE id_utilisateur = $id_user ";
-                //PREPARATION REQUETE
-                $update_niv5 = $connexion->prepare($update_phone);
-                $update_niv5->bindParam(':phone', $phone, PDO::PARAM_STR);
-                //EXECUTION REQUETE
-                $update_niv5->execute();
-            }
+                                    if (!$email_required)
+                                    {
+                                    $errors[] = "L'email n'est pas conforme.";
+                                    }
 
-            //SI LE CHAMPS MOT DE PASSE EST REMPLI
-            if ($password and $check_password) {
-                if ($password == $check_password) {
-                    //MISE A JOUR DES DONNEES
-                    $update_password = "UPDATE utilisateurs SET password=:hash WHERE id_utilisateur = $id_user ";
-                    //PREPARATION REQUETE
-                    $update_niv5 = $connexion->prepare($update_data_user);
-                    $update_niv5->bindParam(':hash', $hash, PDO::PARAM_STR);
-                    //EXECUTION REQUETE
-                    $update_niv5->execute();
-                } else {
-                    $errors[] = "Les mots de passe doivent être identiques<br/>";
-                }
-            }
+                                    if (empty($errors))
+                                    {
+
+                                    //MISE A JOUR DES DONNEES
+                                    $update_mail = "UPDATE utilisateurs SET email=:mail WHERE id_utilisateur = $id_user ";
+                                    //PREPARATION REQUETE
+                                    $update_niv4 = $connexion -> prepare($update_mail);
+                                    $update_niv4->bindParam(':mail',$mail, PDO::PARAM_STR);
+                                    //EXECUTION REQUETE
+                                    $update_niv4->execute();
+                                    }
+
+                                    
+                               
+                            }
             
             
-             header('location:admin.php');
+            if(!empty($phone))
+                            {
+                                $num_tel_required = preg_match("/^[0-9]{10}$/", $phone);
+                                if (!$num_tel_required) 
+                                {
+                                    $errors[] = "Le numéro de téléphone doit contenir exactement 10 chiffres.";
+                                }
+                                
+                                if (empty($errors)) 
+                                {
+                                    
+                                //MISE A JOUR DES DONNEES
+                                $update_phone = "UPDATE utilisateurs SET num_tel=:phone WHERE id_utilisateur = $id_user ";
+                                //PREPARATION REQUETE
+                                $update_niv3 = $connexion -> prepare($update_phone);
+                                $update_niv3->bindParam(':phone',$phone, PDO::PARAM_STR);
+                                //EXECUTION REQUETE
+                                $update_niv3->execute();
+                                    
+                                } 
+                                
+                            }
+
+            
+            
+            
+            
+            
+            
+            
+            
+             //SI LES CHAMPS MOTS DE PASSE ET CONFIRMATION DE MOT DE PASSE SONT  REMPLIS
+                            if(!empty($password) OR !empty($check_password))
+                            {
+                                if($password != $check_password)
+                                {
+                                $errors[] = "Les champs mots de passe et confirmation de mot de passe doivent être identiques<br />";
+                                }
+
+                                $password_required = preg_match(
+                                "/^(?=.*?[A-Z]{1,})(?=.*?[a-z]{1,})(?=.*?[0-9]{1,})(?=.*?[\W]{1,}).{8,20}$/",
+                                $password
+                                );
+                                if (!$password_required)
+                                {
+
+                                $errors[] = "Le mot de passe doit contenir:<br>- Entre 8 et 20 caractères<br>- Au moins 1 caractère spécial<br>- Au moins 1 majuscule et 1 minuscule<br>- Au moins un chiffre.";
+                                }
+
+                                if (empty($errors))
+                                {
+                                //MISE A JOUR DES DONNEES
+                                $update_password = "UPDATE utilisateurs SET password=:hash WHERE id_utilisateur = $id_user ";
+                                //PREPARATION REQUETE
+                                $update_niv5 = $connexion->prepare($update_data_user);
+                                $update_niv5->bindParam(':hash', $hash, PDO::PARAM_STR);
+                                //EXECUTION REQUETE
+                                $update_niv5->execute();
+
+                                }
+                            }
+            
+
+                            if (!empty($errors))
+                            {
+                                $message = new messages($errors);
+                                echo $message->renderMessage();
+                            }
+                            else 
+                            {
+                                header ('location:compte_utilisateur.php?id='.$id_user.'');
+                            }
         }
         
          //RECUPERATION DES COMMENTAIRES DE L'UTILISATEUR
