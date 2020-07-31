@@ -107,7 +107,18 @@ $page_selected = 'reservation_form';
                     $request3->execute();
                 }
 
-                foreach ($_POST['option'] as $name_option) {
+                if (empty($_POST['option'])){
+                    $null = ('sans option');
+                    $request_op = $connexion->prepare(
+                        "INSERT INTO detail_options (nom_option, prix_option, id_reservation) VALUES (:nom_option,:prix_option,:id_reservation)"
+                    );
+                    $request_op->bindParam(':nom_option',$null, PDO::PARAM_STR);
+                    $request_op->bindParam(':prix_option',$value = 0, PDO::PARAM_INT);
+                    $request_op->bindParam(':id_reservation', $idresa, PDO::PARAM_INT);
+                    $request_op->execute();
+                }else{
+
+                    foreach ($_POST['option'] as $name_option) {
                     $q3 = $connexion->prepare("SELECT * FROM options WHERE nom_option = :nom_option");
                     $q3->bindParam(':nom_option', $name_option);
                     $q3->execute();
@@ -119,6 +130,7 @@ $page_selected = 'reservation_form';
                     $request5->bindParam(':prix_option', $options['prix_option'], PDO::PARAM_INT);
                     $request5->bindParam(':id_reservation', $idresa, PDO::PARAM_INT);
                     $request5->execute();
+                    }
                 }
                 // INSERTION TABLE prix_detail
 
