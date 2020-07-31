@@ -1743,8 +1743,45 @@ border-radius:20%;
 }
 
 
+.modif_date_reservation
+{
+    margin-top:5%;
+    display:flex;
+    flex-direction: column;
+    align-content: center;
+}
 
+.input_modif_date_reservation
+{
+    display:flex;
+    justify-content: space-between;
+}
 
+.modif_date_reservation input[type="date"]
+{
+    border-radius:5px;
+    padding:3%;
+    
+}
+
+.modif_date_reservation input[type="submit"]
+{
+    width:50%;
+    background-color:black;
+    color:white;
+    border:0.1px solid white;
+    padding:3%;
+    
+}
+
+.modif_date_reservation input[type="submit"]:hover
+{
+        transition:1s;
+        background-color:white;
+        color:black;
+}
+
+.button_modif_resa{text-align:center;}
 
 /*** RESPONSIVE FACTURATION ***/
 @media (max-width: 980px){

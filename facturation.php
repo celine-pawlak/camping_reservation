@@ -195,7 +195,218 @@ $page_selected = 'gestion_reservation';
             }
             </script>
            
+                  
+            <br/>
              
+                
+                
+                
+                
+            <?php
+    
+            
+            
+            
+            
+            function update_reservation($id_reservation,$arrival, $departure,$nb_jours, $total_prix_journalier, $total_prix_option)
+                
+            {
+                
+                try
+                {
+                     //CONNEXION BDD
+                    $connexion=new PDO("mysql:host=localhost;dbname=camping",'root','');
+                    // DEFINITION MODE D'ERREUR PDO SUR EXCEPTION
+                    $connexion->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+                    
+                    
+                    
+                    $prix_total = $nb_jours * $total_prix_journalier + $total_prix_option ;
+
+
+                    $update_date = "UPDATE reservations SET date_debut=:date_debut, date_fin=:date_fin WHERE id_reservation = $id_reservation ";
+                    $update_date_exec = $connexion->prepare($update_date);
+                    $update_date_exec -> bindparam(':date_debut',$arrival, PDO::PARAM_STR);
+                    $update_date_exec -> bindparam(':date_fin',$departure, PDO::PARAM_STR);
+                    $update_date_exec->execute();
+
+                    $update_prix = "UPDATE prix_detail SET nb_jours=:nb_jours, prix_total=:prix_total WHERE id_reservation = $id_reservation"; 
+                    $update_prix_exec = $connexion->prepare($update_prix);
+                    $update_prix_exec -> bindparam(':nb_jours',$nb_jours, PDO::PARAM_INT);
+                    $update_prix_exec -> bindparam(':prix_total',$prix_total, PDO::PARAM_STR);
+                    $update_prix_exec->execute();
+                }
+          
+                catch (PDOException $e) 
+                {
+                echo "Erreur : " . $e->getMessage();
+                }
+
+            }
+    
+    
+    
+            if($_SESSION['user']['is_admin'])
+            {
+               ?>
+                
+                 <form method="post" id="modif_form" action="facturation.php?id_reservation=<?php echo $resultat_info_reservation[0]['id_reservation']?>#modif_form" class="modif_date_reservation">
+                   
+                    <h3>Modification date de séjour</h3><br/>
+                    <div class="input_modif_date_reservation">
+                        <div>
+                            <label for="arrival">Date d'arrivée</label><br/>
+                            <input type="date" name="arrival">
+                        </div>
+                        <div>
+                            <label for="departure">Date de départ</label><br/>
+                            <input type="date" name="departure" id="departure">
+                        </div>
+                    </div>
+                    <div class="button_modif_resa">
+                        <br/><input type="submit" name="modif_resa">
+                    </div>
+                    
+                </form>
+                
+                
+                
+                <?php
+                
+                
+                
+                if(isset($_POST['modif_resa']))
+                {
+                    $id_reservation = $resultat_info_reservation[0]['id_reservation'];
+                    $place_original=$info_lieu['nom_lieu'];
+                    $total_prix_journalier = $resultat_info_prix[0]['prix_journalier'];
+                    
+                    
+                    $arrival=$_POST['arrival'];
+                    $departure=$_POST['departure'];
+                    $debut=strtotime($arrival);
+                    $fin=strtotime($departure);
+                    $nb_jours = ceil(abs($fin - $debut) / 86400 + 1);
+                    $total_prix_option = $resultat_info_prix[0]['prix_options'] * $nb_jours;
+                    
+                    if(!empty($arrival) AND !empty($departure))
+                    {
+
+                        // si la date de debut d'un séjour déjà enregistré est compris entre le debut et la fin de ma sélection
+                        $recup_dates_resa = $connexion->prepare(" SELECT * FROM reservations WHERE date_debut>='$arrival' AND date_debut<='$departure' ");
+                        $recup_dates_resa->execute();
+                        $result_recup_dates1 = $recup_dates_resa->rowCount();
+                        $result_recup_dates2 = $recup_dates_resa->FetchAll();
+                        
+                        //var_dump($result_recup_dates1,$result_recup_dates2);
+                        
+                        if($result_recup_dates1 >=1)
+                        {
+                            //recuperation id_reservation des reservations qui match
+                            foreach($result_recup_dates2 as $date_match)
+                             {
+                            $id_reservation_match_date = $date_match['id_reservation'];
+                            //var_dump($date_match['id_reservation']);
+                            //echo $id_reservation_match_date ."<br/>";
+
+                            //est ce qu'il y a correspondance des lieux 
+                            $recup_lieux_resa = $connexion->prepare("SELECT * FROM detail_lieux WHERE id_reservation = $id_reservation_match_date AND nom_lieu = '$place_original' ");
+                            $recup_lieux_resa->execute();
+                            $result_recup_lieux1 = $recup_lieux_resa->rowCount();
+                            $result_recup_lieux2 = $recup_lieux_resa->FetchAll();
+
+                            }
+                            
+                            //var_dump($result_recup_lieux1,$result_recup_lieux2);
+                            
+                            if($result_recup_lieux1 >=1)
+                            {
+                            
+                                //recuperation id_reservation des reservations qui match
+                                 foreach($result_recup_lieux2 as $place_match)
+                                 {
+                                     //echo $place_match['nom_lieu']."<br/>" ;
+
+                                     $id_reservation_match_nb_place = $place_match['id_reservation'];
+
+
+                                     //combien d'emplacement(s) sont réservés sur le lieu par l'autre ou les autres réservation(s)
+                                     $recup_nb_place = $connexion->prepare("SELECT nb_emplacements_reserves FROM detail_types_emplacement WHERE id_reservation = $id_reservation_match_nb_place ");
+                                     $recup_nb_place->execute();
+                                     $result_recup_nb_place = $recup_nb_place->FetchAll();
+                                 }
+                                
+                                //var_dump($result_recup_nb_place);
+
+                                //recuperation nb de place 
+                                foreach($result_recup_nb_place as $nb_place_match)
+                                {
+                                    //echo $nb_place_match['nb_emplacements_reserves'].'<br/>' ;
+                                    $nb_booked = $nb_place_match['nb_emplacements_reserves'] ;
+                                }
+
+                                // recuperation capacité totale du lieu
+                                $place_check = $place_match['nom_lieu'];    
+                                
+                                //var_dump($place_check);
+                                
+                                $recup_nb_place_lieu = $connexion-> prepare("SELECT emplacements_disponibles FROM lieux WHERE nom_lieu = '$place_check'");
+                                $recup_nb_place_lieu -> execute();
+                                $result_recup_nb_place_lieu = $recup_nb_place_lieu->FetchAll();
+
+                                //var_dump($result_recup_nb_place_lieu);
+
+                                foreach($result_recup_nb_place_lieu as $calc_place)
+                                {
+                                    //echo $calc_place['emplacements_disponibles'];
+                                    $nb_total=$calc_place['emplacements_disponibles'];
+                                }
+
+                                $nb_place_reservation = $resultat_info_prix[0]['nb_emplacement'];
+                                
+                                //var_dump($nb_place_reservation);
+                            
+                                if($nb_place_reservation <= $nb_total-$nb_booked)
+                                {
+                                    //echo " <br/>  Update possible car il reste de la place";
+                                    update_reservation($id_reservation,$arrival, $departure,$nb_jours, $total_prix_journalier, $total_prix_option);
+                                    header('location:facturation.php?id_reservation='.$id_reservation.'');
+                                }
+                                else
+                                {
+                                  echo "<br/> Ces dates ne sont pas disponibles";    
+                                }
+                                
+                            }
+                            else 
+                            {
+                                update_reservation($id_reservation,$arrival, $departure,$nb_jours, $total_prix_journalier, $total_prix_option);
+                                header('location:facturation.php?id_reservation='.$id_reservation.'');
+                                //echo " <br/>  Update possible car le lieu est différent";
+                            }
+                           
+                        }
+                        else
+                            
+                        {
+                            update_reservation($id_reservation,$arrival, $departure,$nb_jours, $total_prix_journalier, $total_prix_option);
+                            header('location:facturation.php?id_reservation='.$id_reservation.'');
+                           //echo ' <br/>  Update possible car aucune réservation à cette date'; 
+                        }
+                    }
+                    else
+                    {
+                        echo'<br/> Veuillez chosir une date de début et une date de fin';
+                    }
+
+                }
+                
+                
+            }
+                
+                    
+               ?>
+
             
              </div>
         </section>
